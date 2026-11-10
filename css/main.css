@@ -1,0 +1,146 @@
+/* =====================================================================
+   CORES DOS DOIS TEMAS
+   Tudo o que muda entre o modo escuro e o claro está aqui, em "variáveis" (--nome).
+   O resto do arquivo só usa var(--nome). Para mudar uma cor, mude só aqui.
+   ===================================================================== */
+
+:root {                                     /* TEMA ESCURO (o padrão): noite de festa */
+  color-scheme: dark;                        /* avisa o navegador: barras de rolagem e controles também ficam escuros */
+
+  --fundo:                                   /* o fundo: luzes coloridas + confete + base roxa */
+    radial-gradient(circle at 12% 22%, rgba(255, 0, 128, 0.45), transparent 38%),
+    radial-gradient(circle at 88% 28%, rgba(0, 200, 255, 0.35), transparent 38%),
+    radial-gradient(circle at 50% 105%, rgba(255, 190, 0, 0.30), transparent 45%),
+    radial-gradient(circle, rgba(255, 77, 157, 0.6) 2.5px, transparent 3.5px) 0 0 / 211px 211px,
+    radial-gradient(circle, rgba(255, 210, 63, 0.6) 2px, transparent 3px) 87px 53px / 257px 257px,
+    radial-gradient(circle, rgba(76, 201, 240, 0.6) 3px, transparent 4px) 143px 121px / 307px 307px,
+    radial-gradient(circle, rgba(255, 255, 255, 0.35) 1.5px, transparent 2.5px) 31px 97px / 163px 163px,
+    radial-gradient(circle, rgba(167, 139, 250, 0.55) 2.5px, transparent 3.5px) 199px 17px / 353px 353px,
+    linear-gradient(160deg, #1a0b2e, #2d1155 60%, #12062a);
+
+  --letra-1: #fff3b0;                        /* título: cor clara do degradê (dourado claro) */
+  --letra-2: #f59e0b;                        /* título: cor escura do degradê (dourado) */
+
+  --lateral-base: #b45309;                   /* 3D: cor da lateral */
+  --lateral:                                 /* 3D: as cópias que formam a espessura, do âmbar ao marrom escuro */
+    0.01em 0.01em 0 #b45309, 0.02em 0.02em 0 #a84d08, 0.03em 0.03em 0 #9b4608, 0.04em 0.04em 0 #8f4007,
+    0.05em 0.05em 0 #833a06, 0.06em 0.06em 0 #763306, 0.07em 0.07em 0 #6a2d05, 0.08em 0.08em 0 #5e2704,
+    0.09em 0.09em 0 #512004, 0.10em 0.10em 0 #451a03;
+
+  --botao-fundo: rgba(255, 255, 255, 0.12);  /* botão do tema */
+  --botao-borda: rgba(255, 255, 255, 0.35);
+}
+
+html[data-tema="claro"] {                   /* TEMA CLARO: festa de dia, creme com confete */
+  color-scheme: light;
+
+  --fundo:
+    radial-gradient(circle, rgba(255, 61, 129, 0.75) 2.5px, transparent 3.5px) 0 0 / 211px 211px,
+    radial-gradient(circle, rgba(255, 154, 60, 0.8) 2px, transparent 3px) 87px 53px / 257px 257px,
+    radial-gradient(circle, rgba(60, 120, 255, 0.7) 3px, transparent 4px) 143px 121px / 307px 307px,
+    radial-gradient(circle, rgba(167, 139, 250, 0.7) 2.5px, transparent 3.5px) 31px 97px / 163px 163px,
+    radial-gradient(circle, rgba(255, 200, 60, 0.85) 2px, transparent 3px) 199px 17px / 353px 353px,
+    radial-gradient(circle at 50% 0%, #fffdf7, #ffeccc);
+
+  --letra-1: #ea580c;                        /* laranja forte (contraste de pelo menos 3:1 com o fundo) */
+  --letra-2: #be185d;                        /* rosa forte */
+
+  --lateral-base: #9d174d;
+  --lateral:
+    0.01em 0.01em 0 #9d174d, 0.02em 0.02em 0 #921648, 0.03em 0.03em 0 #871443, 0.04em 0.04em 0 #7c133d,
+    0.05em 0.05em 0 #711138, 0.06em 0.06em 0 #671033, 0.07em 0.07em 0 #5c0e2e, 0.08em 0.08em 0 #510d28,
+    0.09em 0.09em 0 #460b23, 0.10em 0.10em 0 #3b0a1e;
+
+  --botao-fundo: rgba(255, 255, 255, 0.75);
+  --botao-borda: rgba(0, 0, 0, 0.2);
+}
+
+
+/* =====================================================================
+   PÁGINA
+   ===================================================================== */
+
+body {
+  margin: 0;                         /* tira a margem padrão (era ela que criava a barra de rolagem) */
+  height: 100vh;
+  display: grid;
+  place-items: center;               /* centraliza na horizontal e na vertical */
+  background: var(--fundo);          /* o fundo do tema que estiver ativo */
+  overflow-x: hidden;
+}
+
+header h1 {
+  position: relative;                /* a sombra (::before) e a lateral 3D (::after) se posicionam em relação ao título */
+  margin: 0;
+  font-family: 'Montserrat', sans-serif;
+  font-size: min(100px, 8.2vw);      /* no máximo 100px; em telas estreitas encolhe para a palavra caber */
+  line-height: 1;
+  text-transform: uppercase;
+  color: transparent;                /* texto transparente: assim o degradê de fundo aparece */
+  background:
+    linear-gradient(105deg, transparent 40%, rgba(255, 255, 255, 0.9) 50%, transparent 60%) 150% 0 / 200% 100% no-repeat,   /* 1ª camada: a faixa de BRILHO */
+    linear-gradient(to left, var(--letra-1), var(--letra-2));                                                                /* 2ª camada: o degradê do tema */
+  -webkit-background-clip: text;     /* as duas camadas aparecem só dentro das letras */
+  background-clip: text;
+  animation: brilho 5s linear infinite;   /* o brilho passa pelo nome de tempos em tempos */
+}
+
+@keyframes brilho {
+  0%   { background-position: 150% 0, 0 0; }     /* faixa fora da palavra, à esquerda */
+  70%  { background-position: -50% 0, 0 0; }     /* faixa atravessou e saiu pela direita */
+  100% { background-position: -50% 0, 0 0; }     /* descansa um pouco antes de passar de novo */
+}
+
+header h1::before {
+  content: attr(data-text);          /* repete o texto que está no atributo data-text do HTML */
+  position: absolute;
+  z-index: -1;                       /* fica atrás do título */
+  color: black;
+  filter: blur(14px);                /* desfoca */
+  transform: skew(67deg) translate(-0.4em, 15%) scaleY(0.5);   /* deita e achata: vira a sombra no chão */
+  -webkit-mask-image: linear-gradient(transparent, black);   /* a sombra some aos poucos */
+  mask-image: linear-gradient(transparent, black);
+}
+
+header h1::after {                  /* o 3D: a "lateral" grossa das letras, atrás do título */
+  content: attr(data-text);          /* mais uma cópia do texto */
+  position: absolute;
+  inset: 0;                          /* ocupa exatamente o mesmo lugar do título */
+  z-index: -1;                       /* fica atrás do título (e na frente da sombra do chão) */
+  color: var(--lateral-base);
+  text-shadow: var(--lateral);       /* as várias cópias, cada uma um pouco mais para baixo e para a direita */
+}
+
+
+/* =====================================================================
+   BOTÃO DO MODO ESCURO / CLARO
+   ===================================================================== */
+
+.botao-tema {
+  position: fixed;                   /* fica no canto da tela, mesmo se a página rolar */
+  top: 16px;
+  right: 16px;
+  width: 44px;                       /* 44px: tamanho confortável para tocar no celular */
+  height: 44px;
+  border-radius: 50%;
+  border: 1px solid var(--botao-borda);
+  background: var(--botao-fundo);
+  font-size: 22px;
+  line-height: 1;
+  cursor: pointer;
+  transition: transform 0.2s;
+}
+
+.botao-tema:hover {
+  transform: scale(1.1) rotate(15deg);   /* um charminho ao passar o mouse */
+}
+
+.botao-tema:focus-visible {
+  outline: 3px solid var(--letra-1);     /* quem navega pelo teclado vê onde está o foco */
+  outline-offset: 3px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  header h1 { animation: none; }       /* quem pediu menos movimento no sistema não vê o brilho se mexer */
+  .botao-tema { transition: none; }
+}
