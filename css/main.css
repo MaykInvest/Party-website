@@ -26,9 +26,6 @@
     0.01em 0.01em 0 #b45309, 0.02em 0.02em 0 #a84d08, 0.03em 0.03em 0 #9b4608, 0.04em 0.04em 0 #8f4007,
     0.05em 0.05em 0 #833a06, 0.06em 0.06em 0 #763306, 0.07em 0.07em 0 #6a2d05, 0.08em 0.08em 0 #5e2704,
     0.09em 0.09em 0 #512004, 0.10em 0.10em 0 #451a03;
-
-  --botao-fundo: rgba(255, 255, 255, 0.12);  /* botão do tema */
-  --botao-borda: rgba(255, 255, 255, 0.35);
 }
 
 html[data-tema="claro"] {                   /* TEMA CLARO: festa de dia, creme com confete */
@@ -50,9 +47,6 @@ html[data-tema="claro"] {                   /* TEMA CLARO: festa de dia, creme c
     0.01em 0.01em 0 #9d174d, 0.02em 0.02em 0 #921648, 0.03em 0.03em 0 #871443, 0.04em 0.04em 0 #7c133d,
     0.05em 0.05em 0 #711138, 0.06em 0.06em 0 #671033, 0.07em 0.07em 0 #5c0e2e, 0.08em 0.08em 0 #510d28,
     0.09em 0.09em 0 #460b23, 0.10em 0.10em 0 #3b0a1e;
-
-  --botao-fundo: rgba(255, 255, 255, 0.75);
-  --botao-borda: rgba(0, 0, 0, 0.2);
 }
 
 
@@ -112,35 +106,237 @@ header h1::after {                  /* o 3D: a "lateral" grossa das letras, atr�
 }
 
 
-/* =====================================================================
-   BOTÃO DO MODO ESCURO / CLARO
-   ===================================================================== */
-
-.botao-tema {
-  position: fixed;                   /* fica no canto da tela, mesmo se a página rolar */
-  top: 16px;
-  right: 16px;
-  width: 44px;                       /* 44px: tamanho confortável para tocar no celular */
-  height: 44px;
-  border-radius: 50%;
-  border: 1px solid var(--botao-borda);
-  background: var(--botao-fundo);
-  font-size: 22px;
-  line-height: 1;
-  cursor: pointer;
-  transition: transform 0.2s;
+@media (prefers-reduced-motion: reduce) {
+  header h1 { animation: none; }       /* quem pediu menos movimento no sistema não vê o brilho se mexer (o botão cuida de si em botao-tema.css) */
 }
 
-.botao-tema:hover {
-  transform: scale(1.1) rotate(15deg);   /* um charminho ao passar o mouse */
+
+/* =====================================================================
+   BOTÃO DO MODO ESCURO / CLARO — o "interruptor da festa"
+   Um trilho (o botão) com um astro que desliza de um lado para o outro:
+     - de dia (claro): um SOLZINHO com carinha e chapéu de festa, à esquerda,
+       num céu azul-rosa com nuvenzinhas e confete;
+     - de noite (escuro): uma LUA com carinha e chapéu de festa, à direita,
+       num céu roxo com estrelinhas e confete.
+   Tudo é desenhado em CSS: nada de imagens.
+   O tema ativo vem do atributo data-tema da tag <html> (o JS cuida disso).
+   ===================================================================== */
+
+/* ---------- O trilho (o próprio botão) ---------- */
+.botao-tema {
+  --tamanho-astro: 34px;
+
+  position: fixed;                   /* fica no canto da tela, mesmo se a página rolar */
+  top: 20px;                         /* um pouco mais de espaço em cima: o chapéu sai para fora */
+  right: 16px;
+  z-index: 10;
+  box-sizing: border-box;
+  width: 84px;
+  height: 44px;                      /* 44px de altura: confortável para tocar no celular */
+  padding: 0;
+  border-radius: 999px;              /* formato de pílula */
+  border: 2px solid #fff;
+  cursor: pointer;
+
+  /* TEMA ESCURO (o padrão): céu de festa à noite */
+  background: linear-gradient(135deg, #2e1065, #6b21a8 55%, #be185d);
+  box-shadow:
+    0 4px 0 #3b0764,                  /* "degrau" embaixo: parece um botão de brinquedo */
+    0 6px 14px rgba(0, 0, 0, 0.35),
+    inset 0 2px 6px rgba(0, 0, 0, 0.35);
+  transition: background 0.4s, box-shadow 0.4s, transform 0.15s;
+  -webkit-tap-highlight-color: transparent;
+}
+
+html[data-tema="claro"] .botao-tema {
+  background: linear-gradient(135deg, #7dd3fc, #c4b5fd 55%, #f9a8d4);
+  box-shadow:
+    0 4px 0 #db2777,
+    0 6px 14px rgba(190, 24, 93, 0.25),
+    inset 0 2px 6px rgba(255, 255, 255, 0.6);
+}
+
+.botao-tema:active {
+  transform: translateY(3px);        /* afunda um pouquinho ao clicar */
 }
 
 .botao-tema:focus-visible {
   outline: 3px solid var(--letra-1);     /* quem navega pelo teclado vê onde está o foco */
-  outline-offset: 3px;
+  outline-offset: 4px;
 }
 
-@media (prefers-reduced-motion: reduce) {
-  header h1 { animation: none; }       /* quem pediu menos movimento no sistema não vê o brilho se mexer */
-  .botao-tema { transition: none; }
+
+/* ---------- O céu: estrelinhas (noite) e nuvenzinhas (dia) ---------- */
+.botao-tema .ceu {
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  overflow: hidden;                  /* nada do céu sai do trilho */
+  pointer-events: none;
 }
+
+.botao-tema .ceu::before,
+.botao-tema .ceu::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  transition: opacity 0.4s, transform 0.5s;
+}
+
+/* NOITE: estrelinhas e confete do lado esquerdo (a lua fica à direita) */
+.botao-tema .ceu::before {
+  background:
+    radial-gradient(circle at 18% 30%, #fff 1.5px, transparent 2px),
+    radial-gradient(circle at 34% 68%, #fff 1px, transparent 1.6px),
+    radial-gradient(circle at 46% 26%, #fde68a 1.2px, transparent 1.8px),
+    radial-gradient(circle at 12% 72%, #fde68a 1px, transparent 1.6px),
+    radial-gradient(circle at 28% 48%, #f472b6 1.6px, transparent 2.2px),   /* confete rosa */
+    radial-gradient(circle at 50% 80%, #67e8f9 1.4px, transparent 2px),     /* confete azul */
+    radial-gradient(circle at 40% 12%, #a3e635 1.2px, transparent 1.8px);   /* confete verde */
+  animation: piscar 2.4s ease-in-out infinite;
+}
+
+/* DIA: nuvenzinhas e confete do lado direito (o sol fica à esquerda) */
+.botao-tema .ceu::after {
+  opacity: 0;
+  transform: translateY(6px);
+  background:
+    radial-gradient(circle at 70% 68%, #fff 6px, transparent 6.5px),        /* nuvem: 3 bolinhas */
+    radial-gradient(circle at 79% 60%, #fff 7px, transparent 7.5px),
+    radial-gradient(circle at 88% 70%, #fff 5px, transparent 5.5px),
+    radial-gradient(circle at 62% 25%, #f472b6 1.6px, transparent 2.2px),   /* confete */
+    radial-gradient(circle at 80% 22%, #facc15 1.6px, transparent 2.2px),
+    radial-gradient(circle at 92% 38%, #22d3ee 1.4px, transparent 2px),
+    radial-gradient(circle at 54% 52%, #a855f7 1.3px, transparent 1.9px);
+}
+
+html[data-tema="claro"] .botao-tema .ceu::before { opacity: 0; transform: translateY(-6px); animation: none; }
+html[data-tema="claro"] .botao-tema .ceu::after  { opacity: 1; transform: none; }
+
+@keyframes piscar {                  /* as estrelinhas piscam de leve */
+  0%, 100% { opacity: 1; }
+  50%      { opacity: 0.55; }
+}
+
+
+/* ---------- O astro: lua (noite) que vira sol (dia) ---------- */
+.botao-tema .astro {
+  position: absolute;
+  top: 3px;
+  left: 3px;
+  width: var(--tamanho-astro);
+  height: var(--tamanho-astro);
+  border-radius: 50%;
+  pointer-events: none;
+
+  /* NOITE: a lua fica à direita */
+  transform: translateX(39px) rotate(0deg);
+
+  /* A carinha é feita de camadas de fundo (a de cima vem primeiro): */
+  background:
+    /* olhinhos fechados e felizes (^ ^): metade de cima de um anel */
+    radial-gradient(circle at 50% 100%, transparent 2px, #3b2a5c 2.2px, #3b2a5c 3.4px, transparent 3.6px) 7px 12px / 8px 4px no-repeat,
+    radial-gradient(circle at 50% 100%, transparent 2px, #3b2a5c 2.2px, #3b2a5c 3.4px, transparent 3.6px) 19px 12px / 8px 4px no-repeat,
+    /* sorriso: metade de baixo de um anel */
+    radial-gradient(circle at 50% 0, transparent 3px, #3b2a5c 3.2px, #3b2a5c 4.6px, transparent 4.8px) 12px 20px / 10px 5px no-repeat,
+    /* bochechas rosadas */
+    radial-gradient(circle at 22% 62%, rgba(244, 114, 182, 0.7) 3px, transparent 4px),
+    radial-gradient(circle at 78% 62%, rgba(244, 114, 182, 0.7) 3px, transparent 4px),
+    /* crateras */
+    radial-gradient(circle at 72% 24%, #d6cdf0 2.5px, transparent 3px),
+    radial-gradient(circle at 30% 84%, #d6cdf0 2px, transparent 2.5px),
+    /* a lua */
+    radial-gradient(circle at 35% 30%, #ffffff, #f1ecff 55%, #cfc3f5);
+  box-shadow:
+    inset -4px -3px 0 rgba(139, 92, 246, 0.25),   /* sombrinha lateral: dá volume */
+    0 0 10px 2px rgba(237, 233, 254, 0.55);       /* brilho de luar */
+
+  transition:
+    transform 0.6s cubic-bezier(0.68, -0.55, 0.27, 1.55),   /* desliza com um "pulinho" */
+    box-shadow 0.4s;
+}
+
+/* DIA: o sol fica à esquerda */
+html[data-tema="claro"] .botao-tema .astro {
+  transform: translateX(0) rotate(-360deg);       /* dá uma cambalhota no caminho */
+  background:
+    /* olhinhos abertos e brilhantes */
+    radial-gradient(circle at 37% 44%, #fff 0.9px, transparent 1.3px),
+    radial-gradient(circle at 67% 44%, #fff 0.9px, transparent 1.3px),
+    radial-gradient(circle at 35% 47%, #4a2511 2.6px, transparent 3px),
+    radial-gradient(circle at 65% 47%, #4a2511 2.6px, transparent 3px),
+    /* sorriso */
+    radial-gradient(circle at 50% 0, transparent 3px, #4a2511 3.2px, #4a2511 4.6px, transparent 4.8px) 12px 20px / 10px 5px no-repeat,
+    /* bochechas rosadas */
+    radial-gradient(circle at 22% 64%, rgba(244, 63, 94, 0.55) 3px, transparent 4px),
+    radial-gradient(circle at 78% 64%, rgba(244, 63, 94, 0.55) 3px, transparent 4px),
+    /* o sol */
+    radial-gradient(circle at 35% 30%, #fff7b0, #ffd23f 55%, #ffa41b);
+  box-shadow:
+    0 0 0 3px rgba(255, 214, 64, 0.45),           /* raios suaves em volta */
+    0 0 14px 4px rgba(255, 180, 0, 0.6);
+}
+
+/* Chapéu de festa (::before) e o pompom na ponta (::after).
+   Os dois têm a MESMA base e o mesmo giro, assim o pompom sempre fica na ponta do chapéu. */
+.botao-tema .astro::before,
+.botao-tema .astro::after {
+  content: "";
+  position: absolute;
+  left: 11px;
+  bottom: calc(100% - 4px);          /* o chapéu "senta" no topo da cabeça */
+  width: 14px;
+  transform-origin: 50% 100%;
+  transform: rotate(18deg);
+}
+
+.botao-tema .astro::before {         /* o chapéu: um triângulo listrado */
+  height: 15px;
+  clip-path: polygon(50% 0, 100% 100%, 0 100%);
+  background: repeating-linear-gradient(-35deg, #a855f7 0 3px, #facc15 3px 6px);
+}
+
+.botao-tema .astro::after {          /* o pompom: uma bolinha na ponta */
+  height: 19px;
+  background: radial-gradient(circle at 50% 3px, #fff 2.8px, transparent 3.3px);
+}
+
+html[data-tema="claro"] .botao-tema .astro::before {
+  background: repeating-linear-gradient(-35deg, #ec4899 0 3px, #22d3ee 3px 6px);
+}
+html[data-tema="claro"] .botao-tema .astro::before,
+html[data-tema="claro"] .botao-tema .astro::after {
+  transform: rotate(-18deg);         /* de dia o chapéu tomba para o outro lado */
+}
+
+/* Passar o mouse: o astro dá uma balançadinha, como se estivesse dançando */
+@media (hover: hover) {
+  .botao-tema:hover .astro::before,
+  .botao-tema:hover .astro::after {
+    animation: dancar 0.5s ease-in-out infinite alternate;
+  }
+}
+
+@keyframes dancar {
+  from { transform: rotate(-18deg); }
+  to   { transform: rotate(18deg); }
+}
+
+
+/* Quem pediu menos movimento no sistema: troca sem deslizar, sem piscar e sem dançar */
+@media (prefers-reduced-motion: reduce) {
+  .botao-tema,
+  .botao-tema .astro,
+  .botao-tema .ceu::before,
+  .botao-tema .ceu::after { transition: none; }
+
+  .botao-tema .ceu::before,
+  .botao-tema:hover .astro::before,
+  .botao-tema:hover .astro::after { animation: none; }
+}
+
+
+
+
+
+
