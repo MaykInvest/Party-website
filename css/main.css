@@ -1,342 +1,258 @@
 /* =====================================================================
    CORES DOS DOIS TEMAS
-   Tudo o que muda entre o modo escuro e o claro está aqui, em "variáveis" (--nome).
-   O resto do arquivo só usa var(--nome). Para mudar uma cor, mude só aqui.
+   Tudo o que muda entre o modo escuro e o claro está aqui.
+   O resto do arquivo só usa var(--nome).
    ===================================================================== */
 
-:root {                                     /* TEMA ESCURO (o padrão): noite de festa */
-  color-scheme: dark;                        /* avisa o navegador: barras de rolagem e controles também ficam escuros */
+:root {                                      /* TEMA ESCURO (o padrão) */
+  color-scheme: dark;
 
-  --fundo:                                   /* o fundo: luzes coloridas + confete + base roxa */
-    radial-gradient(circle at 12% 22%, rgba(255, 0, 128, 0.45), transparent 38%),
-    radial-gradient(circle at 88% 28%, rgba(0, 200, 255, 0.35), transparent 38%),
-    radial-gradient(circle at 50% 105%, rgba(255, 190, 0, 0.30), transparent 45%),
-    radial-gradient(circle, rgba(255, 77, 157, 0.6) 2.5px, transparent 3.5px) 0 0 / 211px 211px,
-    radial-gradient(circle, rgba(255, 210, 63, 0.6) 2px, transparent 3px) 87px 53px / 257px 257px,
-    radial-gradient(circle, rgba(76, 201, 240, 0.6) 3px, transparent 4px) 143px 121px / 307px 307px,
-    radial-gradient(circle, rgba(255, 255, 255, 0.35) 1.5px, transparent 2.5px) 31px 97px / 163px 163px,
-    radial-gradient(circle, rgba(167, 139, 250, 0.55) 2.5px, transparent 3.5px) 199px 17px / 353px 353px,
-    linear-gradient(160deg, #1a0b2e, #2d1155 60%, #12062a);
+  --fundo:
+    radial-gradient(ellipse 60% 45% at 50% 40%, rgba(240, 190, 100, 0.20), transparent 70%),  /* luz dourada atrás do título */
+    radial-gradient(circle at 6% 92%, rgba(214, 100, 130, 0.38), transparent 45%),   /* luz rosé */
+    radial-gradient(circle at 94% 8%, rgba(80, 110, 220, 0.30), transparent 42%),    /* luz safira */
+    radial-gradient(ellipse at 50% 40%, #2a2142, #151a30 55%, #090c18);             /* base ameixa → azul-meia-noite */
+  --bolhas: rgba(245, 220, 165, 0.6);
+  --faisca: rgba(255, 240, 200, 0.95);
 
-  --letra-1: #fff3b0;                        /* título: cor clara do degradê (dourado claro) */
-  --letra-2: #f59e0b;                        /* título: cor escura do degradê (dourado) */
+  --degrade: linear-gradient(90deg, #ff8aa5, #ff9f70 35%, #ffc44d 70%, #ffe08f);   /* título: rosé → coral → ouro */
+  --lateral: #9c4a3a;                         /* 3D: cor da lateral (escurece sozinha até o fundo) */
+  --sombra-chao: rgba(0, 0, 0, 0.85);
+  --sombra-perto: rgba(0, 0, 0, 0.55);
+  --foco: #ffc44d;
 
-  --lateral-base: #b45309;                   /* 3D: cor da lateral */
-  --lateral:                                 /* 3D: as cópias que formam a espessura, do âmbar ao marrom escuro */
-    0.01em 0.01em 0 #b45309, 0.02em 0.02em 0 #a84d08, 0.03em 0.03em 0 #9b4608, 0.04em 0.04em 0 #8f4007,
-    0.05em 0.05em 0 #833a06, 0.06em 0.06em 0 #763306, 0.07em 0.07em 0 #6a2d05, 0.08em 0.08em 0 #5e2704,
-    0.09em 0.09em 0 #512004, 0.10em 0.10em 0 #451a03;
+  --trilho: linear-gradient(135deg, #0b1020, #1b2540 60%, #2a2f45);
+  --trilho-borda: rgba(212, 180, 120, 0.65);
+  --trilho-sombra: 0 2px 0 #05070d, 0 6px 14px rgba(0, 0, 0, 0.35), inset 0 2px 6px rgba(0, 0, 0, 0.45);
+  --astro:                                    /* a lua: 3 crateras + prata quente */
+    radial-gradient(circle at 66% 30%, #d9d3c5 3.5px, transparent 4px),
+    radial-gradient(circle at 34% 62%, #ddd7ca 2.5px, transparent 3px),
+    radial-gradient(circle at 62% 76%, #d9d3c5 2px, transparent 2.5px),
+    radial-gradient(circle at 35% 30%, #fff, #f2efe7 55%, #d4cdbd);
+  --astro-sombra: inset -4px -3px 0 rgba(90, 80, 60, 0.2), 0 0 10px 2px rgba(244, 230, 195, 0.4);
 }
 
-html[data-tema="claro"] {                   /* TEMA CLARO: festa de dia, creme com confete */
+html[data-tema="claro"] {                    /* TEMA CLARO */
   color-scheme: light;
 
   --fundo:
-    radial-gradient(circle, rgba(255, 61, 129, 0.75) 2.5px, transparent 3.5px) 0 0 / 211px 211px,
-    radial-gradient(circle, rgba(255, 154, 60, 0.8) 2px, transparent 3px) 87px 53px / 257px 257px,
-    radial-gradient(circle, rgba(60, 120, 255, 0.7) 3px, transparent 4px) 143px 121px / 307px 307px,
-    radial-gradient(circle, rgba(167, 139, 250, 0.7) 2.5px, transparent 3.5px) 31px 97px / 163px 163px,
-    radial-gradient(circle, rgba(255, 200, 60, 0.85) 2px, transparent 3px) 199px 17px / 353px 353px,
-    radial-gradient(circle at 50% 0%, #fffdf7, #ffeccc);
+    radial-gradient(circle at 6% 92%, rgba(235, 150, 160, 0.32), transparent 45%),   /* luz rosé */
+    radial-gradient(circle at 94% 8%, rgba(240, 195, 110, 0.32), transparent 42%),   /* luz dourada */
+    radial-gradient(ellipse at 50% 38%, #fffdf9, #f6eee2 60%, #efe3d2);              /* marfim */
+  --bolhas: rgba(185, 140, 65, 0.5);
+  --faisca: rgba(205, 155, 60, 0.9);
 
-  --letra-1: #ea580c;                        /* laranja forte (contraste de pelo menos 3:1 com o fundo) */
-  --letra-2: #be185d;                        /* rosa forte */
+  --degrade: linear-gradient(90deg, #7a1838, #b3264f 35%, #cc5a2e 70%, #a87508);   /* vinho → framboesa → terracota → ouro */
+  --lateral: #4f1422;
+  --sombra-chao: rgba(60, 35, 20, 0.32);
+  --sombra-perto: rgba(60, 35, 20, 0.28);
+  --foco: #b3264f;
 
-  --lateral-base: #9d174d;
-  --lateral:
-    0.01em 0.01em 0 #9d174d, 0.02em 0.02em 0 #921648, 0.03em 0.03em 0 #871443, 0.04em 0.04em 0 #7c133d,
-    0.05em 0.05em 0 #711138, 0.06em 0.06em 0 #671033, 0.07em 0.07em 0 #5c0e2e, 0.08em 0.08em 0 #510d28,
-    0.09em 0.09em 0 #460b23, 0.10em 0.10em 0 #3b0a1e;
+  --trilho: linear-gradient(135deg, #c9d6e2, #e4dccb 60%, #eadfc8);
+  --trilho-borda: rgba(154, 116, 50, 0.55);
+  --trilho-sombra: 0 2px 0 #b9a47c, 0 6px 14px rgba(90, 60, 30, 0.18), inset 0 2px 6px rgba(255, 255, 255, 0.6);
+  --astro: radial-gradient(circle at 35% 30%, #fff4d6, #e9c068 55%, #c9952f);      /* o sol */
+  --astro-sombra: 0 0 0 2px rgba(214, 170, 80, 0.3), 0 0 12px 3px rgba(201, 149, 47, 0.4);
 }
 
 
 /* =====================================================================
-   PÁGINA
+   PÁGINA E FUNDO ANIMADO
    ===================================================================== */
 
 body {
-  margin: 0;                         /* tira a margem padrão (era ela que criava a barra de rolagem) */
+  margin: 0;
   height: 100vh;
   display: grid;
-  place-items: center;               /* centraliza na horizontal e na vertical */
-  background: var(--fundo);          /* o fundo do tema que estiver ativo */
+  place-items: center;
+  background: var(--fundo);
   overflow-x: hidden;
 }
 
-header h1 {
-  position: relative;                /* a sombra (::before) e a lateral 3D (::after) se posicionam em relação ao título */
-  margin: 0;
-  font-family: 'Montserrat', sans-serif;
-  font-size: min(100px, 8.2vw);      /* no máximo 100px; em telas estreitas encolhe para a palavra caber */
-  line-height: 1;
-  text-transform: uppercase;
-  color: transparent;                /* texto transparente: assim o degradê de fundo aparece */
+/* Duas camadas presas à tela, atrás de tudo: bolhas (::before) e faíscas (::after) */
+body::before,
+body::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: -3;
+}
+
+/* BOLHAS DE CHAMPANHE: cada camada é um "azulejo" que se repete.
+   A animação sobe cada uma exatamente a altura do seu azulejo, então emenda sem pulo;
+   como as alturas são diferentes, cada bolha sobe numa velocidade. */
+body::before {
   background:
-    linear-gradient(105deg, transparent 40%, rgba(255, 255, 255, 0.9) 50%, transparent 60%) 150% 0 / 200% 100% no-repeat,   /* 1ª camada: a faixa de BRILHO */
-    linear-gradient(to left, var(--letra-1), var(--letra-2));                                                                /* 2ª camada: o degradê do tema */
-  -webkit-background-clip: text;     /* as duas camadas aparecem só dentro das letras */
-  background-clip: text;
-  animation: brilho 5s linear infinite;   /* o brilho passa pelo nome de tempos em tempos */
+    radial-gradient(circle, transparent 4.5px, var(--bolhas) 5.2px, transparent 6.2px) 0 0 / 230px 310px,
+    radial-gradient(circle, transparent 2.6px, var(--bolhas) 3.2px, transparent 4px) 90px 120px / 170px 230px,
+    radial-gradient(circle, transparent 3.4px, var(--bolhas) 4px, transparent 4.8px) 150px 60px / 290px 370px,
+    radial-gradient(circle, var(--bolhas) 1.4px, transparent 2.2px) 40px 170px / 130px 190px;
+  animation: subir 14s linear infinite;
 }
 
-@keyframes brilho {
-  0%   { background-position: 150% 0, 0 0; }     /* faixa fora da palavra, à esquerda */
-  70%  { background-position: -50% 0, 0 0; }     /* faixa atravessou e saiu pela direita */
-  100% { background-position: -50% 0, 0 0; }     /* descansa um pouco antes de passar de novo */
+@keyframes subir {
+  to { background-position: 0 -310px, 90px -110px, 150px -310px, 40px -20px; }
 }
 
-header h1::before {
-  content: attr(data-text);          /* repete o texto que está no atributo data-text do HTML */
-  position: absolute;
-  z-index: -1;                       /* fica atrás do título */
-  color: black;
-  filter: blur(14px);                /* desfoca */
-  transform: skew(67deg) translate(-0.4em, 15%) scaleY(0.5);   /* deita e achata: vira a sombra no chão */
-  -webkit-mask-image: linear-gradient(transparent, black);   /* a sombra some aos poucos */
-  mask-image: linear-gradient(transparent, black);
+/* FAÍSCAS: azulejos de tamanhos "quebrados" para não formarem fileiras certinhas */
+body::after {
+  background:
+    radial-gradient(circle, var(--faisca) 1.2px, transparent 5px) 40px 60px / 233px 241px,
+    radial-gradient(circle, var(--faisca) 1.8px, transparent 6px) 160px 20px / 317px 289px,
+    radial-gradient(circle, var(--faisca) 1px, transparent 4px) 90px 180px / 173px 211px,
+    radial-gradient(circle, var(--faisca) 1.5px, transparent 5px) 270px 130px / 389px 353px;
+  animation: piscar 2.6s ease-in-out infinite alternate;
 }
 
-header h1::after {                  /* o 3D: a "lateral" grossa das letras, atrás do título */
-  content: attr(data-text);          /* mais uma cópia do texto */
-  position: absolute;
-  inset: 0;                          /* ocupa exatamente o mesmo lugar do título */
-  z-index: -1;                       /* fica atrás do título (e na frente da sombra do chão) */
-  color: var(--lateral-base);
-  text-shadow: var(--lateral);       /* as várias cópias, cada uma um pouco mais para baixo e para a direita */
-}
-
-
-@media (prefers-reduced-motion: reduce) {
-  header h1 { animation: none; }       /* quem pediu menos movimento no sistema não vê o brilho se mexer (o botão cuida de si em botao-tema.css) */
+@keyframes piscar {                          /* usado pelas faíscas e pelas estrelas do botão */
+  from { opacity: 0.15; }
 }
 
 
 /* =====================================================================
-   BOTÃO DO MODO ESCURO / CLARO — o "interruptor da festa"
-   Um trilho (o botão) com um astro que desliza de um lado para o outro:
-     - de dia (claro): um SOLZINHO com carinha e chapéu de festa, à esquerda,
-       num céu azul-rosa com nuvenzinhas e confete;
-     - de noite (escuro): uma LUA com carinha e chapéu de festa, à direita,
-       num céu roxo com estrelinhas e confete.
-   Tudo é desenhado em CSS: nada de imagens.
-   O tema ativo vem do atributo data-tema da tag <html> (o JS cuida disso).
+   TÍTULO: degradê colorido + faixa de brilho + lateral 3D + sombra no chão
    ===================================================================== */
 
-/* ---------- O trilho (o próprio botão) ---------- */
-.botao-tema {
-  --tamanho-astro: 34px;
+h1 {
+  position: relative;
+  margin: 0;
+  font: 700 min(100px, 8.2vw)/1 'Montserrat', sans-serif;   /* encolhe em telas estreitas para caber */
+  text-transform: uppercase;
+  color: transparent;                         /* deixa aparecer o fundo recortado nas letras */
+  background:
+    linear-gradient(105deg, transparent 34%, #fff8 42%, #fff 47% 53%, #fff8 58%, transparent 66%)
+      150% 0 / 200% 100% no-repeat,           /* a faixa de BRILHO */
+    var(--degrade);
+  -webkit-background-clip: text;
+  background-clip: text;
+  animation: brilho 3s ease-in-out infinite;
+}
 
-  position: fixed;                   /* fica no canto da tela, mesmo se a página rolar */
-  top: 20px;                         /* um pouco mais de espaço em cima: o chapéu sai para fora */
+@keyframes brilho {                           /* atravessa em ~2s e descansa 1s */
+  0%        { background-position: 150% 0, 0 0; }
+  65%, 100% { background-position: -50% 0, 0 0; }
+}
+
+h1::before,
+h1::after {
+  content: attr(data-text);                   /* cópias do texto (o data-text do HTML) */
+  position: absolute;
+  inset: 0;
+}
+
+h1::before {                                  /* sombra "deitada" no chão, na frente das letras */
+  z-index: -2;
+  color: var(--sombra-chao);
+  transform-origin: 50% 0.96em;               /* o pé das letras */
+  transform: skewX(40deg) scaleY(-0.45);
+  filter: blur(6px);
+  mask-image: linear-gradient(transparent 5%, black 95%);   /* some longe das letras */
+}
+
+h1::after {                                   /* lateral 3D: 10 cópias, cada uma mais escura */
+  z-index: -1;
+  color: var(--lateral);
+  text-shadow:
+    0.01em 0.01em 0 var(--lateral),
+    0.02em 0.02em 0 color-mix(in srgb, var(--lateral), black 8%),
+    0.03em 0.03em 0 color-mix(in srgb, var(--lateral), black 16%),
+    0.04em 0.04em 0 color-mix(in srgb, var(--lateral), black 24%),
+    0.05em 0.05em 0 color-mix(in srgb, var(--lateral), black 32%),
+    0.06em 0.06em 0 color-mix(in srgb, var(--lateral), black 40%),
+    0.07em 0.07em 0 color-mix(in srgb, var(--lateral), black 48%),
+    0.08em 0.08em 0 color-mix(in srgb, var(--lateral), black 56%),
+    0.09em 0.09em 0 color-mix(in srgb, var(--lateral), black 64%),
+    0.10em 0.10em 0 color-mix(in srgb, var(--lateral), black 72%),
+    0.11em 0.13em 0.05em var(--sombra-perto);  /* sombra curta logo depois da lateral */
+}
+
+
+/* =====================================================================
+   BOTÃO DO TEMA: um trilho com um astro (lua à direita / sol à esquerda)
+   ===================================================================== */
+
+.botao-tema {
+  --largura: 84px;
+  --altura: 44px;                             /* 44px: confortável para tocar no celular */
+  --tamanho: 33px;                            /* diâmetro do astro */
+  --folga: calc((var(--altura) - 2px - var(--tamanho)) / 2);   /* espaço igual em volta do astro (2px = bordas) */
+
+  position: fixed;
+  top: 16px;
   right: 16px;
   z-index: 10;
   box-sizing: border-box;
-  width: 84px;
-  height: 44px;                      /* 44px de altura: confortável para tocar no celular */
+  width: var(--largura);
+  height: var(--altura);
   padding: 0;
-  border-radius: 999px;              /* formato de pílula */
-  border: 2px solid #fff;
+  border: 1px solid var(--trilho-borda);
+  border-radius: 999px;
+  background: var(--trilho);
+  box-shadow: var(--trilho-sombra);
   cursor: pointer;
-
-  /* TEMA ESCURO (o padrão): céu de festa à noite */
-  background: linear-gradient(135deg, #2e1065, #6b21a8 55%, #be185d);
-  box-shadow:
-    0 4px 0 #3b0764,                  /* "degrau" embaixo: parece um botão de brinquedo */
-    0 6px 14px rgba(0, 0, 0, 0.35),
-    inset 0 2px 6px rgba(0, 0, 0, 0.35);
-  transition: background 0.4s, box-shadow 0.4s, transform 0.15s;
+  transition: transform 0.15s;
   -webkit-tap-highlight-color: transparent;
 }
 
-html[data-tema="claro"] .botao-tema {
-  background: linear-gradient(135deg, #7dd3fc, #c4b5fd 55%, #f9a8d4);
-  box-shadow:
-    0 4px 0 #db2777,
-    0 6px 14px rgba(190, 24, 93, 0.25),
-    inset 0 2px 6px rgba(255, 255, 255, 0.6);
-}
+.botao-tema:active        { transform: translateY(3px); }
+.botao-tema:focus-visible { outline: 3px solid var(--foco); outline-offset: 4px; }
 
-.botao-tema:active {
-  transform: translateY(3px);        /* afunda um pouquinho ao clicar */
-}
-
-.botao-tema:focus-visible {
-  outline: 3px solid var(--letra-1);     /* quem navega pelo teclado vê onde está o foco */
-  outline-offset: 4px;
-}
-
-
-/* ---------- O céu: estrelinhas (noite) e nuvenzinhas (dia) ---------- */
-.botao-tema .ceu {
+/* O céu: estrelas (::before, noite) e nuvem (::after, dia), que trocam com fade */
+.ceu {
   position: absolute;
   inset: 0;
   border-radius: inherit;
-  overflow: hidden;                  /* nada do céu sai do trilho */
-  pointer-events: none;
+  overflow: hidden;
 }
 
-.botao-tema .ceu::before,
-.botao-tema .ceu::after {
+.ceu::before,
+.ceu::after {
   content: "";
   position: absolute;
   inset: 0;
   transition: opacity 0.4s, transform 0.5s;
 }
 
-/* NOITE: estrelinhas e confete do lado esquerdo (a lua fica à direita) */
-.botao-tema .ceu::before {
+.ceu::before {
   background:
-    radial-gradient(circle at 18% 30%, #fff 1.5px, transparent 2px),
+    radial-gradient(circle at 18% 30%, #fff 1.4px, transparent 2px),
     radial-gradient(circle at 34% 68%, #fff 1px, transparent 1.6px),
-    radial-gradient(circle at 46% 26%, #fde68a 1.2px, transparent 1.8px),
-    radial-gradient(circle at 12% 72%, #fde68a 1px, transparent 1.6px),
-    radial-gradient(circle at 28% 48%, #f472b6 1.6px, transparent 2.2px),   /* confete rosa */
-    radial-gradient(circle at 50% 80%, #67e8f9 1.4px, transparent 2px),     /* confete azul */
-    radial-gradient(circle at 40% 12%, #a3e635 1.2px, transparent 1.8px);   /* confete verde */
-  animation: piscar 2.4s ease-in-out infinite;
+    radial-gradient(circle at 46% 26%, #e8d3a2 1.2px, transparent 1.8px),
+    radial-gradient(circle at 12% 72%, #e8d3a2 1px, transparent 1.6px),
+    radial-gradient(circle at 28% 48%, #fff9 0.9px, transparent 1.5px),
+    radial-gradient(circle at 50% 80%, #e8d3a2 0.9px, transparent 1.5px);
+  animation: piscar 2.4s ease-in-out infinite alternate;
 }
 
-/* DIA: nuvenzinhas e confete do lado direito (o sol fica à esquerda) */
-.botao-tema .ceu::after {
+.ceu::after {                                 /* nuvem: 3 bolinhas */
   opacity: 0;
   transform: translateY(6px);
   background:
-    radial-gradient(circle at 70% 68%, #fff 6px, transparent 6.5px),        /* nuvem: 3 bolinhas */
-    radial-gradient(circle at 79% 60%, #fff 7px, transparent 7.5px),
-    radial-gradient(circle at 88% 70%, #fff 5px, transparent 5.5px),
-    radial-gradient(circle at 62% 25%, #f472b6 1.6px, transparent 2.2px),   /* confete */
-    radial-gradient(circle at 80% 22%, #facc15 1.6px, transparent 2.2px),
-    radial-gradient(circle at 92% 38%, #22d3ee 1.4px, transparent 2px),
-    radial-gradient(circle at 54% 52%, #a855f7 1.3px, transparent 1.9px);
+    radial-gradient(circle at 70% 68%, #fbf8f2 6px, transparent 6.5px),
+    radial-gradient(circle at 79% 60%, #fbf8f2 7px, transparent 7.5px),
+    radial-gradient(circle at 88% 70%, #fbf8f2 5px, transparent 5.5px);
 }
 
-html[data-tema="claro"] .botao-tema .ceu::before { opacity: 0; transform: translateY(-6px); animation: none; }
-html[data-tema="claro"] .botao-tema .ceu::after  { opacity: 1; transform: none; }
-
-@keyframes piscar {                  /* as estrelinhas piscam de leve */
-  0%, 100% { opacity: 1; }
-  50%      { opacity: 0.55; }
-}
-
-
-/* ---------- O astro: lua (noite) que vira sol (dia) ---------- */
-.botao-tema .astro {
+.astro {
   position: absolute;
-  top: 3px;
-  left: 3px;
-  width: var(--tamanho-astro);
-  height: var(--tamanho-astro);
+  top: var(--folga);
+  left: var(--folga);
+  width: var(--tamanho);
+  height: var(--tamanho);
   border-radius: 50%;
-  pointer-events: none;
-
-  /* NOITE: a lua fica à direita */
-  transform: translateX(39px) rotate(0deg);
-
-  /* A carinha é feita de camadas de fundo (a de cima vem primeiro): */
-  background:
-    /* olhinhos fechados e felizes (^ ^): metade de cima de um anel */
-    radial-gradient(circle at 50% 100%, transparent 2px, #3b2a5c 2.2px, #3b2a5c 3.4px, transparent 3.6px) 7px 12px / 8px 4px no-repeat,
-    radial-gradient(circle at 50% 100%, transparent 2px, #3b2a5c 2.2px, #3b2a5c 3.4px, transparent 3.6px) 19px 12px / 8px 4px no-repeat,
-    /* sorriso: metade de baixo de um anel */
-    radial-gradient(circle at 50% 0, transparent 3px, #3b2a5c 3.2px, #3b2a5c 4.6px, transparent 4.8px) 12px 20px / 10px 5px no-repeat,
-    /* bochechas rosadas */
-    radial-gradient(circle at 22% 62%, rgba(244, 114, 182, 0.7) 3px, transparent 4px),
-    radial-gradient(circle at 78% 62%, rgba(244, 114, 182, 0.7) 3px, transparent 4px),
-    /* crateras */
-    radial-gradient(circle at 72% 24%, #d6cdf0 2.5px, transparent 3px),
-    radial-gradient(circle at 30% 84%, #d6cdf0 2px, transparent 2.5px),
-    /* a lua */
-    radial-gradient(circle at 35% 30%, #ffffff, #f1ecff 55%, #cfc3f5);
-  box-shadow:
-    inset -4px -3px 0 rgba(139, 92, 246, 0.25),   /* sombrinha lateral: dá volume */
-    0 0 10px 2px rgba(237, 233, 254, 0.55);       /* brilho de luar */
-
-  transition:
-    transform 0.6s cubic-bezier(0.68, -0.55, 0.27, 1.55),   /* desliza com um "pulinho" */
-    box-shadow 0.4s;
+  background: var(--astro);
+  box-shadow: var(--astro-sombra);
+  transform: translateX(calc(var(--largura) - var(--altura))) rotate(0deg);   /* lua: na ponta direita */
+  transition: transform 0.6s cubic-bezier(0.65, 0, 0.35, 1);                  /* suave, sem passar do ponto */
 }
 
-/* DIA: o sol fica à esquerda */
-html[data-tema="claro"] .botao-tema .astro {
-  transform: translateX(0) rotate(-360deg);       /* dá uma cambalhota no caminho */
-  background:
-    /* olhinhos abertos e brilhantes */
-    radial-gradient(circle at 37% 44%, #fff 0.9px, transparent 1.3px),
-    radial-gradient(circle at 67% 44%, #fff 0.9px, transparent 1.3px),
-    radial-gradient(circle at 35% 47%, #4a2511 2.6px, transparent 3px),
-    radial-gradient(circle at 65% 47%, #4a2511 2.6px, transparent 3px),
-    /* sorriso */
-    radial-gradient(circle at 50% 0, transparent 3px, #4a2511 3.2px, #4a2511 4.6px, transparent 4.8px) 12px 20px / 10px 5px no-repeat,
-    /* bochechas rosadas */
-    radial-gradient(circle at 22% 64%, rgba(244, 63, 94, 0.55) 3px, transparent 4px),
-    radial-gradient(circle at 78% 64%, rgba(244, 63, 94, 0.55) 3px, transparent 4px),
-    /* o sol */
-    radial-gradient(circle at 35% 30%, #fff7b0, #ffd23f 55%, #ffa41b);
-  box-shadow:
-    0 0 0 3px rgba(255, 214, 64, 0.45),           /* raios suaves em volta */
-    0 0 14px 4px rgba(255, 180, 0, 0.6);
-}
-
-/* Chapéu de festa (::before) e o pompom na ponta (::after).
-   Os dois têm a MESMA base e o mesmo giro, assim o pompom sempre fica na ponta do chapéu. */
-.botao-tema .astro::before,
-.botao-tema .astro::after {
-  content: "";
-  position: absolute;
-  left: 11px;
-  bottom: calc(100% - 4px);          /* o chapéu "senta" no topo da cabeça */
-  width: 14px;
-  transform-origin: 50% 100%;
-  transform: rotate(18deg);
-}
-
-.botao-tema .astro::before {         /* o chapéu: um triângulo listrado */
-  height: 15px;
-  clip-path: polygon(50% 0, 100% 100%, 0 100%);
-  background: repeating-linear-gradient(-35deg, #a855f7 0 3px, #facc15 3px 6px);
-}
-
-.botao-tema .astro::after {          /* o pompom: uma bolinha na ponta */
-  height: 19px;
-  background: radial-gradient(circle at 50% 3px, #fff 2.8px, transparent 3.3px);
-}
-
-html[data-tema="claro"] .botao-tema .astro::before {
-  background: repeating-linear-gradient(-35deg, #ec4899 0 3px, #22d3ee 3px 6px);
-}
-html[data-tema="claro"] .botao-tema .astro::before,
-html[data-tema="claro"] .botao-tema .astro::after {
-  transform: rotate(-18deg);         /* de dia o chapéu tomba para o outro lado */
-}
-
-/* Passar o mouse: o astro dá uma balançadinha, como se estivesse dançando */
-@media (hover: hover) {
-  .botao-tema:hover .astro::before,
-  .botao-tema:hover .astro::after {
-    animation: dancar 0.5s ease-in-out infinite alternate;
-  }
-}
-
-@keyframes dancar {
-  from { transform: rotate(-18deg); }
-  to   { transform: rotate(18deg); }
-}
+/* No tema claro: sol na ponta esquerda (dando uma volta no caminho), nuvem no lugar das estrelas */
+html[data-tema="claro"] .astro       { transform: translateX(0) rotate(-360deg); }
+html[data-tema="claro"] .ceu::before { opacity: 0; transform: translateY(-6px); animation: none; }
+html[data-tema="claro"] .ceu::after  { opacity: 1; transform: none; }
 
 
-/* Quem pediu menos movimento no sistema: troca sem deslizar, sem piscar e sem dançar */
+/* Quem pediu menos movimento no sistema: nada se mexe */
 @media (prefers-reduced-motion: reduce) {
-  .botao-tema,
-  .botao-tema .astro,
-  .botao-tema .ceu::before,
-  .botao-tema .ceu::after { transition: none; }
-
-  .botao-tema .ceu::before,
-  .botao-tema:hover .astro::before,
-  .botao-tema:hover .astro::after { animation: none; }
+  *, *::before, *::after { animation: none !important; transition: none !important; }
 }
-
-
-
-
-
-

@@ -1,46 +1,25 @@
-// =====================================================================
 // MODO ESCURO / CLARO
-// A página tem dois temas. O tema ativo fica escrito na tag <html>,
-// no atributo data-tema ("escuro" ou "claro"). O CSS troca as cores
-// da página e também o desenho do botão (sol, lua e ursinhos) sozinho.
-// =====================================================================
+// O tema ativo fica no atributo data-tema da tag <html> ("escuro" ou "claro"); o CSS faz o resto.
+// try/catch: se o navegador bloquear o localStorage, a página funciona, só não lembra a escolha.
 
-const raiz = document.documentElement;   // a tag <html>
+const raiz = document.documentElement;
 
-// Ler e guardar a escolha no navegador (localStorage).
-// try/catch: se o navegador bloquear os dados do site (cookies), a página NÃO quebra:
-// o tema só deixa de ser lembrado na próxima vez.
-function lerTemaSalvo() {
-  try { return localStorage.getItem("tema"); }
-  catch (erro) { return null; }
-}
+// Tema inicial: o que a pessoa escolheu antes; se nunca escolheu, o do sistema.
+// Roda antes da página aparecer, para ela não "piscar" na cor errada.
+let salvo = null;
+try { salvo = localStorage.getItem("tema"); } catch {}
+raiz.dataset.tema = salvo || (matchMedia("(prefers-color-scheme: light)").matches ? "claro" : "escuro");
 
-function salvarTema(tema) {
-  try { localStorage.setItem("tema", tema); }
-  catch (erro) { /* sem problema: só não vai lembrar */ }
-}
-
-// 1) Tema inicial: o que a pessoa já escolheu; se nunca escolheu, o do sistema dela.
-//    Isso roda ANTES da página aparecer, para ela não "piscar" na cor errada.
-const temaDoSistema = window.matchMedia("(prefers-color-scheme: light)").matches ? "claro" : "escuro";
-raiz.dataset.tema = lerTemaSalvo() || temaDoSistema;
-
-// 2) O botão. Ele só existe depois que a página carrega.
 document.addEventListener("DOMContentLoaded", () => {
   const botao = document.querySelector("#botao-tema");
-
-  // O desenho do botão muda sozinho pelo CSS. Aqui só avisamos os leitores de tela
-  // se o modo escuro está ligado (aria-pressed="true") ou desligado ("false").
-  function atualizarBotao() {
-    botao.setAttribute("aria-pressed", String(raiz.dataset.tema === "escuro"));
-  }
+  // aria-pressed avisa os leitores de tela se o modo escuro está ligado
+  const atualizar = () => botao.setAttribute("aria-pressed", raiz.dataset.tema === "escuro");
 
   botao.addEventListener("click", () => {
-    const novoTema = raiz.dataset.tema === "escuro" ? "claro" : "escuro";
-    raiz.dataset.tema = novoTema;   // o CSS troca tudo
-    salvarTema(novoTema);           // lembra a escolha
-    atualizarBotao();
+    raiz.dataset.tema = raiz.dataset.tema === "escuro" ? "claro" : "escuro";
+    try { localStorage.setItem("tema", raiz.dataset.tema); } catch {}
+    atualizar();
   });
 
-  atualizarBotao();
+  atualizar();
 });
