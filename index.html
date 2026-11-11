@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Portfolio</title>
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="css/main.css">
     <script src="js/main.js"></script>
 </head>
@@ -40,7 +40,125 @@
             </div>
 
         </section>
-        
+
+        <!-- O QUE LEVAR: cartões que viram.
+             Frente: a foto da comida. Verso: a lista para marcar.
+             Para pôr a sua foto, troque o caminho em background-image (ex.: img/comidas.jpg).
+             IMPORTANTE: o name de cada caixinha precisa ser ÚNICO no site inteiro (é ele que identifica o item). -->
+        <section class="levar" aria-labelledby="titulo-levar">
+            <h2 id="titulo-levar">O que levar</h2>
+            <p class="subtitulo">Toque num cartão, marque o que você vai levar e escreva seu nome.</p>
+
+            <div class="cartoes">
+                <article class="cartao-virar">
+                    <div class="cartao-interno">
+                        <button class="frente" type="button" aria-label="Comidas: ver a lista">
+                            <span class="frente-foto" style="background-image: url('img/comidas.jpg')"></span>
+                            <span class="frente-emoji" aria-hidden="true">🍕</span>
+                            <span class="frente-nome">Comidas</span>
+                        </button>
+                        <div class="verso">
+                            <h3>Comidas</h3>
+                            <form class="lista-itens">
+                                <label><input class="pristine" type="checkbox" name="salgadinhos">
+                                    <span>Salgadinhos</span></label>
+                                <label><input class="pristine" type="checkbox" name="pizza"> <span>Pizza</span></label>
+                                <label><input class="pristine" type="checkbox" name="pao-de-alho"> <span>Pão de
+                                        alho</span></label>
+                            </form>
+                            <button class="voltar" type="button">↩ Voltar</button>
+                        </div>
+                    </div>
+                </article>
+
+                <article class="cartao-virar">
+                    <div class="cartao-interno">
+                        <button class="frente" type="button" aria-label="Bebidas: ver a lista">
+                            <span class="frente-foto" style="background-image: url('img/bebidas.jpg')"></span>
+                            <span class="frente-emoji" aria-hidden="true">🥤</span>
+                            <span class="frente-nome">Bebidas</span>
+                        </button>
+                        <div class="verso">
+                            <h3>Bebidas</h3>
+                            <form class="lista-itens">
+                                <label><input class="pristine" type="checkbox" name="refrigerante">
+                                    <span>Refrigerante</span></label>
+                                <label><input class="pristine" type="checkbox" name="suco"> <span>Suco</span></label>
+                                <label><input class="pristine" type="checkbox" name="agua"> <span>Água</span></label>
+                            </form>
+                            <button class="voltar" type="button">↩ Voltar</button>
+                        </div>
+                    </div>
+                </article>
+
+                <article class="cartao-virar">
+                    <div class="cartao-interno">
+                        <button class="frente" type="button" aria-label="Doces: ver a lista">
+                            <span class="frente-foto" style="background-image: url('img/doces.jpg')"></span>
+                            <span class="frente-emoji" aria-hidden="true">🍰</span>
+                            <span class="frente-nome">Doces</span>
+                        </button>
+                        <div class="verso">
+                            <h3>Doces</h3>
+                            <form class="lista-itens">
+                                <label><input class="pristine" type="checkbox" name="bolo"> <span>Bolo</span></label>
+                                <label><input class="pristine" type="checkbox" name="brigadeiro">
+                                    <span>Brigadeiro</span></label>
+                                <label><input class="pristine" type="checkbox" name="sorvete">
+                                    <span>Sorvete</span></label>
+                            </form>
+                            <button class="voltar" type="button">↩ Voltar</button>
+                        </div>
+                    </div>
+                </article>
+
+                <article class="cartao-virar">
+                    <div class="cartao-interno">
+                        <button class="frente" type="button" aria-label="Descartáveis: ver a lista">
+                            <span class="frente-foto" style="background-image: url('img/descartaveis.jpg')"></span>
+                            <span class="frente-emoji" aria-hidden="true">🍽️</span>
+                            <span class="frente-nome">Descartáveis</span>
+                        </button>
+                        <div class="verso">
+                            <h3>Descartáveis</h3>
+                            <form class="lista-itens">
+                                <label><input class="pristine" type="checkbox" name="copos"> <span>Copos</span></label>
+                                <label><input class="pristine" type="checkbox" name="pratos-talheres"> <span>Pratos e
+                                        talheres</span></label>
+                                <label><input class="pristine" type="checkbox" name="guardanapos">
+                                    <span>Guardanapos</span></label>
+                            </form>
+                            <button class="voltar" type="button">↩ Voltar</button>
+                        </div>
+                    </div>
+                </article>
+            </div>
+        </section>
+
+        <!-- QUEM LEVA O QUÊ: o JavaScript preenche esta lista sozinho -->
+        <section class="quem-leva" aria-labelledby="titulo-quem-leva">
+            <h2 id="titulo-quem-leva">Quem leva o quê</h2>
+            <p class="lista-vazia" id="lista-vazia">Ninguém marcou nada ainda. Seja o primeiro!</p>
+            <ul class="lista-final" id="lista-final"></ul>
+        </section>
+
+        <!-- JANELINHA DO NOME: aparece quando alguém marca um item -->
+        <dialog class="janela" id="janela-nome" aria-labelledby="janela-titulo">
+            <form method="dialog">
+                <h3 id="janela-titulo">Quem vai levar?</h3>
+                <label for="campo-nome">Seu nome</label>
+                <input id="campo-nome" name="nome" maxlength="30" required pattern=".*\S.*" autocomplete="given-name">
+                <div class="janela-botoes">
+                    <!-- Confirmar vem PRIMEIRO no HTML: é ele que a tecla Enter aperta. O CSS mostra o Cancelar à esquerda. -->
+                    <button class="botao-principal" type="submit" value="ok">Confirmar</button>
+                    <button class="botao-secundario" type="submit" value="cancelar" formnovalidate>Cancelar</button>
+                </div>
+            </form>
+        </dialog>
+
+
+
+
     </main>
 
     <footer>

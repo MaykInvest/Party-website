@@ -69,3 +69,130 @@ document.addEventListener("DOMContentLoaded", () => {
   const relogio = setInterval(atualizarContagem, 1000);   // atualiza a cada 1 segundo
   atualizarContagem();                                    // e já mostra na hora, sem esperar 1 segundo
 });
+
+
+// =====================================================================
+// CARTÕES + LISTA "QUEM LEVA O QUÊ"
+// As escolhas ficam guardadas num objeto assim: { pizza: "Ana", suco: "João" }
+// (a chave é o name da caixinha; o valor é o nome da pessoa).
+//
+// ATENÇÃO: por enquanto, isso fica salvo SÓ NESTE NAVEGADOR (localStorage).
+// Outras pessoas NÃO veem. Para todo mundo ver, troque só estas duas funções
+// por um banco de dados online (Firebase, Supabase...). O resto do código continua igual.
+// =====================================================================
+function carregarEscolhas() {
+  try { return JSON.parse(localStorage.getItem("escolhas")) || {}; }
+  catch { return {}; }
+}
+
+function salvarEscolhas(escolhas) {
+  try { localStorage.setItem("escolhas", JSON.stringify(escolhas)); } catch {}
+}
+
+document.addEventListener("DOMContentLoaded", () => {
+  const escolhas = carregarEscolhas();
+  const janela = document.querySelector("#janela-nome");
+  const tituloJanela = document.querySelector("#janela-titulo");
+  const campoNome = document.querySelector("#campo-nome");
+  const listaFinal = document.querySelector("#lista-final");
+  const listaVazia = document.querySelector("#lista-vazia");
+  const caixas = document.querySelectorAll(".lista-itens input[type=checkbox]");
+  let caixaAtual = null;                       // a caixinha que está esperando o nome
+
+  const nomeDoItem = (caixa) => caixa.nextElementSibling.textContent.trim();
+  const categoriaDe = (caixa) => caixa.closest(".verso").querySelector("h3").textContent.trim();
+
+  // ---------- 1) Virar os cartões ----------
+  document.querySelectorAll(".cartao-virar").forEach((cartao) => {
+    const frente = cartao.querySelector(".frente");
+    const verso = cartao.querySelector(".verso");
+
+    function virar(mostrarVerso) {
+      cartao.classList.toggle("virado", mostrarVerso);
+      frente.inert = mostrarVerso;             // inert: o lado escondido não recebe clique nem Tab
+      verso.inert = !mostrarVerso;
+      (mostrarVerso ? verso.querySelector("input") : frente).focus({ preventScroll: true });
+    }
+
+    verso.inert = true;                        // começa mostrando a frente
+    frente.addEventListener("click", () => virar(true));
+    cartao.querySelector(".voltar").addEventListener("click", () => virar(false));
+  });
+
+  // Embaixo de cada item, um lugar para o nome de quem vai levar
+  caixas.forEach((caixa) => {
+    const quem = document.createElement("small");
+    quem.className = "quem";
+    caixa.closest("label").after(quem);
+  });
+
+  // ---------- 2) Mostrar tudo: caixinhas marcadas + lista do fim da página ----------
+  function mostrar() {
+    listaFinal.replaceChildren();              // apaga a lista e monta de novo
+
+    caixas.forEach((caixa) => {
+      const pessoa = escolhas[caixa.name];
+      caixa.checked = Boolean(pessoa);
+      caixa.closest("label").nextElementSibling.textContent = pessoa ? "— " + pessoa : "";
+
+      if (pessoa) {
+        // textContent (e não innerHTML): se alguém digitar código no nome, ele aparece como texto e não roda
+        const li = document.createElement("li");
+        const item = document.createElement("span");
+        const categoria = document.createElement("span");
+        const nome = document.createElement("span");
+        item.className = "lf-item";            item.textContent = nomeDoItem(caixa);
+        categoria.className = "lf-categoria";  categoria.textContent = categoriaDe(caixa);
+        nome.className = "lf-nome";            nome.textContent = pessoa;
+        li.append(item, categoria, nome);
+        listaFinal.append(li);
+      }
+    });
+
+    listaVazia.hidden = listaFinal.children.length > 0;
+  }
+
+  // ---------- 3) Marcar e desmarcar ----------
+  caixas.forEach((caixa) => {
+    caixa.addEventListener("change", () => {
+      if (caixa.checked) {
+        // Marcou: desmarca de novo até a pessoa confirmar o nome
+        caixa.checked = false;
+        caixaAtual = caixa;
+        tituloJanela.textContent = `Quem vai levar ${nomeDoItem(caixa).toLowerCase()}?`;
+        try { campoNome.value = localStorage.getItem("meu-nome") || ""; } catch {}   // lembra o último nome usado
+        janela.returnValue = "";
+        janela.showModal();
+      } else {
+        // Desmarcou: confirma antes de tirar o nome
+        const pessoa = escolhas[caixa.name];
+        if (confirm(`Tirar "${nomeDoItem(caixa)}" de ${pessoa}?`)) {
+          caixa.classList.remove("pristine");  // agora pode animar (o risco "desfaz")
+          delete escolhas[caixa.name];
+          salvarEscolhas(escolhas);
+          mostrar();
+        } else {
+          caixa.checked = true;
+        }
+      }
+    });
+  });
+
+  // ---------- 4) A janelinha fechou (Confirmar, Cancelar ou tecla Esc) ----------
+  janela.addEventListener("close", () => {
+    const nome = campoNome.value.trim();
+
+    if (janela.returnValue === "ok" && nome && caixaAtual) {
+      escolhas[caixaAtual.name] = nome;
+      salvarEscolhas(escolhas);
+      try { localStorage.setItem("meu-nome", nome); } catch {}
+      caixaAtual.classList.remove("pristine"); // agora pode animar (o risco atravessa o item)
+      mostrar();
+    }
+
+    caixaAtual?.focus();
+    caixaAtual = null;
+  });
+
+  mostrar();                                   // ao abrir a página, mostra o que já estava salvo
+});

@@ -38,6 +38,24 @@
     radial-gradient(circle at 62% 76%, #d9d3c5 2px, transparent 2.5px),
     radial-gradient(circle at 35% 30%, #fff, #f2efe7 55%, #d4cdbd);
   --astro-sombra: inset -4px -3px 0 rgba(90, 80, 60, 0.2), 0 0 10px 2px rgba(244, 230, 195, 0.4);
+  --verso: rgba(27, 24, 48, 0.94);
+  /* verso dos cartões (quase sólido: o giro 3D não aceita desfoque) */
+  --check-fundo: #241f38;
+  /* caixinhas da lista */
+  --check-borda: #6b5d80;
+  --texto: #f5ecdc;
+  /* seção "O que levar" */
+  --texto-suave: #c9bca6;
+  --destaque: #ffc44d;
+  --cartao: rgba(255, 255, 255, 0.06);
+  --cartao-borda: rgba(212, 180, 120, 0.3);
+  --cartao-sombra: 0 10px 30px rgba(0, 0, 0, 0.35);
+  --etiqueta: rgba(255, 196, 77, 0.14);
+  --verso: rgba(27, 24, 48, 0.94);
+  /* verso dos cartões */
+  --check-fundo: #241f38;
+  /* caixinhas da lista */
+  --check-borda: #6b5d80;
 }
 
 html[data-tema="claro"] {
@@ -69,20 +87,39 @@ html[data-tema="claro"] {
   --astro: radial-gradient(circle at 35% 30%, #fff4d6, #e9c068 55%, #c9952f);
   /* o sol */
   --astro-sombra: 0 0 0 2px rgba(214, 170, 80, 0.3), 0 0 12px 3px rgba(201, 149, 47, 0.4);
+  --verso: rgba(255, 253, 249, 0.96);
+  --check-fundo: #fffdf9;
+  --check-borda: #cdb994;
+  --texto: #3a2318;
+  --texto-suave: #6b5442;
+  --destaque: #b3264f;
+  --cartao: rgba(255, 255, 255, 0.6);
+  --cartao-borda: rgba(154, 116, 50, 0.3);
+  --cartao-sombra: 0 10px 30px rgba(90, 60, 30, 0.12);
+  --etiqueta: rgba(179, 38, 79, 0.1);
+  --verso: rgba(255, 253, 249, 0.96);
+  --check-fundo: #fffdf9;
+  --check-borda: #cdb994;
 }
 
 
 /* =====================================================================
    PÁGINA E FUNDO ANIMADO
    ===================================================================== */
-
 body {
   margin: 0;
-  height: 100vh;
-  display: grid;
-  place-items: center;
+  min-height: 100vh;                          /* pelo menos a tela toda; cresce se o conteúdo for maior */
   background: var(--fundo);
+  color: var(--texto);
+  font-family: 'Montserrat', sans-serif;
   overflow-x: hidden;
+}
+
+header {
+  display: grid;
+  place-items: center;                        /* título centralizado */
+  padding: 110px 16px 72px;                   /* espaço em cima para o botão do tema */
+  overflow-x: clip;                           /* a sombra inclinada do título não pode sair da tela */
 }
 
 /* Duas camadas presas à tela, atrás de tudo: bolhas (::before) e faíscas (::after) */
@@ -349,11 +386,16 @@ html[data-tema="claro"] .ceu::after {
   color: var(--texto-suave);
 }
 
-.contagem-data::first-letter { text-transform: uppercase; }   /* "sábado" vira "Sábado" */
+.contagem-data::first-letter {
+  text-transform: uppercase;
+}
+
+/* "sábado" vira "Sábado" */
 
 .contagem-numeros {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);      /* sempre 4 blocos lado a lado, até no celular */
+  grid-template-columns: repeat(4, 1fr);
+  /* sempre 4 blocos lado a lado, até no celular */
   gap: clamp(8px, 2vw, 24px);
 }
 
@@ -371,12 +413,15 @@ html[data-tema="claro"] .ceu::after {
 }
 
 .numero {
-  font-size: clamp(40px, 11vw, 130px);        /* BEM grande: até 130px no computador */
+  font-size: clamp(40px, 11vw, 130px);
+  /* BEM grande: até 130px no computador */
   font-weight: 700;
   line-height: 1;
-  font-variant-numeric: tabular-nums;         /* todos os números com a mesma largura: nada "pula" a cada segundo */
+  font-variant-numeric: tabular-nums;
+  /* todos os números com a mesma largura: nada "pula" a cada segundo */
   color: transparent;
-  background: var(--degrade);                 /* o mesmo degradê do título */
+  background: var(--degrade);
+  /* o mesmo degradê do título */
   -webkit-background-clip: text;
   background-clip: text;
 }
@@ -397,4 +442,653 @@ html[data-tema="claro"] .ceu::after {
   font-size: clamp(32px, 8vw, 96px);
   font-weight: 700;
   color: var(--destaque);
+}
+
+@media (max-width: 359px) {
+  .rotulo {
+    font-size: 9px;
+    letter-spacing: 0.02em;
+  }
+
+  /* celular bem pequeno: "SEGUNDOS" precisa caber */
+}
+
+
+/* =====================================================================
+   SEÇÃO "O QUE LEVAR": cartões que viram (frente = foto, verso = lista)
+   ===================================================================== */
+
+.levar,
+.quem-leva {
+  max-width: 1100px;
+  margin: 0 auto;
+  /* centraliza a seção */
+  padding: 0 16px 80px;
+  text-align: center;
+}
+
+.levar h2,
+.quem-leva h2 {
+  margin: 0;
+  font-size: clamp(28px, 5vw, 44px);
+  color: var(--destaque);
+}
+
+.subtitulo {
+  max-width: 34em;
+  margin: 12px auto 40px;
+  font-weight: 400;
+  line-height: 1.5;
+  color: var(--texto-suave);
+}
+
+/* TODOS os cartões aparecem juntos, sem precisar rolar para o lado:
+   - computador e tablet: todos numa fileira só (cada cartão encolhe para caber);
+   - celular (menos de 760px): 2 por linha, para o texto continuar legível;
+   - celular bem pequeno (menos de 360px): 1 por linha. */
+.cartoes {
+  display: grid;
+  grid-auto-flow: column;
+  /* cada cartão novo vira uma nova coluna */
+  grid-auto-columns: 1fr;
+  /* todas as colunas do mesmo tamanho, dividindo a largura */
+  gap: clamp(10px, 1.8vw, 20px);
+  text-align: left;
+}
+
+@media (max-width: 760px) {
+  .cartoes {
+    grid-auto-flow: row;
+    grid-template-columns: repeat(2, 1fr);
+    /* celular: 2 por linha */
+  }
+}
+
+@media (max-width: 359px) {
+  .cartoes {
+    grid-template-columns: 1fr;
+  }
+
+  /* celular bem pequeno: 1 por linha */
+}
+
+
+/* ---------- O giro ---------- */
+.cartao-virar {
+  perspective: 1200px;
+  /* dá profundidade ao giro (quanto menor, mais "3D") */
+  scroll-snap-align: start;
+  /* NOVO: cada cartão encaixa pelo começo ao deslizar */
+}
+
+.cartao-interno {
+  display: grid;
+  /* frente e verso no MESMO lugar, um em cima do outro */
+  height: 100%;
+  transform-style: preserve-3d;
+  transition: transform 0.7s cubic-bezier(0.4, 0.2, 0.2, 1);
+}
+
+.cartao-virar.virado .cartao-interno {
+  transform: rotateY(180deg);
+  /* a classe "virado" é colocada pelo JavaScript */
+}
+
+.frente,
+.verso {
+  grid-area: 1 / 1;
+  /* os dois na mesma célula: o cartão fica com a altura do maior */
+  min-height: 320px;
+  border: 1px solid var(--cartao-borda);
+  border-radius: 20px;
+  box-shadow: var(--cartao-sombra);
+  -webkit-backface-visibility: hidden;
+  /* esconde o lado que está de costas */
+  backface-visibility: hidden;
+}
+
+/* ---------- Frente: foto + nome ---------- */
+.frente {
+  position: relative;
+  overflow: hidden;
+  display: grid;
+  place-items: center;
+  padding: 0;
+  background: var(--degrade);
+  /* aparece enquanto não tiver foto */
+  font: inherit;
+  color: #fff;
+  cursor: pointer;
+  min-height: clamp(240px, 28vw, 320px);
+  /* cartão um pouco mais baixo em telas menores */
+}
+
+.frente-foto {
+  /* a foto cobre o cartão todo; se o arquivo não existir, fica transparente */
+  position: absolute;
+  inset: 0;
+  background-size: cover;
+  background-position: center;
+  transition: transform 0.5s;
+}
+
+.frente::after {
+  /* escurece a parte de baixo para o nome ficar legível */
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(transparent 45%, rgba(0, 0, 0, 0.65));
+}
+
+.frente:hover .frente-foto {
+  transform: scale(1.06);
+}
+
+/* zoom leve na foto */
+
+.frente-emoji {
+  /* apague este <span> no HTML quando colocar a foto */
+  position: relative;
+  font-size: 88px;
+  filter: drop-shadow(0 6px 10px rgba(0, 0, 0, 0.25));
+  font-size: clamp(48px, 7vw, 88px);
+  /* encolhe junto com o cartão */
+}
+
+.frente-nome {
+  position: absolute;
+  z-index: 1;
+  /* fica na frente do escurecido */
+  left: 20px;
+  bottom: 18px;
+  font-size: 24px;
+  font-weight: 700;
+  text-shadow: 0 2px 6px rgba(0, 0, 0, 0.4);
+  left: clamp(12px, 1.6vw, 20px);
+  right: 8px;
+  bottom: clamp(12px, 1.5vw, 18px);
+  font-size: clamp(16px, 2vw, 24px);
+  /* "Descartáveis" precisa caber até no celular */
+}
+
+.frente:focus-visible,
+.voltar:focus-visible {
+  outline: 3px solid var(--foco);
+  outline-offset: 4px;
+}
+
+/* ---------- Verso: a lista ---------- */
+.verso {
+  display: flex;
+  flex-direction: column;
+  padding: 24px;
+  background: var(--verso);
+  transform: rotateY(180deg);
+  /* começa de costas */
+  min-height: clamp(240px, 28vw, 320px);
+  /* cartão um pouco mais baixo em telas menores */
+  padding: clamp(14px, 2vw, 24px);
+}
+
+.verso h3 {
+  margin: 0 0 16px;
+  font-size: 20px;
+  color: var(--destaque);
+  font-size: clamp(17px, 1.8vw, 20px);
+}
+
+.voltar {
+  align-self: flex-start;
+  margin-top: auto;
+  /* empurra o botão para o pé do cartão */
+  padding: 8px 14px;
+  border: 1px solid var(--cartao-borda);
+  border-radius: 999px;
+  background: transparent;
+  font: 600 14px 'Montserrat', sans-serif;
+  color: var(--texto-suave);
+  cursor: pointer;
+}
+
+.voltar:hover {
+  color: var(--destaque);
+  border-color: var(--destaque);
+}
+
+
+/* =====================================================================
+   CAIXINHAS QUE RISCAM O ITEM (adaptado do código que você mandou)
+   Mudanças: tudo fica dentro de .lista-itens (para não bagunçar o resto do site),
+   e as cores usam as variáveis dos temas do site.
+   ===================================================================== */
+
+.lista-itens {
+  --fg: var(--texto);
+  --fgDim: var(--texto-suave);
+  --checkBg: var(--check-fundo);
+  --checkBorder: var(--check-borda);
+  --primary: var(--destaque);
+  --dur: 0.6s;
+
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 4px;
+  margin-bottom: 20px;
+  font-size: 1rem;
+  /* 1em = 1rem: as medidas da animação ficam alinhadas */
+  line-height: 1.5;
+}
+
+.lista-itens label,
+.lista-itens input[type=checkbox] {
+  cursor: pointer;
+}
+
+.lista-itens label {
+  display: inline-flex;
+  align-items: flex-start;
+  /* caixinha no topo: fica certa mesmo se o nome quebrar em 2 linhas */
+  position: relative;
+  padding: 4px 0;
+  font-weight: 400;
+  color: var(--fg);
+  -webkit-tap-highlight-color: transparent;
+}
+
+.lista-itens .quem {
+  /* o nome de quem vai levar, embaixo do item (o JS preenche) */
+  margin: -6px 0 4px 2.25rem;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--destaque);
+}
+
+.lista-itens .quem:empty {
+  display: none;
+}
+
+.lista-itens input[type=checkbox],
+.lista-itens input[type=checkbox]::before,
+.lista-itens input[type=checkbox]::after {
+  width: 1.5rem;
+  height: 1.5rem;
+}
+
+.lista-itens input[type=checkbox],
+.lista-itens input[type=checkbox]::before {
+  background: var(--checkBg);
+  border-radius: 0.2em;
+  box-shadow: 0 0 0 1px var(--checkBorder) inset;
+}
+
+.lista-itens input[type=checkbox]::before,
+.lista-itens input[type=checkbox]::after {
+  display: block;
+  position: absolute;
+  top: 4px;
+  /* 4px = o padding do label */
+  left: 0;
+}
+
+.lista-itens input[type=checkbox] {
+  flex-shrink: 0;
+  margin: 0 0.75em 0 0;
+  border: 0;
+  font: inherit;
+  -webkit-appearance: none;
+  appearance: none;
+}
+
+.lista-itens input[type=checkbox]+span {
+  animation: brighten var(--dur) linear;
+}
+
+.lista-itens input[type=checkbox]::before {
+  animation: unstrike var(--dur) linear;
+  content: "";
+  transform-origin: 0 50%;
+  z-index: 1;
+}
+
+.lista-itens input[type=checkbox]::after {
+  color: var(--primary);
+  content: "\2713";
+  font-size: 1.5em;
+  line-height: 1;
+  text-align: center;
+}
+
+.lista-itens input[type=checkbox]:focus {
+  outline: transparent;
+}
+
+.lista-itens input[type=checkbox]:focus-visible+span {
+  text-decoration: underline;
+}
+
+.lista-itens input[type=checkbox]:checked+span {
+  animation-name: dim;
+  color: var(--fgDim);
+}
+
+.lista-itens input[type=checkbox]:checked::before {
+  animation-name: strike;
+  background: var(--fgDim);
+  border-radius: 0;
+  box-shadow: 0 0 0 1px var(--fgDim) inset;
+  transform: translateX(2.25em) scale(1, 0.05);
+  width: calc(100% - 2.25em);
+}
+
+.lista-itens input[type=checkbox].pristine::before,
+.lista-itens input[type=checkbox].pristine+span {
+  animation: none;
+  /* "pristine" = ainda não mexido: não anima ao abrir a página */
+}
+
+@keyframes dim {
+
+  from,
+  83% {
+    color: var(--fg);
+  }
+
+  to {
+    color: var(--fgDim);
+  }
+}
+
+@keyframes brighten {
+  from {
+    color: var(--fgDim);
+  }
+
+  17%,
+  to {
+    color: var(--fg);
+  }
+}
+
+@keyframes unstrike {
+  from {
+    background: var(--fgDim);
+    border-radius: 0;
+    box-shadow: 0 0 0 1px var(--fgDim) inset;
+    transform: translateX(2.25em) scale(1, 0.05);
+    width: calc(100% - 2.25em);
+  }
+
+  14% {
+    background: var(--fg);
+    border-radius: 0;
+    box-shadow: 0 0 0 1px var(--fg) inset;
+    transform: translateX(2.25em) scale(1, 0.05);
+    width: calc(100% - 2.25em);
+  }
+
+  29% {
+    background: var(--fg);
+    border-radius: 0;
+    box-shadow: 0 0 0 1px var(--fg) inset;
+    transform: translateX(2.75em) scale(1, 0.05);
+    width: calc(100% - 2.25em);
+  }
+
+  43% {
+    background: var(--fg);
+    border-radius: 0;
+    box-shadow: 0 0 0 1px var(--fg) inset;
+    transform: translateX(-0.5em) scale(0.75, 0.05);
+    width: 1.5em;
+  }
+
+  57% {
+    background: var(--fg);
+    border-radius: 0;
+    box-shadow: 0 0 0 1px var(--fg) inset;
+    transform: translateX(0) scale(1, 0.05);
+    width: 1.5em;
+  }
+
+  71% {
+    background: var(--fg);
+    border-radius: 0.2em;
+    box-shadow: 0 0 0 1px var(--fg) inset;
+    transform: translateX(0) scale(1, 1.25);
+    width: 1.5em;
+  }
+
+  86% {
+    background: var(--fg);
+    border-radius: 0.2em;
+    box-shadow: 0 0 0 1px var(--fg) inset;
+    transform: translateX(0) scale(1, 1);
+    width: 1.5em;
+  }
+
+  to {
+    background: var(--checkBg);
+    border-radius: 0.2em;
+    box-shadow: 0 0 0 1px var(--checkBorder) inset;
+    transform: translateX(0) scale(1, 1);
+    width: 1.5em;
+  }
+}
+
+@keyframes strike {
+  from {
+    background: var(--checkBg);
+    border-radius: 0.2em;
+    box-shadow: 0 0 0 1px var(--checkBorder) inset;
+    transform: translateX(0) scale(1, 1);
+    width: 1.5em;
+  }
+
+  17% {
+    background: var(--fg);
+    border-radius: 0.2em;
+    box-shadow: 0 0 0 1px var(--fg) inset;
+    transform: translateX(0) scale(1, 1);
+    width: 1.5em;
+  }
+
+  33% {
+    background: var(--fg);
+    border-radius: 0;
+    box-shadow: 0 0 0 1px var(--fg) inset;
+    transform: translateX(0) scale(1, 0.05);
+    width: 1.5em;
+  }
+
+  50% {
+    background: var(--fg);
+    border-radius: 0;
+    box-shadow: 0 0 0 1px var(--fg) inset;
+    transform: translateX(-0.5em) scale(1, 0.05);
+    width: 1.5em;
+  }
+
+  67% {
+    background: var(--fg);
+    border-radius: 0;
+    box-shadow: 0 0 0 1px var(--fg) inset;
+    transform: translateX(2.25em) scale(1.25, 0.05);
+    width: calc(100% - 2.25em);
+  }
+
+  83% {
+    background: var(--fg);
+    border-radius: 0;
+    box-shadow: 0 0 0 1px var(--fg) inset;
+    transform: translateX(2.25em) scale(1, 0.05);
+    width: calc(100% - 2.25em);
+  }
+
+  to {
+    background: var(--fgDim);
+    border-radius: 0;
+    box-shadow: 0 0 0 1px var(--fgDim) inset;
+    transform: translateX(2.25em) scale(1, 0.05);
+    width: calc(100% - 2.25em);
+  }
+}
+
+
+/* =====================================================================
+   LISTA "QUEM LEVA O QUÊ" (embaixo do site)
+   ===================================================================== */
+
+.quem-leva h2 {
+  margin-bottom: 24px;
+}
+
+.lista-vazia {
+  color: var(--texto-suave);
+  font-weight: 400;
+}
+
+.lista-final {
+  max-width: 640px;
+  margin: 0 auto;
+  padding: 8px 24px;
+  border: 1px solid var(--cartao-borda);
+  border-radius: 20px;
+  background: var(--cartao);
+  box-shadow: var(--cartao-sombra);
+  -webkit-backdrop-filter: blur(8px);
+  backdrop-filter: blur(8px);
+  list-style: none;
+  text-align: left;
+}
+
+.lista-final:empty {
+  display: none;
+}
+
+/* sem itens: some a caixa (fica só a frase "Ninguém marcou...") */
+
+.lista-final li {
+  display: flex;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: 4px 12px;
+  padding: 14px 0;
+  border-top: 1px solid var(--cartao-borda);
+}
+
+.lista-final li:first-child {
+  border-top: 0;
+}
+
+.lista-final .lf-item {
+  font-weight: 700;
+}
+
+.lista-final .lf-categoria {
+  font-size: 13px;
+  font-weight: 400;
+  color: var(--texto-suave);
+}
+
+.lista-final .lf-nome {
+  margin-left: auto;
+  /* o nome vai para a direita */
+  padding: 3px 12px;
+  border-radius: 999px;
+  background: var(--etiqueta);
+  color: var(--destaque);
+  font-size: 14px;
+  font-weight: 600;
+}
+
+
+/* =====================================================================
+   JANELINHA DO NOME (<dialog>)
+   ===================================================================== */
+
+.janela {
+  width: min(400px, calc(100% - 32px));
+  padding: 28px;
+  border: 1px solid var(--cartao-borda);
+  border-radius: 20px;
+  background: var(--verso);
+  color: var(--texto);
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4);
+  font-family: 'Montserrat', sans-serif;
+}
+
+.janela::backdrop {
+  /* o fundo escurecido atrás da janelinha */
+  background: rgba(10, 8, 20, 0.6);
+  -webkit-backdrop-filter: blur(3px);
+  backdrop-filter: blur(3px);
+}
+
+.janela h3 {
+  margin: 0 0 20px;
+  font-size: 20px;
+  color: var(--destaque);
+}
+
+.janela label {
+  display: block;
+  margin-bottom: 6px;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--texto-suave);
+}
+
+.janela input {
+  box-sizing: border-box;
+  width: 100%;
+  padding: 12px 14px;
+  border: 1px solid var(--check-borda);
+  border-radius: 12px;
+  background: var(--check-fundo);
+  color: var(--texto);
+  font: 400 16px 'Montserrat', sans-serif;
+  /* 16px: o iPhone não dá zoom sozinho ao digitar */
+}
+
+.janela input:focus-visible {
+  outline: 3px solid var(--foco);
+  outline-offset: 2px;
+}
+
+.janela-botoes {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-top: 24px;
+}
+
+.janela-botoes button {
+  padding: 10px 18px;
+  border-radius: 999px;
+  font: 600 15px 'Montserrat', sans-serif;
+  cursor: pointer;
+}
+
+.botao-secundario {
+  order: -1;
+  /* aparece à esquerda, mesmo vindo depois no HTML */
+  border: 1px solid var(--cartao-borda);
+  background: transparent;
+  color: var(--texto-suave);
+}
+
+.botao-principal {
+  border: 0;
+  background: var(--destaque);
+  color: #1a1020;
+}
+
+html[data-tema="claro"] .botao-principal {
+  color: #fff;
+}
+
+.janela-botoes button:focus-visible {
+  outline: 3px solid var(--foco);
+  outline-offset: 3px;
 }
