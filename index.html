@@ -13,20 +13,34 @@
 <body>
     <header>
         <!-- O botão do modo escuro/claro: o sol e a lua. O desenho é todo feito em CSS. -->
-        <button id="botao-tema" class="botao-tema" type="button" aria-label="Modo escuro" aria-pressed="false" title="Modo escuro">
-            <span class="ceu" aria-hidden="true"></span>     <!-- nuvenzinhas de dia, estrelinhas de noite -->
-            <span class="astro" aria-hidden="true"></span>   <!-- o sol (dia) que vira a lua (noite) -->
+        <button id="botao-tema" class="botao-tema" type="button" aria-label="Modo escuro" aria-pressed="false"
+            title="Modo escuro">
+            <span class="ceu" aria-hidden="true"></span> <!-- nuvenzinhas de dia, estrelinhas de noite -->
+            <span class="astro" aria-hidden="true"></span> <!-- o sol (dia) que vira a lua (noite) -->
         </button>
 
         <!-- o data-text precisa ter o MESMO texto do título: é ele que desenha a sombra e o 3D -->
         <h1 data-text="Confraternizando">Confraternizando</h1>
     </header>
 
-
     <main>
-        <section>
-            <h2>aqui vai a galeria: o que cada pessoa pode levar para a festa</h2>
+        <!-- CONTAGEM REGRESSIVA: a data da festa fica no js/main.js (DATA_DA_FESTA) -->
+        <section class="contagem" aria-labelledby="titulo-contagem">
+
+            <h2 id="titulo-contagem">Falta pouco!</h2>
+            <p class="contagem-data" id="data-festa"></p>
+
+            <!-- role="timer": leitores de tela não ficam lendo o número a cada segundo -->
+            <div class="contagem-numeros" id="contagem" role="timer">
+                <div class="bloco"><span class="numero" id="dias">--</span><span class="rotulo">dias</span></div>
+                <div class="bloco"><span class="numero" id="horas">--</span><span class="rotulo">horas</span></div>
+                <div class="bloco"><span class="numero" id="minutos">--</span><span class="rotulo">minutos</span></div>
+                <div class="bloco"><span class="numero" id="segundos">--</span><span class="rotulo">segundos</span>
+                </div>
+            </div>
+
         </section>
+        
     </main>
 
     <footer>

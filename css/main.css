@@ -323,3 +323,78 @@ html[data-tema="claro"] .ceu::after {
     transition: none !important;
   }
 }
+
+
+/* =====================================================================
+   CONTAGEM REGRESSIVA: números grandes até a festa
+   ===================================================================== */
+
+.contagem {
+  max-width: 1100px;
+  margin: 0 auto 96px;
+  padding: 0 16px;
+  text-align: center;
+}
+
+.contagem h2 {
+  margin: 0;
+  font-size: clamp(28px, 5vw, 44px);
+  color: var(--destaque);
+}
+
+.contagem-data {
+  margin: 8px 0 32px;
+  font-size: clamp(16px, 2.4vw, 22px);
+  font-weight: 600;
+  color: var(--texto-suave);
+}
+
+.contagem-data::first-letter { text-transform: uppercase; }   /* "sábado" vira "Sábado" */
+
+.contagem-numeros {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);      /* sempre 4 blocos lado a lado, até no celular */
+  gap: clamp(8px, 2vw, 24px);
+}
+
+.bloco {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: clamp(14px, 3vw, 32px) 4px;
+  border: 1px solid var(--cartao-borda);
+  border-radius: clamp(14px, 2.5vw, 28px);
+  background: var(--cartao);
+  box-shadow: var(--cartao-sombra);
+  -webkit-backdrop-filter: blur(8px);
+  backdrop-filter: blur(8px);
+}
+
+.numero {
+  font-size: clamp(40px, 11vw, 130px);        /* BEM grande: até 130px no computador */
+  font-weight: 700;
+  line-height: 1;
+  font-variant-numeric: tabular-nums;         /* todos os números com a mesma largura: nada "pula" a cada segundo */
+  color: transparent;
+  background: var(--degrade);                 /* o mesmo degradê do título */
+  -webkit-background-clip: text;
+  background-clip: text;
+}
+
+.rotulo {
+  margin-top: 8px;
+  font-size: clamp(11px, 1.6vw, 16px);
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--texto-suave);
+}
+
+/* Quando chega a hora: a mensagem ocupa o lugar dos 4 blocos */
+.contagem-fim {
+  grid-column: 1 / -1;
+  margin: 0;
+  font-size: clamp(32px, 8vw, 96px);
+  font-weight: 700;
+  color: var(--destaque);
+}
