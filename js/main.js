@@ -31,7 +31,7 @@ document.addEventListener("DOMContentLoaded", () => {
 // O "-03:00" é o fuso de Brasília: assim a contagem fica certa
 // mesmo para quem abrir o site com o relógio em outro fuso.
 // =====================================================================
-const DATA_DA_FESTA = new Date("2026-12-25T19:00:00-03:00");
+const DATA_DA_FESTA = new Date("2026-12-21T19:00:00-03:00");
 
 document.addEventListener("DOMContentLoaded", () => {
   const caixa = document.querySelector("#contagem");
