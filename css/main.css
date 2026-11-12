@@ -1,1134 +1,564 @@
 /* =====================================================================
-   CORES DOS DOIS TEMAS
-   Tudo o que muda entre o modo escuro e o claro está aqui.
-   O resto do arquivo só usa var(--nome).
+   CORES DOS DOIS TEMAS — para mudar uma cor, mude só aqui
    ===================================================================== */
 
-:root {
-  /* TEMA ESCURO (o padrão) */
+:root {                                        /* TEMA ESCURO (o padrão) */
   color-scheme: dark;
-
   --fundo:
-    radial-gradient(ellipse 60% 45% at 50% 40%, rgba(240, 190, 100, 0.20), transparent 70%),
-    /* luz dourada atrás do título */
+    radial-gradient(ellipse 60% 45% at 50% 40%, rgba(240, 190, 100, 0.2), transparent 70%),
     radial-gradient(circle at 6% 92%, rgba(214, 100, 130, 0.38), transparent 45%),
-    /* luz rosé */
-    radial-gradient(circle at 94% 8%, rgba(80, 110, 220, 0.30), transparent 42%),
-    /* luz safira */
+    radial-gradient(circle at 94% 8%, rgba(80, 110, 220, 0.3), transparent 42%),
     radial-gradient(ellipse at 50% 40%, #2a2142, #151a30 55%, #090c18);
-  /* base ameixa → azul-meia-noite */
   --bolhas: rgba(245, 220, 165, 0.6);
   --faisca: rgba(255, 240, 200, 0.95);
 
-  --degrade: linear-gradient(90deg, #ff8aa5, #ff9f70 35%, #ffc44d 70%, #ffe08f);
-  /* título: rosé → coral → ouro */
-  --lateral: #9c4a3a;
-  /* 3D: cor da lateral (escurece sozinha até o fundo) */
+  --degrade: linear-gradient(90deg, #ff8aa5, #ff9f70 35%, #ffc44d 70%, #ffe08f);   /* título e números */
+  --lateral: #9c4a3a;                          /* lateral 3D do título */
   --sombra-chao: rgba(0, 0, 0, 0.85);
-  --sombra-perto: rgba(0, 0, 0, 0.55);
-  --foco: #ffc44d;
 
-  --trilho: linear-gradient(135deg, #0b1020, #1b2540 60%, #2a2f45);
-  --trilho-borda: rgba(212, 180, 120, 0.65);
-  --trilho-sombra: 0 2px 0 #05070d, 0 6px 14px rgba(0, 0, 0, 0.35), inset 0 2px 6px rgba(0, 0, 0, 0.45);
-  --astro:
-    /* a lua: 3 crateras + prata quente */
+  --texto: #f5ecdc;
+  --texto-suave: #c9bca6;
+  --destaque: #ffc44d;
+  --texto-no-destaque: #1a1020;               /* texto em cima do --destaque */
+  --cartao: rgba(255, 255, 255, 0.06);
+  --borda: rgba(212, 180, 120, 0.3);
+  --verso: rgba(27, 24, 48, 0.96);             /* verso dos cartões e janelas */
+  --campo: #241f38;                            /* fundo das caixas de texto */
+
+  --trilho: linear-gradient(135deg, #0b1020, #1b2540 60%, #2a2f45);   /* botão do tema e de editar */
+  --astro:                                     /* a lua: 3 crateras + prata */
     radial-gradient(circle at 66% 30%, #d9d3c5 3.5px, transparent 4px),
     radial-gradient(circle at 34% 62%, #ddd7ca 2.5px, transparent 3px),
     radial-gradient(circle at 62% 76%, #d9d3c5 2px, transparent 2.5px),
     radial-gradient(circle at 35% 30%, #fff, #f2efe7 55%, #d4cdbd);
-  --astro-sombra: inset -4px -3px 0 rgba(90, 80, 60, 0.2), 0 0 10px 2px rgba(244, 230, 195, 0.4);
-  --verso: rgba(27, 24, 48, 0.94);
-  /* verso dos cartões (quase sólido: o giro 3D não aceita desfoque) */
-  --check-fundo: #241f38;
-  /* caixinhas da lista */
-  --check-borda: #6b5d80;
-  --texto: #f5ecdc;
-  /* seção "O que levar" */
-  --texto-suave: #c9bca6;
-  --destaque: #ffc44d;
-  --cartao: rgba(255, 255, 255, 0.06);
-  --cartao-borda: rgba(212, 180, 120, 0.3);
-  --cartao-sombra: 0 10px 30px rgba(0, 0, 0, 0.35);
-  --etiqueta: rgba(255, 196, 77, 0.14);
 }
 
-html[data-tema="claro"] {
-  /* TEMA CLARO */
+html[data-tema="claro"] {                      /* TEMA CLARO */
   color-scheme: light;
-
   --fundo:
     radial-gradient(circle at 6% 92%, rgba(235, 150, 160, 0.32), transparent 45%),
-    /* luz rosé */
     radial-gradient(circle at 94% 8%, rgba(240, 195, 110, 0.32), transparent 42%),
-    /* luz dourada */
     radial-gradient(ellipse at 50% 38%, #fffdf9, #f6eee2 60%, #efe3d2);
-  /* marfim */
   --bolhas: rgba(185, 140, 65, 0.5);
   --faisca: rgba(205, 155, 60, 0.9);
 
   --degrade: linear-gradient(90deg, #7a1838, #b3264f 35%, #cc5a2e 70%, #a87508);
-  /* vinho → framboesa → terracota → ouro */
   --lateral: #4f1422;
-  --sombra-chao: rgba(0, 0, 0, 0.85);
-  /* shadow on the floor */
-  --sombra-perto: rgba(0, 0, 0, 0.55);
-  /* short shadow right behind the letters */
-  --foco: #b3264f;
 
-  --trilho: linear-gradient(135deg, #c9d6e2, #e4dccb 60%, #eadfc8);
-  --trilho-borda: rgba(154, 116, 50, 0.55);
-  --trilho-sombra: 0 2px 0 #b9a47c, 0 6px 14px rgba(90, 60, 30, 0.18), inset 0 2px 6px rgba(255, 255, 255, 0.6);
-  --astro: radial-gradient(circle at 35% 30%, #fff4d6, #e9c068 55%, #c9952f);
-  /* o sol */
-  --astro-sombra: 0 0 0 2px rgba(214, 170, 80, 0.3), 0 0 12px 3px rgba(201, 149, 47, 0.4);
-  --verso: rgba(255, 253, 249, 0.96);
-  --check-fundo: #fffdf9;
-  --check-borda: #cdb994;
   --texto: #3a2318;
   --texto-suave: #6b5442;
   --destaque: #b3264f;
+  --texto-no-destaque: #fff;
   --cartao: rgba(255, 255, 255, 0.6);
-  --cartao-borda: rgba(154, 116, 50, 0.3);
-  --cartao-sombra: 0 10px 30px rgba(90, 60, 30, 0.12);
-  --etiqueta: rgba(179, 38, 79, 0.1);
+  --borda: rgba(154, 116, 50, 0.3);
+  --verso: rgba(255, 253, 249, 0.97);
+  --campo: #fffdf9;
+
+  --trilho: linear-gradient(135deg, #c9d6e2, #e4dccb 60%, #eadfc8);
+  --astro: radial-gradient(circle at 35% 30%, #fff4d6, #e9c068 55%, #c9952f);   /* o sol */
 }
 
 
 /* =====================================================================
-   PÁGINA E FUNDO ANIMADO
+   PÁGINA E FUNDO ANIMADO (bolhas subindo + faíscas piscando)
    ===================================================================== */
+
 body {
   margin: 0;
-  min-height: 100vh;                          /* pelo menos a tela toda; cresce se o conteúdo for maior */
-  background: var(--fundo);
-  background-attachment: fixed;               /* o fundo fica parado ao rolar (sem isso as luzes esticam pela página toda) */
+  background: var(--fundo) fixed;
   color: var(--texto);
   font-family: 'Montserrat', sans-serif;
+  text-align: center;
   overflow-x: hidden;
 }
 
-header {
-  display: grid;
-  place-items: center;                        /* título centralizado */
-  padding: 110px 16px 72px;                   /* espaço em cima para o botão do tema */
-  overflow-x: clip;                           /* a sombra inclinada do título não pode sair da tela */
-}
-
-.topo-legenda {                               /* a linha pequena embaixo do nome */
-  margin: 28px 0 0;
-  font-size: clamp(11px, 1.6vw, 14px);
-  font-weight: 600;
-  letter-spacing: 0.24em;
-  text-transform: uppercase;
-  color: var(--texto-suave);
-}
-
-/* Duas camadas presas à tela, atrás de tudo: bolhas (::before) e faíscas (::after) */
 body::before,
-body::after {
+body::after {                                  /* duas camadas presas à tela, atrás de tudo */
   content: "";
   position: fixed;
   inset: 0;
   z-index: -3;
 }
 
-/* BOLHAS DE CHAMPANHE: cada camada é um "azulejo" que se repete.
-   A animação sobe cada uma exatamente a altura do seu azulejo, então emenda sem pulo;
-   como as alturas são diferentes, cada bolha sobe numa velocidade. */
-body::before {
+body::before {                                 /* bolhas: cada "azulejo" sobe a própria altura e repete */
   background:
     radial-gradient(circle, transparent 4.5px, var(--bolhas) 5.2px, transparent 6.2px) 0 0 / 230px 310px,
     radial-gradient(circle, transparent 2.6px, var(--bolhas) 3.2px, transparent 4px) 90px 120px / 170px 230px,
-    radial-gradient(circle, transparent 3.4px, var(--bolhas) 4px, transparent 4.8px) 150px 60px / 290px 370px,
     radial-gradient(circle, var(--bolhas) 1.4px, transparent 2.2px) 40px 170px / 130px 190px;
   animation: subir 14s linear infinite;
 }
 
 @keyframes subir {
-  to {
-    background-position: 0 -310px, 90px -110px, 150px -310px, 40px -20px;
-  }
+  to { background-position: 0 -310px, 90px -110px, 40px -20px; }
 }
 
-/* FAÍSCAS: azulejos de tamanhos "quebrados" para não formarem fileiras certinhas */
-body::after {
+body::after {                                  /* faíscas */
   background:
     radial-gradient(circle, var(--faisca) 1.2px, transparent 5px) 40px 60px / 233px 241px,
     radial-gradient(circle, var(--faisca) 1.8px, transparent 6px) 160px 20px / 317px 289px,
-    radial-gradient(circle, var(--faisca) 1px, transparent 4px) 90px 180px / 173px 211px,
-    radial-gradient(circle, var(--faisca) 1.5px, transparent 5px) 270px 130px / 389px 353px;
+    radial-gradient(circle, var(--faisca) 1px, transparent 4px) 90px 180px / 173px 211px;
   animation: piscar 2.6s ease-in-out infinite alternate;
 }
 
 @keyframes piscar {
+  from { opacity: 0.15; }
+}
 
-  /* usado pelas faíscas e pelas estrelas do botão */
-  from {
-    opacity: 0.15;
-  }
+main, footer {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 0 16px;
+}
+
+h2 {
+  margin: 0;
+  font-size: clamp(28px, 5vw, 44px);
+  color: var(--destaque);
+}
+
+section { margin-bottom: 90px; }
+
+.subtitulo, .data-festa, .legenda, .lista-vazia, .progresso-texto {
+  color: var(--texto-suave);
 }
 
 
 /* =====================================================================
-   TÍTULO: degradê colorido + faixa de brilho + lateral 3D + sombra no chão
+   TÍTULO: degradê + faixa de brilho + lateral 3D + sombra no chão
    ===================================================================== */
+
+header {
+  padding: 110px 16px 72px;
+  overflow-x: clip;                            /* a sombra inclinada não alarga a página */
+}
 
 h1 {
   position: relative;
+  display: inline-block;
   margin: 0;
-  font: 700 min(100px, 8.2vw)/1 'Montserrat', sans-serif;
-  /* encolhe em telas estreitas para caber */
+  font-size: min(100px, 8.2vw);
+  line-height: 1;
   text-transform: uppercase;
-  color: transparent;
-  /* deixa aparecer o fundo recortado nas letras */
+  color: transparent;                          /* mostra o fundo recortado nas letras */
   background:
     linear-gradient(105deg, transparent 34%, #fff8 42%, #fff 47% 53%, #fff8 58%, transparent 66%) 150% 0 / 200% 100% no-repeat,
-    /* a faixa de BRILHO */
     var(--degrade);
   -webkit-background-clip: text;
   background-clip: text;
   animation: brilho 3s ease-in-out infinite;
 }
 
-@keyframes brilho {
-
-  /* atravessa em ~2s e descansa 1s */
-  0% {
-    background-position: 150% 0, 0 0;
-  }
-
-  65%,
-  100% {
-    background-position: -50% 0, 0 0;
-  }
+@keyframes brilho {                            /* a faixa branca atravessa o nome */
+  0%        { background-position: 150% 0, 0 0; }
+  65%, 100% { background-position: -50% 0, 0 0; }
 }
 
 h1::before,
-h1::after {
+h1::after {                                    /* duas cópias do texto (vêm do data-text) */
   content: attr(data-text);
-  /* cópias do texto (o data-text do HTML) */
   position: absolute;
   inset: 0;
 }
 
-h1::before {
-  /* sombra "deitada" no chão, na frente das letras */
+h1::before {                                   /* sombra deitada no chão */
   z-index: -2;
   color: var(--sombra-chao);
   transform-origin: 50% 0.96em;
-  /* o pé das letras */
   transform: skewX(40deg) scaleY(-0.45);
   filter: blur(6px);
-  mask-image: linear-gradient(transparent 2%, rgb(0, 0, 0) 95%);
-  /* some longe das letras */
+  mask-image: linear-gradient(transparent 2%, black 95%);
 }
 
-h1::after {
-  /* lateral 3D: 10 cópias, cada uma mais escura */
+h1::after {                                    /* lateral 3D: cópias cada vez mais escuras */
   z-index: -1;
   color: var(--lateral);
   text-shadow:
-    0.01em 0.01em 0 var(--lateral),
-    0.02em 0.02em 0 color-mix(in srgb, var(--lateral), black 8%),
-    0.03em 0.03em 0 color-mix(in srgb, var(--lateral), black 16%),
-    0.04em 0.04em 0 color-mix(in srgb, var(--lateral), black 24%),
-    0.05em 0.05em 0 color-mix(in srgb, var(--lateral), black 32%),
+    0.02em 0.02em 0 var(--lateral),
+    0.04em 0.04em 0 color-mix(in srgb, var(--lateral), black 20%),
     0.06em 0.06em 0 color-mix(in srgb, var(--lateral), black 40%),
-    0.07em 0.07em 0 color-mix(in srgb, var(--lateral), black 48%),
-    0.08em 0.08em 0 color-mix(in srgb, var(--lateral), black 56%),
-    0.09em 0.09em 0 color-mix(in srgb, var(--lateral), black 64%),
-    0.10em 0.10em 0 color-mix(in srgb, var(--lateral), black 72%),
-    0.11em 0.13em 0.05em var(--sombra-perto);
-  /* sombra curta logo depois da lateral */
+    0.08em 0.08em 0 color-mix(in srgb, var(--lateral), black 55%),
+    0.10em 0.10em 0 color-mix(in srgb, var(--lateral), black 70%),
+    0.11em 0.13em 0.05em rgba(0, 0, 0, 0.5);
+}
+
+.legenda {
+  margin: 28px 0 0;
+  font-size: clamp(11px, 1.6vw, 14px);
+  font-weight: 600;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
 }
 
 
 /* =====================================================================
-   BOTÃO DO TEMA: um trilho com um astro (lua à direita / sol à esquerda)
+   BOTÃO DO TEMA: trilho com a lua (direita) ou o sol (esquerda)
    ===================================================================== */
 
 .botao-tema {
-  --largura: 84px;
-  --altura: 44px;
-  /* 44px: confortável para tocar no celular */
-  --tamanho: 33px;
-  /* diâmetro do astro */
-  --folga: calc((var(--altura) - 2px - var(--tamanho)) / 2);
-  /* espaço igual em volta do astro (2px = bordas) */
-
   position: fixed;
   top: 16px;
   right: 16px;
   z-index: 10;
-  box-sizing: border-box;
-  width: var(--largura);
-  height: var(--altura);
+  width: 84px;
+  height: 44px;
   padding: 0;
-  border: 1px solid var(--trilho-borda);
+  border: 1px solid var(--borda);
   border-radius: 999px;
   background: var(--trilho);
-  box-shadow: var(--trilho-sombra);
   cursor: pointer;
-  transition: transform 0.15s;
-  -webkit-tap-highlight-color: transparent;
 }
 
-.botao-tema:active {
-  transform: translateY(3px);
+.astro {                                       /* a bolinha: lua no escuro, sol no claro */
+  position: absolute;
+  top: 4.5px;
+  left: 4.5px;
+  width: 33px;
+  height: 33px;
+  border-radius: 50%;
+  background: var(--astro);
+  box-shadow: 0 0 10px 2px rgba(244, 230, 195, 0.4);
+  transform: translateX(40px);                 /* escuro: lua na direita */
+  transition: transform 0.6s;
 }
 
-.botao-tema:focus-visible {
-  outline: 3px solid var(--foco);
-  outline-offset: 4px;
-}
+html[data-tema="claro"] .astro { transform: none; }   /* claro: sol na esquerda */
 
-/* O céu: estrelas (::before, noite) e nuvem (::after, dia), que trocam com fade */
-.ceu {
+.ceu {                                         /* estrelinhas (escuro) ou nuvem (claro) */
   position: absolute;
   inset: 0;
   border-radius: inherit;
-  overflow: hidden;
-}
-
-.ceu::before,
-.ceu::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  transition: opacity 0.4s, transform 0.5s;
-}
-
-.ceu::before {
   background:
     radial-gradient(circle at 18% 30%, #fff 1.4px, transparent 2px),
     radial-gradient(circle at 34% 68%, #fff 1px, transparent 1.6px),
     radial-gradient(circle at 46% 26%, #e8d3a2 1.2px, transparent 1.8px),
-    radial-gradient(circle at 12% 72%, #e8d3a2 1px, transparent 1.6px),
-    radial-gradient(circle at 28% 48%, #fff9 0.9px, transparent 1.5px),
-    radial-gradient(circle at 50% 80%, #e8d3a2 0.9px, transparent 1.5px);
-  animation: piscar 2.4s ease-in-out infinite alternate;
+    radial-gradient(circle at 12% 72%, #e8d3a2 1px, transparent 1.6px);
 }
 
-.ceu::after {
-  /* nuvem: 3 bolinhas */
-  opacity: 0;
-  transform: translateY(6px);
+html[data-tema="claro"] .ceu {
   background:
-    radial-gradient(circle at 70% 68%, #fbf8f2 6px, transparent 6.5px),
-    radial-gradient(circle at 79% 60%, #fbf8f2 7px, transparent 7.5px),
-    radial-gradient(circle at 88% 70%, #fbf8f2 5px, transparent 5.5px);
-}
-
-.astro {
-  position: absolute;
-  top: var(--folga);
-  left: var(--folga);
-  width: var(--tamanho);
-  height: var(--tamanho);
-  border-radius: 50%;
-  background: var(--astro);
-  box-shadow: var(--astro-sombra);
-  transform: translateX(calc(var(--largura) - var(--altura))) rotate(0deg);
-  /* lua: na ponta direita */
-  transition: transform 0.6s cubic-bezier(0.65, 0, 0.35, 1);
-  /* suave, sem passar do ponto */
-}
-
-/* No tema claro: sol na ponta esquerda (dando uma volta no caminho), nuvem no lugar das estrelas */
-html[data-tema="claro"] .astro {
-  transform: translateX(0) rotate(-360deg);
-}
-
-html[data-tema="claro"] .ceu::before {
-  opacity: 0;
-  transform: translateY(-6px);
-  animation: none;
-}
-
-html[data-tema="claro"] .ceu::after {
-  opacity: 1;
-  transform: none;
-}
-
-
-/* Quem pediu menos movimento no sistema: nada se mexe */
-@media (prefers-reduced-motion: reduce) {
-
-  *,
-  *::before,
-  *::after {
-    animation: none !important;
-    transition: none !important;
-  }
+    radial-gradient(circle at 70% 68%, #fff 6px, transparent 6.5px),
+    radial-gradient(circle at 79% 60%, #fff 7px, transparent 7.5px),
+    radial-gradient(circle at 88% 70%, #fff 5px, transparent 5.5px);
 }
 
 
 /* =====================================================================
-   CONTAGEM REGRESSIVA: números grandes até a festa
+   CONTAGEM REGRESSIVA
    ===================================================================== */
 
-.contagem {
-  max-width: 1100px;
-  margin: 0 auto 96px;
-  padding: 0 16px;
-  text-align: center;
-}
-
-.contagem h2 {
-  margin: 0;
-  font-size: clamp(28px, 5vw, 44px);
-  color: var(--destaque);
-}
-
-.contagem-data {
+.data-festa {
   margin: 8px 0 32px;
   font-size: clamp(16px, 2.4vw, 22px);
   font-weight: 600;
-  color: var(--texto-suave);
 }
 
-.contagem-data::first-letter {
-  text-transform: uppercase;
-}
+.data-festa::first-letter { text-transform: uppercase; }   /* "sábado" vira "Sábado" */
 
-/* "sábado" vira "Sábado" */
-
-.contagem-numeros {
+.numeros {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  /* sempre 4 blocos lado a lado, até no celular */
   gap: clamp(8px, 2vw, 24px);
 }
 
-.bloco {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+.numeros div {                                 /* cada bloco: número grande + palavra */
   padding: clamp(14px, 3vw, 32px) 4px;
-  border: 1px solid var(--cartao-borda);
+  border: 1px solid var(--borda);
   border-radius: clamp(14px, 2.5vw, 28px);
   background: var(--cartao);
-  box-shadow: var(--cartao-sombra);
-  -webkit-backdrop-filter: blur(8px);
   backdrop-filter: blur(8px);
+  font-size: clamp(10px, 1.6vw, 16px);
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--texto-suave);
 }
 
-.numero {
+.numeros strong {
+  display: block;
+  margin-bottom: 8px;
   font-size: clamp(40px, 11vw, 130px);
-  /* BEM grande: até 130px no computador */
-  font-weight: 700;
   line-height: 1;
-  font-variant-numeric: tabular-nums;
-  /* todos os números com a mesma largura: nada "pula" a cada segundo */
+  letter-spacing: 0;
+  font-variant-numeric: tabular-nums;          /* números da mesma largura: nada "pula" */
   color: transparent;
   background: var(--degrade);
-  /* o mesmo degradê do título */
   -webkit-background-clip: text;
   background-clip: text;
 }
 
-.rotulo {
-  margin-top: 8px;
-  font-size: clamp(11px, 1.6vw, 16px);
-  font-weight: 600;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  color: var(--texto-suave);
-}
-
-/* Quando chega a hora: a mensagem ocupa o lugar dos 4 blocos */
-.contagem-fim {
+.festa-comecou {
   grid-column: 1 / -1;
-  margin: 0;
   font-size: clamp(32px, 8vw, 96px);
   font-weight: 700;
   color: var(--destaque);
 }
 
-@media (max-width: 359px) {
-  .rotulo {
-    font-size: 9px;
-    letter-spacing: 0.02em;
-  }
-
-  /* celular bem pequeno: "SEGUNDOS" precisa caber */
-}
-
 
 /* =====================================================================
-   SEÇÃO "O QUE LEVAR": cartões que viram (frente = foto, verso = lista)
+   O QUE LEVAR: botão de editar + cartões que viram
    ===================================================================== */
 
-.levar,
-.quem-leva {
-  max-width: 1100px;
-  margin: 0 auto;
-  /* centraliza a seção */
-  padding: 0 16px 80px;
-  text-align: center;
+.subtitulo { margin: 12px auto 40px; }
+
+.area-cartoes {
+  display: grid;
+  grid-template-columns: auto 1fr;             /* o botão à esquerda, os cartões à direita */
+  gap: 16px;
 }
 
-.levar h2,
-.quem-leva h2 {
-  margin: 0;
-  font-size: clamp(28px, 5vw, 44px);
-  color: var(--destaque);
+.botao-editar {                                /* aba em pé, com a mesma altura dos cartões */
+  writing-mode: vertical-rl;
+  width: 52px;
+  border: 1px solid var(--borda);
+  border-radius: 20px;
+  background: var(--trilho);
+  color: var(--texto);
+  font: 600 14px 'Montserrat', sans-serif;
+  letter-spacing: 0.08em;
+  cursor: pointer;
 }
 
-.subtitulo {
-  max-width: 34em;
-  margin: 12px auto 40px;
-  font-weight: 400;
-  line-height: 1.5;
-  color: var(--texto-suave);
-}
-
-/* TODOS os cartões aparecem juntos, sem precisar rolar para o lado:
-   - computador e tablet: todos numa fileira só (cada cartão encolhe para caber);
-   - celular (menos de 760px): 2 por linha, para o texto continuar legível;
-   - celular bem pequeno (menos de 360px): 1 por linha. */
 .cartoes {
   display: grid;
-  grid-auto-flow: column;
-  /* cada cartão novo vira uma nova coluna */
-  grid-auto-columns: 1fr;
-  /* todas as colunas do mesmo tamanho, dividindo a largura */
-  gap: clamp(10px, 1.8vw, 20px);
+  grid-template-columns: repeat(4, 1fr);      /* 4 cartões lado a lado */
+  gap: 16px;
   text-align: left;
 }
 
-@media (max-width: 760px) {
-  .cartoes {
-    grid-auto-flow: row;
-    grid-template-columns: repeat(2, 1fr);
-    /* celular: 2 por linha */
-  }
-}
-
-@media (max-width: 359px) {
-  .cartoes {
-    grid-template-columns: 1fr;
-  }
-
-  /* celular bem pequeno: 1 por linha */
-}
-
-
-/* ---------- O giro ---------- */
-.cartao-virar {
-  perspective: 1200px;
-  /* dá profundidade ao giro (quanto menor, mais "3D") */
-  --cor: linear-gradient(150deg, #f6a96b, #e8615a);   /* cor da frente: cada cartão tem a sua (abaixo) */
-}
-
-/* Uma cor para cada cartão, na ordem do HTML: comidas, bebidas, doces, descartáveis.
-   Se adicionar um 5º cartão, crie mais uma linha com :nth-child(5). */
-.cartao-virar:nth-child(2) { --cor: linear-gradient(150deg, #6cc7e8, #3b6fd8); }
-.cartao-virar:nth-child(3) { --cor: linear-gradient(150deg, #f59ab8, #c2456b); }
-.cartao-virar:nth-child(4) { --cor: linear-gradient(150deg, #b9a2e6, #6d58c9); }
-
-.cartao-interno {
+.cartao {                                      /* frente e verso no mesmo lugar; o cartão gira */
   display: grid;
-  /* frente e verso no MESMO lugar, um em cima do outro */
-  height: 100%;
+  transform: perspective(1200px) rotateY(0);
   transform-style: preserve-3d;
-  transition: transform 0.7s cubic-bezier(0.4, 0.2, 0.2, 1);
+  transition: transform 0.7s;
 }
 
-.cartao-virar.virado .cartao-interno {
-  transform: rotateY(180deg);
-  /* a classe "virado" é colocada pelo JavaScript */
-}
+.cartao.virado { transform: perspective(1200px) rotateY(180deg); }
 
 .frente,
 .verso {
   grid-area: 1 / 1;
-  /* os dois na mesma célula: o cartão fica com a altura do maior */
-  min-height: 320px;
-  border: 1px solid var(--cartao-borda);
+  min-height: 300px;
+  border: 1px solid var(--borda);
   border-radius: 20px;
-  box-shadow: var(--cartao-sombra);
-  -webkit-backface-visibility: hidden;
-  /* esconde o lado que está de costas */
-  backface-visibility: hidden;
+  backface-visibility: hidden;                 /* esconde o lado que está de costas */
 }
 
-/* ---------- Frente: foto + nome ---------- */
-.frente {
+.frente {                                      /* a foto (se tiver) por cima da cor do cartão */
   position: relative;
-  overflow: hidden;
-  display: grid;
-  place-items: center;
-  padding: 0;
-  background: var(--cor);
-  /* aparece enquanto não tiver foto */
-  font: inherit;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  background: var(--foto) center / cover, linear-gradient(150deg, color-mix(in srgb, var(--cor), white 30%), var(--cor));
   color: #fff;
+  font-family: inherit;
   cursor: pointer;
-  min-height: clamp(240px, 28vw, 320px);
-  /* cartão um pouco mais baixo em telas menores */
 }
 
-.frente-foto {
-  /* a foto cobre o cartão todo; se o arquivo não existir, fica transparente */
-  position: absolute;
-  inset: 0;
-  background-size: cover;
-  background-position: center;
-  transition: transform 0.5s;
-}
+.emoji { font-size: clamp(48px, 7vw, 80px); margin-bottom: 16px; }
+.nome  { font-size: clamp(16px, 2vw, 24px); font-weight: 700; }
+.dica  { font-size: 12px; opacity: 0.85; }
 
-.frente::after {
-  /* escurece a parte de baixo para o nome ficar legível */
-  content: "";
+.selo {                                        /* "1/3" no canto do cartão */
   position: absolute;
-  inset: 0;
-  background: linear-gradient(transparent 55%, rgba(0, 0, 0, 0.35));   /* leve: não deixa a cor "suja" */
-}
-
-/* Selo no canto do cartão: quantos itens já têm dono ("1/3"). O JS escreve o texto. */
-.frente-progresso {
-  position: absolute;
-  z-index: 1;
   top: 14px;
   right: 14px;
   padding: 5px 10px;
   border-radius: 999px;
   background: rgba(0, 0, 0, 0.25);
-  backdrop-filter: blur(6px);
   font-size: 12px;
   font-weight: 600;
-  letter-spacing: 0.04em;
 }
 
-.frente-progresso.completo { background: rgba(255, 255, 255, 0.9); color: #1f6b3a; }   /* todos os itens com dono */
+.selo.completo { background: #fff; color: #1f6b3a; }
 
-/* Dica "toque para escolher": aparece embaixo do nome */
-.frente-nome::after {
-  content: "Toque para escolher";
-  display: block;
-  margin-top: 4px;
-  font-size: 12px;
-  font-weight: 500;
-  opacity: 0.85;
-}
-
-.frente { transition: transform 0.3s, box-shadow 0.3s; }
-.frente:hover { box-shadow: 0 16px 40px rgba(0, 0, 0, 0.35); }
-
-.frente:hover .frente-foto {
-  transform: scale(1.06);
-}
-
-/* zoom leve na foto */
-
-.frente-emoji {
-  /* apague este <span> no HTML quando colocar a foto */
-  position: relative;
-  filter: drop-shadow(0 6px 10px rgba(0, 0, 0, 0.25));
-  font-size: clamp(48px, 7vw, 88px);
-  /* encolhe junto com o cartão */
-}
-
-.frente-nome {
-  position: absolute;
-  z-index: 1;
-  /* fica na frente do escurecido */
-  font-weight: 700;
-  text-shadow: 0 2px 6px rgba(0, 0, 0, 0.4);
-  left: clamp(12px, 1.6vw, 20px);
-  right: 8px;
-  bottom: clamp(12px, 1.5vw, 18px);
-  font-size: clamp(16px, 2vw, 24px);
-  /* "Descartáveis" precisa caber até no celular */
-}
-
-.frente:focus-visible,
-.voltar:focus-visible {
-  outline: 3px solid var(--foco);
-  outline-offset: 4px;
-}
-
-/* ---------- Verso: a lista ---------- */
 .verso {
   display: flex;
   flex-direction: column;
+  padding: 20px;
   background: var(--verso);
-  transform: rotateY(180deg);
-  /* começa de costas */
-  min-height: clamp(240px, 28vw, 320px);
-  /* cartão um pouco mais baixo em telas menores */
-  padding: clamp(14px, 2vw, 24px);
+  transform: rotateY(180deg);                  /* começa de costas */
 }
 
-.verso h3 {
-  margin: 0 0 16px;
-  color: var(--destaque);
-  font-size: clamp(17px, 1.8vw, 20px);
+.verso h3 { margin: 0 0 12px; color: var(--destaque); }
+
+.itens {
+  flex: 1;
+  margin: 0;
+  padding: 0;
+  list-style: none;
 }
 
-.voltar {
-  align-self: flex-start;
-  margin-top: auto;
-  /* empurra o botão para o pé do cartão */
-  padding: 8px 14px;
-  border: 1px solid var(--cartao-borda);
-  border-radius: 999px;
-  background: transparent;
-  font: 600 14px 'Montserrat', sans-serif;
+.itens li { padding: 6px 0; }
+
+.itens label { cursor: pointer; }
+
+.itens input {
+  width: 20px;
+  height: 20px;
+  vertical-align: middle;
+  accent-color: var(--destaque);               /* a caixinha na cor do tema */
+}
+
+.itens input:checked + span {                  /* item marcado: riscado e apagadinho */
+  text-decoration: line-through;
   color: var(--texto-suave);
-  cursor: pointer;
 }
 
-.voltar:hover {
+.itens small {                                 /* o nome de quem leva, embaixo do item */
+  display: block;
+  margin-left: 28px;
+  font-weight: 600;
   color: var(--destaque);
-  border-color: var(--destaque);
+}
+
+.voltar { align-self: flex-start; }
+
+/* Tablet e celular: 2 cartões por linha e o botão de editar deitado em cima */
+@media (max-width: 760px) {
+  .area-cartoes { grid-template-columns: 1fr; }
+  .cartoes      { grid-template-columns: repeat(2, 1fr); }
+  .botao-editar { writing-mode: horizontal-tb; width: auto; height: 44px; justify-self: start; padding: 0 18px; border-radius: 999px; }
+  .frente, .verso { min-height: 240px; }
 }
 
 
 /* =====================================================================
-   CAIXINHAS QUE RISCAM O ITEM (adaptado do código que você mandou)
-   Mudanças: tudo fica dentro de .lista-itens (para não bagunçar o resto do site),
-   e as cores usam as variáveis dos temas do site.
+   QUEM LEVA O QUÊ: barra de progresso + lista
    ===================================================================== */
 
-.lista-itens {
-  --fg: var(--texto);
-  --fgDim: var(--texto-suave);
-  --checkBg: var(--check-fundo);
-  --checkBorder: var(--check-borda);
-  --primary: var(--destaque);
-  --dur: 0.6s;
+.progresso-texto { margin: 20px 0 10px; font-weight: 600; }
 
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  gap: 4px;
-  margin-bottom: 20px;
-  font-size: 1rem;
-  /* 1em = 1rem: as medidas da animação ficam alinhadas */
-  line-height: 1.5;
-}
-
-.lista-itens label,
-.lista-itens input[type=checkbox] {
-  cursor: pointer;
-}
-
-.lista-itens label {
-  display: inline-flex;
-  align-items: flex-start;
-  /* caixinha no topo: fica certa mesmo se o nome quebrar em 2 linhas */
-  position: relative;
-  padding: 4px 0;
-  font-weight: 400;
-  color: var(--fg);
-  -webkit-tap-highlight-color: transparent;
-}
-
-.lista-itens .quem {
-  /* o nome de quem vai levar, embaixo do item (o JS preenche) */
-  margin: -6px 0 4px 2.25rem;
-  font-size: 13px;
-  font-weight: 600;
-  color: var(--destaque);
-}
-
-.lista-itens .quem:empty {
-  display: none;
-}
-
-.lista-itens input[type=checkbox],
-.lista-itens input[type=checkbox]::before,
-.lista-itens input[type=checkbox]::after {
-  width: 1.5rem;
-  height: 1.5rem;
-}
-
-.lista-itens input[type=checkbox],
-.lista-itens input[type=checkbox]::before {
-  background: var(--checkBg);
-  border-radius: 0.2em;
-  box-shadow: 0 0 0 1px var(--checkBorder) inset;
-}
-
-.lista-itens input[type=checkbox]::before,
-.lista-itens input[type=checkbox]::after {
-  display: block;
-  position: absolute;
-  top: 4px;
-  /* 4px = o padding do label */
-  left: 0;
-}
-
-.lista-itens input[type=checkbox] {
-  flex-shrink: 0;
-  margin: 0 0.75em 0 0;
-  border: 0;
-  font: inherit;
-  -webkit-appearance: none;
-  appearance: none;
-}
-
-.lista-itens input[type=checkbox]+span {
-  animation: brighten var(--dur) linear;
-}
-
-.lista-itens input[type=checkbox]::before {
-  animation: unstrike var(--dur) linear;
-  content: "";
-  transform-origin: 0 50%;
-  z-index: 1;
-}
-
-.lista-itens input[type=checkbox]::after {
-  color: var(--primary);
-  content: "\2713";
-  font-size: 1.5em;
-  line-height: 1;
-  text-align: center;
-}
-
-.lista-itens input[type=checkbox]:focus {
-  outline: transparent;
-}
-
-.lista-itens input[type=checkbox]:focus-visible+span {
-  text-decoration: underline;
-}
-
-.lista-itens input[type=checkbox]:checked+span {
-  animation-name: dim;
-  color: var(--fgDim);
-}
-
-.lista-itens input[type=checkbox]:checked::before {
-  animation-name: strike;
-  background: var(--fgDim);
-  border-radius: 0;
-  box-shadow: 0 0 0 1px var(--fgDim) inset;
-  transform: translateX(2.25em) scale(1, 0.05);
-  width: calc(100% - 2.25em);
-}
-
-.lista-itens input[type=checkbox].pristine::before,
-.lista-itens input[type=checkbox].pristine+span {
-  animation: none;
-  /* "pristine" = ainda não mexido: não anima ao abrir a página */
-}
-
-@keyframes dim {
-
-  from,
-  83% {
-    color: var(--fg);
-  }
-
-  to {
-    color: var(--fgDim);
-  }
-}
-
-@keyframes brighten {
-  from {
-    color: var(--fgDim);
-  }
-
-  17%,
-  to {
-    color: var(--fg);
-  }
-}
-
-@keyframes unstrike {
-  from {
-    background: var(--fgDim);
-    border-radius: 0;
-    box-shadow: 0 0 0 1px var(--fgDim) inset;
-    transform: translateX(2.25em) scale(1, 0.05);
-    width: calc(100% - 2.25em);
-  }
-
-  14% {
-    background: var(--fg);
-    border-radius: 0;
-    box-shadow: 0 0 0 1px var(--fg) inset;
-    transform: translateX(2.25em) scale(1, 0.05);
-    width: calc(100% - 2.25em);
-  }
-
-  29% {
-    background: var(--fg);
-    border-radius: 0;
-    box-shadow: 0 0 0 1px var(--fg) inset;
-    transform: translateX(2.75em) scale(1, 0.05);
-    width: calc(100% - 2.25em);
-  }
-
-  43% {
-    background: var(--fg);
-    border-radius: 0;
-    box-shadow: 0 0 0 1px var(--fg) inset;
-    transform: translateX(-0.5em) scale(0.75, 0.05);
-    width: 1.5em;
-  }
-
-  57% {
-    background: var(--fg);
-    border-radius: 0;
-    box-shadow: 0 0 0 1px var(--fg) inset;
-    transform: translateX(0) scale(1, 0.05);
-    width: 1.5em;
-  }
-
-  71% {
-    background: var(--fg);
-    border-radius: 0.2em;
-    box-shadow: 0 0 0 1px var(--fg) inset;
-    transform: translateX(0) scale(1, 1.25);
-    width: 1.5em;
-  }
-
-  86% {
-    background: var(--fg);
-    border-radius: 0.2em;
-    box-shadow: 0 0 0 1px var(--fg) inset;
-    transform: translateX(0) scale(1, 1);
-    width: 1.5em;
-  }
-
-  to {
-    background: var(--checkBg);
-    border-radius: 0.2em;
-    box-shadow: 0 0 0 1px var(--checkBorder) inset;
-    transform: translateX(0) scale(1, 1);
-    width: 1.5em;
-  }
-}
-
-@keyframes strike {
-  from {
-    background: var(--checkBg);
-    border-radius: 0.2em;
-    box-shadow: 0 0 0 1px var(--checkBorder) inset;
-    transform: translateX(0) scale(1, 1);
-    width: 1.5em;
-  }
-
-  17% {
-    background: var(--fg);
-    border-radius: 0.2em;
-    box-shadow: 0 0 0 1px var(--fg) inset;
-    transform: translateX(0) scale(1, 1);
-    width: 1.5em;
-  }
-
-  33% {
-    background: var(--fg);
-    border-radius: 0;
-    box-shadow: 0 0 0 1px var(--fg) inset;
-    transform: translateX(0) scale(1, 0.05);
-    width: 1.5em;
-  }
-
-  50% {
-    background: var(--fg);
-    border-radius: 0;
-    box-shadow: 0 0 0 1px var(--fg) inset;
-    transform: translateX(-0.5em) scale(1, 0.05);
-    width: 1.5em;
-  }
-
-  67% {
-    background: var(--fg);
-    border-radius: 0;
-    box-shadow: 0 0 0 1px var(--fg) inset;
-    transform: translateX(2.25em) scale(1.25, 0.05);
-    width: calc(100% - 2.25em);
-  }
-
-  83% {
-    background: var(--fg);
-    border-radius: 0;
-    box-shadow: 0 0 0 1px var(--fg) inset;
-    transform: translateX(2.25em) scale(1, 0.05);
-    width: calc(100% - 2.25em);
-  }
-
-  to {
-    background: var(--fgDim);
-    border-radius: 0;
-    box-shadow: 0 0 0 1px var(--fgDim) inset;
-    transform: translateX(2.25em) scale(1, 0.05);
-    width: calc(100% - 2.25em);
-  }
-}
-
-
-/* =====================================================================
-   LISTA "QUEM LEVA O QUÊ" (embaixo do site)
-   ===================================================================== */
-
-.quem-leva h2 {
-  margin-bottom: 24px;
-}
-
-/* Barra de progresso: "5 de 12 itens já têm dono" */
-.progresso {
-  max-width: 640px;
-  margin: 0 auto 28px;
-}
-
-.progresso-texto {
-  margin: 0 0 10px;
-  font-size: 15px;
-  font-weight: 600;
-  color: var(--texto-suave);
-}
-
-.progresso-barra {
-  height: 10px;
-  border-radius: 999px;
-  background: var(--cartao);
-  border: 1px solid var(--cartao-borda);
-  overflow: hidden;
-}
-
-.progresso-barra span {
-  display: block;
-  width: 0;                                   /* o JS muda a largura (0% a 100%) */
-  height: 100%;
-  border-radius: inherit;
-  background: var(--degrade);
-  transition: width 0.6s cubic-bezier(0.4, 0.2, 0.2, 1);
-}
-
-/* Rodapé */
-.rodape {
-  padding: 32px 16px 48px;
-  border-top: 1px solid var(--cartao-borda);
-  text-align: center;
-  font-size: 14px;
-  font-weight: 600;
-  color: var(--texto-suave);
-}
-
-.rodape p     { margin: 0; }
-.rodape-dica  { margin-top: 6px !important; font-size: 12px; font-weight: 400; opacity: 0.8; }
-
-.lista-vazia {
-  color: var(--texto-suave);
-  font-weight: 400;
-}
-
+.barra,
 .lista-final {
   max-width: 640px;
   margin: 0 auto;
-  padding: 8px 24px;
-  border: 1px solid var(--cartao-borda);
+}
+
+.barra {
+  height: 10px;
+  border-radius: 999px;
+  background: var(--cartao);
+  border: 1px solid var(--borda);
+  overflow: hidden;
+}
+
+.barra span {
+  display: block;
+  height: 100%;
+  background: var(--degrade);
+  transition: width 0.6s;
+}
+
+.lista-final {
+  margin-top: 24px;
+  padding: 0 24px;
+  border: 1px solid var(--borda);
   border-radius: 20px;
   background: var(--cartao);
-  box-shadow: var(--cartao-sombra);
-  -webkit-backdrop-filter: blur(8px);
-  backdrop-filter: blur(8px);
   list-style: none;
   text-align: left;
 }
 
-.lista-final:empty {
-  display: none;
-}
-
-/* sem itens: some a caixa (fica só a frase "Ninguém marcou...") */
+.lista-final:empty { display: none; }
 
 .lista-final li {
   display: flex;
   align-items: baseline;
-  flex-wrap: wrap;
-  gap: 4px 12px;
+  gap: 12px;
   padding: 14px 0;
-  border-top: 1px solid var(--cartao-borda);
+  border-bottom: 1px solid var(--borda);
 }
 
-.lista-final li:first-child {
-  border-top: 0;
-}
+.lista-final li:last-child { border-bottom: 0; }
 
-.lista-final .lf-item {
-  font-weight: 700;
-}
+.lista-final small { color: var(--texto-suave); }
 
-.lista-final .lf-categoria {
-  font-size: 13px;
-  font-weight: 400;
-  color: var(--texto-suave);
-}
-
-.lista-final .lf-nome {
+.etiqueta {                                    /* o nome da pessoa, à direita */
   margin-left: auto;
-  /* o nome vai para a direita */
   padding: 3px 12px;
   border-radius: 999px;
-  background: var(--etiqueta);
+  background: color-mix(in srgb, var(--destaque) 15%, transparent);
   color: var(--destaque);
-  font-size: 14px;
   font-weight: 600;
 }
 
 
 /* =====================================================================
-   JANELINHA DO NOME (<dialog>)
+   RODAPÉ
    ===================================================================== */
 
-.janela {
-  width: min(400px, calc(100% - 32px));
-  padding: 28px;
-  border: 1px solid var(--cartao-borda);
-  border-radius: 20px;
-  background: var(--verso);
-  color: var(--texto);
-  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4);
-  font-family: 'Montserrat', sans-serif;
-}
-
-.janela::backdrop {
-  /* o fundo escurecido atrás da janelinha */
-  background: rgba(10, 8, 20, 0.6);
-  -webkit-backdrop-filter: blur(3px);
-  backdrop-filter: blur(3px);
-}
-
-.janela h3 {
-  margin: 0 0 20px;
-  font-size: 20px;
-  color: var(--destaque);
-}
-
-.janela label {
-  display: block;
-  margin-bottom: 6px;
+footer {
+  padding: 32px 16px 48px;
+  border-top: 1px solid var(--borda);
   font-size: 14px;
   font-weight: 600;
   color: var(--texto-suave);
 }
 
-.janela input {
-  box-sizing: border-box;
-  width: 100%;
-  padding: 12px 14px;
-  border: 1px solid var(--check-borda);
-  border-radius: 12px;
-  background: var(--check-fundo);
-  color: var(--texto);
-  font: 400 16px 'Montserrat', sans-serif;
-  /* 16px: o iPhone não dá zoom sozinho ao digitar */
+footer p { margin: 0; }
+
+.dica-rodape { margin-top: 6px !important; font-size: 12px; font-weight: 400; }
+
+
+/* =====================================================================
+   BOTÕES E CAIXAS DE TEXTO (usados nas janelas e nos cartões)
+   ===================================================================== */
+
+.botao,
+.botao-contorno {
+  padding: 9px 16px;
+  border-radius: 999px;
+  font: 600 14px 'Montserrat', sans-serif;
+  cursor: pointer;
 }
 
-.janela input:focus-visible {
-  outline: 3px solid var(--foco);
-  outline-offset: 2px;
+.botao          { border: 0; background: var(--destaque); color: var(--texto-no-destaque); }
+.botao-contorno { border: 1px solid var(--borda); background: transparent; color: var(--texto-suave); }
+.botao-contorno:hover { color: var(--destaque); border-color: var(--destaque); }
+
+dialog input {
+  box-sizing: border-box;
+  padding: 10px 12px;
+  border: 1px solid var(--borda);
+  border-radius: 10px;
+  background: var(--campo);
+  color: var(--texto);
+  font: 16px 'Montserrat', sans-serif;        /* 16px: o iPhone não dá zoom ao digitar */
 }
+
+:focus-visible { outline: 3px solid var(--destaque); outline-offset: 3px; }
+
+
+/* =====================================================================
+   JANELAS: a do nome (no meio) e o painel de edição (na esquerda)
+   ===================================================================== */
+
+dialog {
+  border: 1px solid var(--borda);
+  background: var(--verso);
+  color: var(--texto);
+  font-family: 'Montserrat', sans-serif;
+  text-align: left;
+}
+
+dialog::backdrop {
+  background: rgba(10, 8, 20, 0.6);
+  backdrop-filter: blur(3px);
+}
+
+dialog h2, dialog h3 { margin: 0; color: var(--destaque); }
+
+/* Janelinha do nome */
+.janela {
+  width: min(400px, 100% - 32px);
+  padding: 28px;
+  border-radius: 20px;
+}
+
+.janela label { display: block; margin: 20px 0 6px; font-size: 14px; color: var(--texto-suave); }
+.janela input { width: 100%; }
 
 .janela-botoes {
   display: flex;
@@ -1137,32 +567,45 @@ html[data-tema="claro"] .ceu::after {
   margin-top: 24px;
 }
 
-.janela-botoes button {
-  padding: 10px 18px;
-  border-radius: 999px;
-  font: 600 15px 'Montserrat', sans-serif;
-  cursor: pointer;
+.cancelar { order: -1; }                       /* aparece à esquerda, mesmo vindo depois no HTML */
+
+/* Painel de edição: uma gaveta encostada na esquerda */
+.painel {
+  box-sizing: border-box;
+  width: min(400px, 100% - 40px);
+  height: 100%;
+  max-height: none;
+  margin: 0;
+  padding: 24px;
+  overflow-y: auto;
 }
 
-.botao-secundario {
-  order: -1;
-  /* aparece à esquerda, mesmo vindo depois no HTML */
-  border: 1px solid var(--cartao-borda);
-  background: transparent;
-  color: var(--texto-suave);
+.painel-topo { display: flex; justify-content: space-between; align-items: center; }
+.dica-painel { color: var(--texto-suave); font-size: 14px; }
+
+.painel-categoria {
+  margin-bottom: 16px;
+  padding: 16px;
+  border: 1px solid var(--borda);
+  border-radius: 16px;
+  background: var(--cartao);
 }
 
-.botao-principal {
-  border: 0;
-  background: var(--destaque);
-  color: #1a1020;
+.painel-categoria h3 { margin-bottom: 12px; font-size: 16px; }
+
+.painel-categoria .linha,
+.painel-categoria form {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 8px;
 }
 
-html[data-tema="claro"] .botao-principal {
-  color: #fff;
-}
+.painel-categoria input { flex: 1; min-width: 0; }
 
-.janela-botoes button:focus-visible {
-  outline: 3px solid var(--foco);
-  outline-offset: 3px;
+.largo { width: 100%; padding: 12px; }
+
+
+/* Quem pediu menos movimento no sistema: nada se mexe */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation: none !important; transition: none !important; }
 }
