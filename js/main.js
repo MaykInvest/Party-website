@@ -96,6 +96,8 @@ document.addEventListener("DOMContentLoaded", () => {
   const campoNome = document.querySelector("#campo-nome");
   const listaFinal = document.querySelector("#lista-final");
   const listaVazia = document.querySelector("#lista-vazia");
+  const progressoTexto = document.querySelector("#progresso-texto");
+  const progressoPreenchido = document.querySelector("#progresso-preenchido");
   const caixas = document.querySelectorAll(".lista-itens input[type=checkbox]");
   let caixaAtual = null;                       // a caixinha que está esperando o nome
 
@@ -117,6 +119,13 @@ document.addEventListener("DOMContentLoaded", () => {
     verso.inert = true;                        // começa mostrando a frente
     frente.addEventListener("click", () => virar(true));
     cartao.querySelector(".voltar").addEventListener("click", () => virar(false));
+  });
+
+  // Na frente de cada cartão, um selo com quantos itens já têm dono ("1/3")
+  document.querySelectorAll(".frente").forEach((frente) => {
+    const selo = document.createElement("span");
+    selo.className = "frente-progresso";
+    frente.append(selo);
   });
 
   // Embaixo de cada item, um lugar para o nome de quem vai levar
@@ -150,6 +159,24 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
     listaVazia.hidden = listaFinal.children.length > 0;
+
+    // Selo de cada cartão: "1/3", ou "Completo ✓" quando todos os itens têm dono
+    document.querySelectorAll(".cartao-virar").forEach((cartao) => {
+      const itens = cartao.querySelectorAll(".lista-itens input");
+      const comDono = [...itens].filter((caixa) => escolhas[caixa.name]).length;
+      const selo = cartao.querySelector(".frente-progresso");
+      const completo = comDono === itens.length;
+      selo.textContent = completo ? "Completo ✓" : `${comDono}/${itens.length}`;
+      selo.classList.toggle("completo", completo);
+    });
+
+    // Barra de progresso geral
+    const total = caixas.length;
+    const comDono = listaFinal.children.length;
+    progressoTexto.textContent = comDono === total
+      ? "Tudo certo: todos os itens já têm alguém para levar! 🎉"
+      : `${comDono} de ${total} itens já têm alguém para levar`;
+    progressoPreenchido.style.width = `${(comDono / total) * 100}%`;
   }
 
   // ---------- 3) Marcar e desmarcar ----------

@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Portfolio</title>
+    <title>Confraternizando</title>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="css/main.css">
     <script src="js/main.js"></script>
@@ -21,6 +21,7 @@
 
         <!-- o data-text precisa ter o MESMO texto do título: é ele que desenha a sombra e o 3D -->
         <h1 data-text="Confraternizando">Confraternizando</h1>
+        <p class="topo-legenda">Confraternização de fim de ano · 2026</p>
     </header>
 
     <main>
@@ -131,6 +132,13 @@
         <!-- QUEM LEVA O QUÊ: o JavaScript preenche esta lista sozinho -->
         <section class="quem-leva" aria-labelledby="titulo-quem-leva">
             <h2 id="titulo-quem-leva">Quem leva o quê</h2>
+
+            <!-- Barra de progresso: quantos itens já têm alguém para levar (o JS preenche) -->
+            <div class="progresso">
+                <p class="progresso-texto" id="progresso-texto"></p>
+                <div class="progresso-barra"><span id="progresso-preenchido"></span></div>
+            </div>
+
             <p class="lista-vazia" id="lista-vazia">Ninguém marcou nada ainda. Seja o primeiro!</p>
             <ul class="lista-final" id="lista-final"></ul>
         </section>
@@ -151,8 +159,9 @@
 
     </main>
 
-    <footer>
-
+    <footer class="rodape">
+        <p>Feito com carinho para a nossa confraternização ✨</p>
+        <p class="rodape-dica">Mudou de ideia? É só abrir o cartão e desmarcar o item.</p>
     </footer>
 
 </body>
