@@ -2,7 +2,8 @@
    CORES DOS DOIS TEMAS — para mudar uma cor, mude só aqui
    ===================================================================== */
 
-:root {                                        /* TEMA ESCURO (o padrão) */
+:root {
+  /* TEMA ESCURO (o padrão) */
   color-scheme: dark;
   --fundo:
     radial-gradient(ellipse 60% 45% at 50% 40%, rgba(240, 190, 100, 0.2), transparent 70%),
@@ -12,28 +13,36 @@
   --bolhas: rgba(245, 220, 165, 0.6);
   --faisca: rgba(255, 240, 200, 0.95);
 
-  --degrade: linear-gradient(90deg, #ff8aa5, #ff9f70 35%, #ffc44d 70%, #ffe08f);   /* título e números */
-  --lateral: #9c4a3a;                          /* lateral 3D do título */
+  --degrade: linear-gradient(90deg, #ff8aa5, #ff9f70 35%, #ffc44d 70%, #ffe08f);
+  /* título e números */
+  --lateral: #9c4a3a;
+  /* lateral 3D do título */
   --sombra-chao: rgba(0, 0, 0, 0.85);
 
   --texto: #f5ecdc;
   --texto-suave: #c9bca6;
   --destaque: #ffc44d;
-  --texto-no-destaque: #1a1020;               /* texto em cima do --destaque */
+  --texto-no-destaque: #1a1020;
+  /* texto em cima do --destaque */
   --cartao: rgba(255, 255, 255, 0.06);
   --borda: rgba(212, 180, 120, 0.3);
-  --verso: rgba(27, 24, 48, 0.96);             /* verso dos cartões e janelas */
-  --campo: #241f38;                            /* fundo das caixas de texto */
+  --verso: rgba(27, 24, 48, 0.96);
+  /* verso dos cartões e janelas */
+  --campo: #241f38;
+  /* fundo das caixas de texto */
 
-  --trilho: linear-gradient(135deg, #0b1020, #1b2540 60%, #2a2f45);   /* botão do tema e de editar */
-  --astro:                                     /* a lua: 3 crateras + prata */
+  --trilho: linear-gradient(135deg, #0b1020, #1b2540 60%, #2a2f45);
+  /* botão do tema e de editar */
+  --astro:
+    /* a lua: 3 crateras + prata */
     radial-gradient(circle at 66% 30%, #d9d3c5 3.5px, transparent 4px),
     radial-gradient(circle at 34% 62%, #ddd7ca 2.5px, transparent 3px),
     radial-gradient(circle at 62% 76%, #d9d3c5 2px, transparent 2.5px),
     radial-gradient(circle at 35% 30%, #fff, #f2efe7 55%, #d4cdbd);
 }
 
-html[data-tema="claro"] {                      /* TEMA CLARO */
+html[data-tema="claro"] {
+  /* TEMA CLARO */
   color-scheme: light;
   --fundo:
     radial-gradient(circle at 6% 92%, rgba(235, 150, 160, 0.32), transparent 45%),
@@ -55,7 +64,8 @@ html[data-tema="claro"] {                      /* TEMA CLARO */
   --campo: #fffdf9;
 
   --trilho: linear-gradient(135deg, #c9d6e2, #e4dccb 60%, #eadfc8);
-  --astro: radial-gradient(circle at 35% 30%, #fff4d6, #e9c068 55%, #c9952f);   /* o sol */
+  --astro: radial-gradient(circle at 35% 30%, #fff4d6, #e9c068 55%, #c9952f);
+  /* o sol */
 }
 
 
@@ -73,14 +83,16 @@ body {
 }
 
 body::before,
-body::after {                                  /* duas camadas presas à tela, atrás de tudo */
+body::after {
+  /* duas camadas presas à tela, atrás de tudo */
   content: "";
   position: fixed;
   inset: 0;
   z-index: -3;
 }
 
-body::before {                                 /* bolhas: cada "azulejo" sobe a própria altura e repete */
+body::before {
+  /* bolhas: cada "azulejo" sobe a própria altura e repete */
   background:
     radial-gradient(circle, transparent 4.5px, var(--bolhas) 5.2px, transparent 6.2px) 0 0 / 230px 310px,
     radial-gradient(circle, transparent 2.6px, var(--bolhas) 3.2px, transparent 4px) 90px 120px / 170px 230px,
@@ -89,10 +101,13 @@ body::before {                                 /* bolhas: cada "azulejo" sobe a 
 }
 
 @keyframes subir {
-  to { background-position: 0 -310px, 90px -110px, 40px -20px; }
+  to {
+    background-position: 0 -310px, 90px -110px, 40px -20px;
+  }
 }
 
-body::after {                                  /* faíscas */
+body::after {
+  /* faíscas */
   background:
     radial-gradient(circle, var(--faisca) 1.2px, transparent 5px) 40px 60px / 233px 241px,
     radial-gradient(circle, var(--faisca) 1.8px, transparent 6px) 160px 20px / 317px 289px,
@@ -101,10 +116,13 @@ body::after {                                  /* faíscas */
 }
 
 @keyframes piscar {
-  from { opacity: 0.15; }
+  from {
+    opacity: 0.15;
+  }
 }
 
-main, footer {
+main,
+footer {
   max-width: 1100px;
   margin: 0 auto;
   padding: 0 16px;
@@ -116,9 +134,15 @@ h2 {
   color: var(--destaque);
 }
 
-section { margin-bottom: 90px; }
+section {
+  margin-bottom: 90px;
+}
 
-.subtitulo, .data-festa, .legenda, .lista-vazia, .progresso-texto {
+.subtitulo,
+.data-festa,
+.legenda,
+.lista-vazia,
+.progresso-texto {
   color: var(--texto-suave);
 }
 
@@ -129,7 +153,8 @@ section { margin-bottom: 90px; }
 
 header {
   padding: 110px 16px 72px;
-  overflow-x: clip;                            /* a sombra inclinada não alarga a página */
+  overflow-x: clip;
+  /* a sombra inclinada não alarga a página */
 }
 
 h1 {
@@ -139,7 +164,8 @@ h1 {
   font-size: min(100px, 8.2vw);
   line-height: 1;
   text-transform: uppercase;
-  color: transparent;                          /* mostra o fundo recortado nas letras */
+  color: transparent;
+  /* mostra o fundo recortado nas letras */
   background:
     linear-gradient(105deg, transparent 34%, #fff8 42%, #fff 47% 53%, #fff8 58%, transparent 66%) 150% 0 / 200% 100% no-repeat,
     var(--degrade);
@@ -148,19 +174,29 @@ h1 {
   animation: brilho 3s ease-in-out infinite;
 }
 
-@keyframes brilho {                            /* a faixa branca atravessa o nome */
-  0%        { background-position: 150% 0, 0 0; }
-  65%, 100% { background-position: -50% 0, 0 0; }
+@keyframes brilho {
+
+  /* a faixa branca atravessa o nome */
+  0% {
+    background-position: 150% 0, 0 0;
+  }
+
+  65%,
+  100% {
+    background-position: -50% 0, 0 0;
+  }
 }
 
 h1::before,
-h1::after {                                    /* duas cópias do texto (vêm do data-text) */
+h1::after {
+  /* duas cópias do texto (vêm do data-text) */
   content: attr(data-text);
   position: absolute;
   inset: 0;
 }
 
-h1::before {                                   /* sombra deitada no chão */
+h1::before {
+  /* sombra deitada no chão */
   z-index: -2;
   color: var(--sombra-chao);
   transform-origin: 50% 0.96em;
@@ -169,7 +205,8 @@ h1::before {                                   /* sombra deitada no chão */
   mask-image: linear-gradient(transparent 2%, black 95%);
 }
 
-h1::after {                                    /* lateral 3D: cópias cada vez mais escuras */
+h1::after {
+  /* lateral 3D: cópias cada vez mais escuras */
   z-index: -1;
   color: var(--lateral);
   text-shadow:
@@ -208,7 +245,8 @@ h1::after {                                    /* lateral 3D: cópias cada vez m
   cursor: pointer;
 }
 
-.astro {                                       /* a bolinha: lua no escuro, sol no claro */
+.astro {
+  /* a bolinha: lua no escuro, sol no claro */
   position: absolute;
   top: 4.5px;
   left: 4.5px;
@@ -217,13 +255,19 @@ h1::after {                                    /* lateral 3D: cópias cada vez m
   border-radius: 50%;
   background: var(--astro);
   box-shadow: 0 0 10px 2px rgba(244, 230, 195, 0.4);
-  transform: translateX(40px);                 /* escuro: lua na direita */
+  transform: translateX(40px);
+  /* escuro: lua na direita */
   transition: transform 0.6s;
 }
 
-html[data-tema="claro"] .astro { transform: none; }   /* claro: sol na esquerda */
+html[data-tema="claro"] .astro {
+  transform: none;
+}
 
-.ceu {                                         /* estrelinhas (escuro) ou nuvem (claro) */
+/* claro: sol na esquerda */
+
+.ceu {
+  /* estrelinhas (escuro) ou nuvem (claro) */
   position: absolute;
   inset: 0;
   border-radius: inherit;
@@ -252,7 +296,11 @@ html[data-tema="claro"] .ceu {
   font-weight: 600;
 }
 
-.data-festa::first-letter { text-transform: uppercase; }   /* "sábado" vira "Sábado" */
+.data-festa::first-letter {
+  text-transform: uppercase;
+}
+
+/* "sábado" vira "Sábado" */
 
 .numeros {
   display: grid;
@@ -260,7 +308,8 @@ html[data-tema="claro"] .ceu {
   gap: clamp(8px, 2vw, 24px);
 }
 
-.numeros div {                                 /* cada bloco: número grande + palavra */
+.numeros div {
+  /* cada bloco: número grande + palavra */
   padding: clamp(14px, 3vw, 32px) 4px;
   border: 1px solid var(--borda);
   border-radius: clamp(14px, 2.5vw, 28px);
@@ -279,7 +328,8 @@ html[data-tema="claro"] .ceu {
   font-size: clamp(40px, 11vw, 130px);
   line-height: 1;
   letter-spacing: 0;
-  font-variant-numeric: tabular-nums;          /* números da mesma largura: nada "pula" */
+  font-variant-numeric: tabular-nums;
+  /* números da mesma largura: nada "pula" */
   color: transparent;
   background: var(--degrade);
   -webkit-background-clip: text;
@@ -298,15 +348,19 @@ html[data-tema="claro"] .ceu {
    O QUE LEVAR: botão de editar + cartões que viram
    ===================================================================== */
 
-.subtitulo { margin: 12px auto 40px; }
+.subtitulo {
+  margin: 12px auto 40px;
+}
 
 .area-cartoes {
   display: grid;
-  grid-template-columns: auto 1fr;             /* o botão à esquerda, os cartões à direita */
+  grid-template-columns: auto 1fr;
+  /* o botão à esquerda, os cartões à direita */
   gap: 16px;
 }
 
-.botao-editar {                                /* aba em pé, com a mesma altura dos cartões */
+.botao-editar {
+  /* aba em pé, com a mesma altura dos cartões */
   writing-mode: vertical-rl;
   width: 52px;
   border: 1px solid var(--borda);
@@ -320,19 +374,23 @@ html[data-tema="claro"] .ceu {
 
 .cartoes {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);      /* 4 cartões lado a lado */
+  grid-template-columns: repeat(4, 1fr);
+  /* 4 cartões lado a lado */
   gap: 16px;
   text-align: left;
 }
 
-.cartao {                                      /* frente e verso no mesmo lugar; o cartão gira */
+.cartao {
+  /* frente e verso no mesmo lugar; o cartão gira */
   display: grid;
   transform: perspective(1200px) rotateY(0);
   transform-style: preserve-3d;
   transition: transform 0.7s;
 }
 
-.cartao.virado { transform: perspective(1200px) rotateY(180deg); }
+.cartao.virado {
+  transform: perspective(1200px) rotateY(180deg);
+}
 
 .frente,
 .verso {
@@ -340,10 +398,12 @@ html[data-tema="claro"] .ceu {
   min-height: 300px;
   border: 1px solid var(--borda);
   border-radius: 20px;
-  backface-visibility: hidden;                 /* esconde o lado que está de costas */
+  backface-visibility: hidden;
+  /* esconde o lado que está de costas */
 }
 
-.frente {                                      /* a foto (se tiver) por cima da cor do cartão */
+.frente {
+  /* a foto (se tiver) por cima da cor do cartão */
   position: relative;
   display: flex;
   flex-direction: column;
@@ -356,11 +416,23 @@ html[data-tema="claro"] .ceu {
   cursor: pointer;
 }
 
-.emoji { font-size: clamp(48px, 7vw, 80px); margin-bottom: 16px; }
-.nome  { font-size: clamp(16px, 2vw, 24px); font-weight: 700; }
-.dica  { font-size: 12px; opacity: 0.85; }
+.emoji {
+  font-size: clamp(48px, 7vw, 80px);
+  margin-bottom: 16px;
+}
 
-.selo {                                        /* "1/3" no canto do cartão */
+.nome {
+  font-size: clamp(16px, 2vw, 24px);
+  font-weight: 700;
+}
+
+.dica {
+  font-size: 12px;
+  opacity: 0.85;
+}
+
+.selo {
+  /* "1/3" no canto do cartão */
   position: absolute;
   top: 14px;
   right: 14px;
@@ -371,17 +443,24 @@ html[data-tema="claro"] .ceu {
   font-weight: 600;
 }
 
-.selo.completo { background: #fff; color: #1f6b3a; }
+.selo.completo {
+  background: #fff;
+  color: #1f6b3a;
+}
 
 .verso {
   display: flex;
   flex-direction: column;
   padding: 20px;
   background: var(--verso);
-  transform: rotateY(180deg);                  /* começa de costas */
+  transform: rotateY(180deg);
+  /* começa de costas */
 }
 
-.verso h3 { margin: 0 0 12px; color: var(--destaque); }
+.verso h3 {
+  margin: 0 0 12px;
+  color: var(--destaque);
+}
 
 .itens {
   flex: 1;
@@ -390,37 +469,63 @@ html[data-tema="claro"] .ceu {
   list-style: none;
 }
 
-.itens li { padding: 6px 0; }
+.itens li {
+  padding: 6px 0;
+}
 
-.itens label { cursor: pointer; }
+.itens label {
+  cursor: pointer;
+}
 
 .itens input {
   width: 20px;
   height: 20px;
   vertical-align: middle;
-  accent-color: var(--destaque);               /* a caixinha na cor do tema */
+  accent-color: var(--destaque);
+  /* a caixinha na cor do tema */
 }
 
-.itens input:checked + span {                  /* item marcado: riscado e apagadinho */
+.itens input:checked+span {
+  /* item marcado: riscado e apagadinho */
   text-decoration: line-through;
   color: var(--texto-suave);
 }
 
-.itens small {                                 /* o nome de quem leva, embaixo do item */
+.itens small {
+  /* o nome de quem leva, embaixo do item */
   display: block;
   margin-left: 28px;
   font-weight: 600;
   color: var(--destaque);
 }
 
-.voltar { align-self: flex-start; }
+.voltar {
+  align-self: flex-start;
+}
 
 /* Tablet e celular: 2 cartões por linha e o botão de editar deitado em cima */
 @media (max-width: 760px) {
-  .area-cartoes { grid-template-columns: 1fr; }
-  .cartoes      { grid-template-columns: repeat(2, 1fr); }
-  .botao-editar { writing-mode: horizontal-tb; width: auto; height: 44px; justify-self: start; padding: 0 18px; border-radius: 999px; }
-  .frente, .verso { min-height: 240px; }
+  .area-cartoes {
+    grid-template-columns: 1fr;
+  }
+
+  .cartoes {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .botao-editar {
+    writing-mode: horizontal-tb;
+    width: auto;
+    height: 44px;
+    justify-self: start;
+    padding: 0 18px;
+    border-radius: 999px;
+  }
+
+  .frente,
+  .verso {
+    min-height: 240px;
+  }
 }
 
 
@@ -428,7 +533,10 @@ html[data-tema="claro"] .ceu {
    QUEM LEVA O QUÊ: barra de progresso + lista
    ===================================================================== */
 
-.progresso-texto { margin: 20px 0 10px; font-weight: 600; }
+.progresso-texto {
+  margin: 20px 0 10px;
+  font-weight: 600;
+}
 
 .barra,
 .lista-final {
@@ -461,7 +569,9 @@ html[data-tema="claro"] .ceu {
   text-align: left;
 }
 
-.lista-final:empty { display: none; }
+.lista-final:empty {
+  display: none;
+}
 
 .lista-final li {
   display: flex;
@@ -471,11 +581,16 @@ html[data-tema="claro"] .ceu {
   border-bottom: 1px solid var(--borda);
 }
 
-.lista-final li:last-child { border-bottom: 0; }
+.lista-final li:last-child {
+  border-bottom: 0;
+}
 
-.lista-final small { color: var(--texto-suave); }
+.lista-final small {
+  color: var(--texto-suave);
+}
 
-.etiqueta {                                    /* o nome da pessoa, à direita */
+.etiqueta {
+  /* o nome da pessoa, à direita */
   margin-left: auto;
   padding: 3px 12px;
   border-radius: 999px;
@@ -489,6 +604,22 @@ html[data-tema="claro"] .ceu {
    RODAPÉ
    ===================================================================== */
 
+.botao-mapa {
+  display: inline-flex;            /* permite centralizar o conteúdo */
+  align-items: center;             /* centraliza na vertical */
+  justify-content: center;         /* centraliza na horizontal */
+  box-sizing: border-box;
+  width: 220px;
+  height: 60px;
+  margin: 1rem auto;
+  padding: 8px 12px;                      /* tira o padding herdado do .botao */
+  font-size: 55px;                 /* texto maior */
+  line-height: 1;
+  white-space: nowrap;             /* não quebra em duas linhas */
+  text-decoration: none;
+}
+
+
 footer {
   padding: 32px 16px 48px;
   border-top: 1px solid var(--borda);
@@ -497,9 +628,15 @@ footer {
   color: var(--texto-suave);
 }
 
-footer p { margin: 0; }
+footer p {
+  margin: 0;
+}
 
-.dica-rodape { margin-top: 6px !important; font-size: 12px; font-weight: 400; }
+.dica-rodape {
+  margin-top: 6px !important;
+  font-size: 12px;
+  font-weight: 400;
+}
 
 
 /* =====================================================================
@@ -514,9 +651,22 @@ footer p { margin: 0; }
   cursor: pointer;
 }
 
-.botao          { border: 0; background: var(--destaque); color: var(--texto-no-destaque); }
-.botao-contorno { border: 1px solid var(--borda); background: transparent; color: var(--texto-suave); }
-.botao-contorno:hover { color: var(--destaque); border-color: var(--destaque); }
+.botao {
+  border: 0;
+  background: var(--destaque);
+  color: var(--texto-no-destaque);
+}
+
+.botao-contorno {
+  border: 1px solid var(--borda);
+  background: transparent;
+  color: var(--texto-suave);
+}
+
+.botao-contorno:hover {
+  color: var(--destaque);
+  border-color: var(--destaque);
+}
 
 dialog input {
   box-sizing: border-box;
@@ -525,10 +675,14 @@ dialog input {
   border-radius: 10px;
   background: var(--campo);
   color: var(--texto);
-  font: 16px 'Montserrat', sans-serif;        /* 16px: o iPhone não dá zoom ao digitar */
+  font: 16px 'Montserrat', sans-serif;
+  /* 16px: o iPhone não dá zoom ao digitar */
 }
 
-:focus-visible { outline: 3px solid var(--destaque); outline-offset: 3px; }
+:focus-visible {
+  outline: 3px solid var(--destaque);
+  outline-offset: 3px;
+}
 
 
 /* =====================================================================
@@ -548,7 +702,11 @@ dialog::backdrop {
   backdrop-filter: blur(3px);
 }
 
-dialog h2, dialog h3 { margin: 0; color: var(--destaque); }
+dialog h2,
+dialog h3 {
+  margin: 0;
+  color: var(--destaque);
+}
 
 /* Janelinha do nome */
 .janela {
@@ -557,8 +715,16 @@ dialog h2, dialog h3 { margin: 0; color: var(--destaque); }
   border-radius: 20px;
 }
 
-.janela label { display: block; margin: 20px 0 6px; font-size: 14px; color: var(--texto-suave); }
-.janela input { width: 100%; }
+.janela label {
+  display: block;
+  margin: 20px 0 6px;
+  font-size: 14px;
+  color: var(--texto-suave);
+}
+
+.janela input {
+  width: 100%;
+}
 
 .janela-botoes {
   display: flex;
@@ -567,7 +733,11 @@ dialog h2, dialog h3 { margin: 0; color: var(--destaque); }
   margin-top: 24px;
 }
 
-.cancelar { order: -1; }                       /* aparece à esquerda, mesmo vindo depois no HTML */
+.cancelar {
+  order: -1;
+}
+
+/* aparece à esquerda, mesmo vindo depois no HTML */
 
 /* Painel de edição: uma gaveta encostada na esquerda */
 .painel {
@@ -580,8 +750,16 @@ dialog h2, dialog h3 { margin: 0; color: var(--destaque); }
   overflow-y: auto;
 }
 
-.painel-topo { display: flex; justify-content: space-between; align-items: center; }
-.dica-painel { color: var(--texto-suave); font-size: 14px; }
+.painel-topo {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.dica-painel {
+  color: var(--texto-suave);
+  font-size: 14px;
+}
 
 .painel-categoria {
   margin-bottom: 16px;
@@ -591,7 +769,10 @@ dialog h2, dialog h3 { margin: 0; color: var(--destaque); }
   background: var(--cartao);
 }
 
-.painel-categoria h3 { margin-bottom: 12px; font-size: 16px; }
+.painel-categoria h3 {
+  margin-bottom: 12px;
+  font-size: 16px;
+}
 
 .painel-categoria .linha,
 .painel-categoria form {
@@ -600,12 +781,24 @@ dialog h2, dialog h3 { margin: 0; color: var(--destaque); }
   margin-bottom: 8px;
 }
 
-.painel-categoria input { flex: 1; min-width: 0; }
+.painel-categoria input {
+  flex: 1;
+  min-width: 0;
+}
 
-.largo { width: 100%; padding: 12px; }
+.largo {
+  width: 100%;
+  padding: 12px;
+}
 
 
 /* Quem pediu menos movimento no sistema: nada se mexe */
 @media (prefers-reduced-motion: reduce) {
-  *, *::before, *::after { animation: none !important; transition: none !important; }
+
+  *,
+  *::before,
+  *::after {
+    animation: none !important;
+    transition: none !important;
+  }
 }
