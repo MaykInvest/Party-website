@@ -604,21 +604,45 @@ html[data-tema="claro"] .ceu {
    RODAPÉ
    ===================================================================== */
 
-.botao-mapa {
-  display: inline-flex;            /* permite centralizar o conteúdo */
-  align-items: center;             /* centraliza na vertical */
-  justify-content: center;         /* centraliza na horizontal */
-  box-sizing: border-box;
-  width: 220px;
-  height: 60px;
-  margin: 1rem auto;
-  padding: 8px 12px;                      /* tira o padding herdado do .botao */
-  font-size: 55px;                 /* texto maior */
-  line-height: 1;
-  white-space: nowrap;             /* não quebra em duas linhas */
-  text-decoration: none;
+/* Imagem clicável do mapa */
+.mapa-imagem {
+  display: inline-block;
+  margin: 1rem auto 24px;
+  line-height: 0;
+  /* tira o espacinho embaixo da imagem */
+  transition: transform 0.2s, filter 0.2s;
 }
 
+.mapa-imagem img {
+  display: block;
+  width: clamp(48px, 7vw, 80px);
+  /* mesma fórmula do .emoji dos cartões */
+  max-width: 100%;
+  height: auto;
+  /* mantém a proporção */
+}
+
+.mapa-imagem:hover {
+  transform: translateY(-2px);
+  filter: brightness(1.1);
+}
+
+/* Crédito do Flaticon */
+.creditos {
+  margin-top: 12px !important;
+  font-size: 11px;
+  font-weight: 400;
+}
+
+.creditos a {
+  color: inherit;
+  opacity: 0.7;
+}
+
+.creditos a:hover {
+  opacity: 1;
+  color: var(--destaque);
+}
 
 footer {
   padding: 32px 16px 48px;
