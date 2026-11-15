@@ -38,18 +38,28 @@
 
         <!-- O QUE LEVAR: cartões que viram. Frente: emoji/foto. Verso: a lista de itens.
              Os ITENS de cada cartão ficam no começo do js/main.js.
-             Para pôr uma foto, crie a pasta img e troque o --foto do cartão. -->
+             Para pôr uma foto, crie a pasta img e adicione ao style do cartão: --foto: url('img/comidas.jpg') -->
         <section class="levar">
             <h2>O que levar?</h2>
             <p class="subtitulo">Toque num cartão, marque o que você vai levar e escreva seu nome.</p>
 
             <div class="area-cartoes">
-                <button id="botao-editar" class="botao-editar">☰ Editar itens</button>
+                <button id="botao-editar" class="botao-editar">
+                    <!-- ícone de lápis -->
+                    <span class="icone-editar" aria-hidden="true">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"
+                            stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M12 20h9" />
+                            <path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4Z" />
+                        </svg>
+                    </span>
+                    <span class="texto-editar">Editar itens</span>
+                </button>
 
                 <div class="cartoes">
                     <!-- data-categoria liga o cartão à lista de itens do js/main.js -->
                     <article class="cartao" data-categoria="comidas"
-                        style="--cor: #e8615a; --foto: url('img/comidas.jpg')">
+                        style="--cor: #e8615a">
                         <button class="frente">
                             <span class="selo"></span>
                             <span class="emoji">🍕</span>
@@ -64,7 +74,7 @@
                     </article>
 
                     <article class="cartao" data-categoria="bebidas"
-                        style="--cor: #3b6fd8; --foto: url('img/bebidas.jpg')">
+                        style="--cor: #3b6fd8">
                         <button class="frente">
                             <span class="selo"></span>
                             <span class="emoji">🥤</span>
@@ -78,7 +88,7 @@
                         </div>
                     </article>
 
-                    <article class="cartao" data-categoria="doces" style="--cor: #c2456b; --foto: url('img/doces.jpg')">
+                    <article class="cartao" data-categoria="doces" style="--cor: #c2456b">
                         <button class="frente">
                             <span class="selo"></span>
                             <span class="emoji">🍰</span>
@@ -93,7 +103,7 @@
                     </article>
 
                     <article class="cartao" data-categoria="descartaveis"
-                        style="--cor: #6d58c9; --foto: url('img/descartaveis.jpg')">
+                        style="--cor: #6d58c9">
                         <button class="frente">
                             <span class="selo"></span>
                             <span class="emoji">🍽️</span>
@@ -122,7 +132,7 @@
 
     <footer>
         <a class="botao botao-mapa" href="https://maps.app.goo.gl/zQ4FVjorxSt2LLyK7" target="_blank" rel="noopener">📍
-            <spam>MAPA DO EVENTO</spam></a>
+            <span>MAPA DO EVENTO</span></a>
         <p>Feito com carinho para a nossa confraternização ✨</p>
         <p class="dica-rodape">Mudou de ideia? É só abrir o cartão e desmarcar o item.</p>
     </footer>

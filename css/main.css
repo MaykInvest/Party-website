@@ -360,16 +360,64 @@ html[data-tema="claro"] .ceu {
 }
 
 .botao-editar {
-  /* aba em pé, com a mesma altura dos cartões */
-  writing-mode: vertical-rl;
-  width: 52px;
+  /* aba em pé de vidro fosco, com a mesma altura dos cartões */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  width: 58px;
+  padding: 18px 0;
   border: 1px solid var(--borda);
   border-radius: 20px;
-  background: var(--trilho);
+  background: var(--cartao);
+  backdrop-filter: blur(10px);
   color: var(--texto);
-  font: 600 14px 'Montserrat', sans-serif;
-  letter-spacing: 0.08em;
+  font: 700 12px 'Montserrat', sans-serif;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
   cursor: pointer;
+  transition: transform 0.25s, border-color 0.25s, box-shadow 0.25s, color 0.25s;
+}
+
+.texto-editar {
+  writing-mode: vertical-rl;
+  /* texto em pé */
+}
+
+.icone-editar {
+  /* bolinha colorida com o lápis */
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: var(--degrade);
+  color: var(--texto-no-destaque);
+  box-shadow: 0 4px 12px color-mix(in srgb, var(--destaque) 35%, transparent);
+  transition: transform 0.3s;
+}
+
+.icone-editar svg {
+  width: 17px;
+  height: 17px;
+}
+
+.botao-editar:hover {
+  border-color: var(--destaque);
+  color: var(--destaque);
+  box-shadow: 0 10px 28px color-mix(in srgb, var(--destaque) 22%, transparent);
+  transform: translateY(-3px);
+}
+
+.botao-editar:hover .icone-editar {
+  transform: rotate(-15deg) scale(1.1);
+  /* o lápis "escreve" */
+}
+
+.botao-editar:active {
+  transform: scale(0.97);
 }
 
 .cartoes {
@@ -410,7 +458,7 @@ html[data-tema="claro"] .ceu {
   align-items: center;
   justify-content: center;
   gap: 6px;
-  background: var(--foto) center / cover, linear-gradient(150deg, color-mix(in srgb, var(--cor), white 30%), var(--cor));
+  background: var(--foto, none) center / cover, linear-gradient(150deg, color-mix(in srgb, var(--cor), white 30%), var(--cor));
   color: #fff;
   font-family: inherit;
   cursor: pointer;
@@ -514,12 +562,17 @@ html[data-tema="claro"] .ceu {
   }
 
   .botao-editar {
-    writing-mode: horizontal-tb;
+    flex-direction: row;
+    gap: 10px;
     width: auto;
-    height: 44px;
+    height: 48px;
     justify-self: start;
-    padding: 0 18px;
+    padding: 0 20px 0 6px;
     border-radius: 999px;
+  }
+
+  .texto-editar {
+    writing-mode: horizontal-tb;
   }
 
   .frente,
