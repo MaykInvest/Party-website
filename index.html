@@ -44,6 +44,7 @@
             <p class="subtitulo">Toque num cartão, marque o que você vai levar e escreva seu nome.</p>
 
             <div class="area-cartoes">
+                <div class="abas">
                 <button id="botao-editar" class="botao-editar">
                     <!-- ícone de lápis -->
                     <span class="icone-editar" aria-hidden="true">
@@ -55,6 +56,22 @@
                     </span>
                     <span class="texto-editar">Editar itens</span>
                 </button>
+
+                <!-- ALERGIAS: abre o painel; o que estiver lá não pode entrar nos cartões -->
+                <button id="botao-alergias" class="botao-editar botao-alergias">
+                    <!-- ícone de alerta -->
+                    <span class="icone-editar" aria-hidden="true">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"
+                            stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0Z" />
+                            <path d="M12 9v4" />
+                            <path d="M12 17h.01" />
+                        </svg>
+                    </span>
+                    <span class="texto-editar">Alergias</span>
+                    <span id="contador-alergias" class="contador" hidden></span>
+                </button>
+                </div>
 
                 <div class="cartoes">
                     <!-- data-categoria liga o cartão à lista de itens do js/main.js -->
@@ -151,7 +168,7 @@
         </form>
     </dialog>
 
-    <!-- PAINEL DE EDIÇÃO: abre pela esquerda; o JavaScript monta as categorias -->
+    <!-- PAINEL DE EDIÇÃO: abre num balão no meio da tela; o JavaScript monta as categorias -->
     <dialog id="painel" class="painel">
         <div class="painel-topo">
             <h2>Editar itens</h2>
@@ -160,6 +177,22 @@
         <p class="dica-painel">Mude o nome, remova ou adicione itens. Os cartões mudam na hora.</p>
         <div id="painel-categorias"></div>
         <button id="painel-restaurar" class="botao-contorno largo">Restaurar lista original</button>
+    </dialog>
+
+    <!-- PAINEL DE ALERGIAS: balão no meio da tela, igual ao de editar -->
+    <dialog id="painel-alergias" class="painel">
+        <div class="painel-topo">
+            <h2>Alergias</h2>
+            <button id="alergias-fechar" class="botao-contorno" aria-label="Fechar">✕</button>
+        </div>
+        <p class="dica-painel">Alguém tem alergia? Coloque aqui. Itens com esse ingrediente não poderão entrar nos
+            cartões.</p>
+        <form id="form-alergia" class="form-alergia">
+            <input id="campo-alergia" placeholder="Ex.: amendoim, camarão…" maxlength="30" aria-label="Nova alergia">
+            <button class="botao">Adicionar</button>
+        </form>
+        <p id="alergias-vazia" class="dica-painel">Nenhuma alergia informada.</p>
+        <ul id="lista-alergias" class="lista-alergias"></ul>
     </dialog>
 </body>
 
