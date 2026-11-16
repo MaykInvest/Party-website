@@ -1,220 +1,188 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Confraternizando</title>
-        <link
-            href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap"
-            rel="stylesheet">
-        <link rel="stylesheet" href="css/main.css">
-        <script src="js/main.js"></script>
-    </head>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Confraternizando</title>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/main.css">
+  <!-- O JavaScript fica aqui em cima para o tema (claro/escuro) aparecer certo desde o início -->
+  <script src="js/main.js"></script>
+</head>
 
-    <body>
-        <header>
-            <!-- Botão do tema: o sol (claro) e a lua (escuro), desenhados no CSS -->
-            <button id="botao-tema" class="botao-tema"
-                aria-label="Trocar entre modo claro e escuro">
-                <span class="ceu"></span>
-                <span class="astro"></span>
-            </button>
+<body>
+  <!-- ============================ TOPO ============================ -->
+  <header>
+    <!-- Botão do tema: o sol (claro) e a lua (escuro), desenhados no CSS -->
+    <button id="botao-tema" class="botao-tema" aria-label="Trocar entre modo claro e escuro">
+      <span class="ceu"></span>
+      <span class="astro"></span>
+    </button>
 
-            <!-- O data-text precisa ser IGUAL ao título: é ele que desenha o 3D e a sombra -->
-            <h1 data-text="Confraternizando">Confraternizando</h1>
-            <p class="legenda">Confraternização de fim de ano · 2026</p>
-        </header>
+    <!-- O data-text precisa ser IGUAL ao título: é ele que desenha o 3D e a sombra -->
+    <h1 data-text="Confraternizando">Confraternizando</h1>
+    <p class="legenda">Confraternização de fim de ano · 2026</p>
+  </header>
 
-        <main>
-            <!-- CONTAGEM REGRESSIVA (a data fica no começo do js/main.js) -->
-            <section class="contagem">
-                <h2>Falta pouco!</h2>
-                <p id="data-festa" class="data-festa"></p>
-                <div id="contagem" class="numeros">
-                    <div><strong id="dias">--</strong>dias</div>
-                    <div><strong id="horas">--</strong>horas</div>
-                    <div><strong id="minutos">--</strong>minutos</div>
-                    <div><strong id="segundos">--</strong>segundos</div>
-                </div>
-            </section>
+  <main>
+    <!-- ==================== CONTAGEM REGRESSIVA ====================
+         A data da festa fica no começo do js/main.js -->
+    <section>
+      <h2>Falta pouco!</h2>
+      <p id="data-festa" class="data-festa"></p>
+      <div id="contagem" class="numeros">
+        <div><strong id="dias">--</strong>dias</div>
+        <div><strong id="horas">--</strong>horas</div>
+        <div><strong id="minutos">--</strong>minutos</div>
+        <div><strong id="segundos">--</strong>segundos</div>
+      </div>
+    </section>
 
-            <!-- O QUE LEVAR: cartões que viram. Frente: emoji/foto. Verso: a lista de itens.
-             Os ITENS de cada cartão ficam no começo do js/main.js.
-             Para pôr uma foto, crie a pasta img e troque o --foto do cartão. -->
-            <section class="levar">
-                <h2>O que levar?</h2>
-                <p class="subtitulo">Toque num cartão, marque o que você vai
-                    levar e escreva seu nome.</p>
+    <!-- ======================= O QUE LEVAR? =======================
+         Os cartões são criados pelo JavaScript a partir da lista CARTOES (começo do js/main.js) -->
+    <section>
+      <h2>O que levar?</h2>
+      <p class="subtitulo">Toque num cartão, marque o que você vai levar e escreva seu nome.</p>
 
-                <div class="area-cartoes">
-                    <!-- O botão de editar fica em cima dos cartões -->
-                    <div class="abas">
-                        <button id="botao-editar" class="botao-editar">
-                            <span class="icone-editar">
-                                <svg viewBox="0 0 24 24" fill="none"
-                                    stroke="currentColor" stroke-width="2.2"
-                                    stroke-linecap="round"
-                                    stroke-linejoin="round" aria-hidden="true">
-                                    <path d="M12 20h9" />
-                                    <path
-                                        d="M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4Z" />
-                                </svg>
-                            </span>
-                            Editar itens
-                        </button>
-                    </div>
+      <div class="area-cartoes">
+        <!-- Os dois botões lado a lado, em cima dos cartões.
+             As janelas que eles abrem ficam lá no fim desta página. -->
+        <div class="botoes">
+          <!-- "Editar itens": abre o painel de editar -->
+          <button id="botao-editar" class="botao-editar">
+            <span class="icone-editar">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"
+                stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M12 20h9" />
+                <path d="M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4Z" />
+              </svg>
+            </span>
+            Editar itens
+          </button>
 
-                    <!-- Cartões à esquerda; a lista "Não pode levar" à direita -->
-                    <div class="quadro">
-                    <div class="cartoes">
-                        <!-- data-categoria liga o cartão à lista de itens do js/main.js -->
-                        <article class="cartao" data-categoria="comidas"
-                            style="--cor: #e8615a; --foto: url('img/comidas.jpg')">
-                            <button class="frente">
-                                <span class="selo"></span>
-                                <span class="emoji">🍕</span>
-                                <span class="nome">Comidas</span>
-                                <span class="dica">Toque para escolher</span>
-                            </button>
-                            <div class="verso">
-                                <h3>Comidas</h3>
-                                <ul class="itens"></ul>
-                                <button class="voltar botao-contorno">↩
-                                    Voltar</button>
-                            </div>
-                        </article>
+          <!-- "Não pode levar": abre a janela das alergias (ícone vermelho de alerta) -->
+          <button id="botao-alergias" class="botao-editar botao-alergias">
+            <span class="icone-editar">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"
+                stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0Z" />
+                <path d="M12 9v4" />
+                <path d="M12 17h.01" />
+              </svg>
+            </span>
+            Não pode levar
+          </button>
+        </div>
 
-                        <article class="cartao" data-categoria="bebidas"
-                            style="--cor: #3b6fd8; --foto: url('img/bebidas.jpg')">
-                            <button class="frente">
-                                <span class="selo"></span>
-                                <span class="emoji">🥤</span>
-                                <span class="nome">Bebidas</span>
-                                <span class="dica">Toque para escolher</span>
-                            </button>
-                            <div class="verso">
-                                <h3>Bebidas</h3>
-                                <ul class="itens"></ul>
-                                <button class="voltar botao-contorno">↩
-                                    Voltar</button>
-                            </div>
-                        </article>
+        <!-- Os cartões -->
+        <div id="cartoes" class="cartoes"></div>
+      </div>
+    </section>
 
-                        <article class="cartao" data-categoria="doces"
-                            style="--cor: #c2456b; --foto: url('img/doces.jpg')">
-                            <button class="frente">
-                                <span class="selo"></span>
-                                <span class="emoji">🍰</span>
-                                <span class="nome">Doces</span>
-                                <span class="dica">Toque para escolher</span>
-                            </button>
-                            <div class="verso">
-                                <h3>Doces</h3>
-                                <ul class="itens"></ul>
-                                <button class="voltar botao-contorno">↩
-                                    Voltar</button>
-                            </div>
-                        </article>
+    <!-- ===================== QUEM LEVA O QUÊ =====================
+         O JavaScript preenche tudo aqui.
+         Em cima: quem leva cada coisa. Embaixo: o que não pode levar. -->
+    <section>
+      <h2>Quem leva o quê</h2>
+      <p id="progresso-texto" class="progresso-texto"></p>
+      <div class="barra"><span id="barra-cheia"></span></div>
 
-                        <article class="cartao" data-categoria="descartaveis"
-                            style="--cor: #6d58c9; --foto: url('img/descartaveis.jpg')">
-                            <button class="frente">
-                                <span class="selo"></span>
-                                <span class="emoji">🍽️</span>
-                                <span class="nome">Descartáveis</span>
-                                <span class="dica">Toque para escolher</span>
-                            </button>
-                            <div class="verso">
-                                <h3>Descartáveis</h3>
-                                <ul class="itens"></ul>
-                                <button class="voltar botao-contorno">↩
-                                    Voltar</button>
-                            </div>
-                        </article>
-                    </div>
+      <div class="quem-leva">
+        <div>
+          <p id="lista-vazia" class="lista-vazia">Ninguém marcou nada ainda. Seja o primeiro!</p>
+          <ul id="lista-final" class="lista-final"></ul>
+        </div>
 
-                    <!-- NÃO PODE LEVAR: a lista das alergias; dá para adicionar e remover aqui mesmo -->
-                    <aside class="lembrete">
-                        <h3><span aria-hidden="true">⚠️</span> Não pode levar</h3>
-                        <p>Alguém tem alergia? Escreva aqui o que não pode
-                            entrar na festa.</p>
-                        <ul id="lista-alergias"></ul>
-                        <p id="alergias-vazia" class="lista-vazia">Nada
-                            proibido por enquanto.</p>
-                        <form id="form-alergia" class="form-alergia">
-                            <input id="campo-alergia"
-                                placeholder="Ex.: amendoim" maxlength="30"
-                                aria-label="Novo item que não pode levar">
-                            <button class="botao-icone"
-                                aria-label="Adicionar">+</button>
-                        </form>
-                    </aside>
-                    </div>
-                </div>
-            </section>
+        <!-- NÃO PODE LEVAR: só mostra a lista (para mudar, use o botão "Não pode levar" lá em cima) -->
+        <aside class="lembrete">
+          <h3><span aria-hidden="true">⚠️</span> Não pode levar</h3>
+          <ul id="lista-alergias" class="lista-proibidos"></ul>
+          <p id="alergias-vazia">Nada proibido por enquanto.</p>
+        </aside>
+      </div>
+    </section>
+  </main>
 
-            <!-- QUEM LEVA O QUÊ: o JavaScript preenche tudo aqui -->
-            <section class="quem-leva">
-                <h2>Quem leva o quê</h2>
-                <p id="progresso-texto" class="progresso-texto"></p>
-                <div class="barra"><span id="barra-cheia"></span></div>
-                <p id="lista-vazia" class="lista-vazia">Ninguém marcou nada
-                    ainda. Seja o primeiro!</p>
-                <ul id="lista-final" class="lista-final"></ul>
-            </section>
-        </main>
+  <!-- ========================== RODAPÉ ========================== -->
+  <footer>
+    <!-- Mapa do evento: a imagem abre o Google Maps -->
+    <h2>Mapa do evento</h2>
+    <a class="mapa-imagem" href="https://maps.app.goo.gl/zQ4FVjorxSt2LLyK7" target="_blank" rel="noopener"
+      aria-label="Abrir o mapa do evento no Google Maps">
+      <img src="images/mapa.png" alt="Mapa do evento">
+    </a>
+    <p>Feito com carinho para a nossa confraternização ✨</p>
+    <p class="dica-rodape">Mudou de ideia? É só abrir o cartão e desmarcar o item.</p>
+  </footer>
 
-        <footer>
-            <!-- MAPA DO EVENTO: Imagem clicável que encaminha para o GoogleMaps-->
-            <br><h2>Mapa do evento</h2>
-            <a class="mapa-imagem"
-                href="https://maps.app.goo.gl/zQ4FVjorxSt2LLyK7"
-                target="_blank" rel="noopener"
-                aria-label="Abrir o mapa do evento no Google Maps">
-                <img src="images/mapa.png" alt="Mapa do evento">
-            </a>
-            <br><br><p>Feito com carinho para a nossa confraternização ✨</p>
-            <p class="dica-rodape">Mudou de ideia? É só abrir o cartão e
-                desmarcar o item.</p>
-        </footer>
+  <!-- ======================== JANELAS ========================
+       As três janelas abaixo aparecem no meio da tela.
+       Fecham no Esc, clicando fora delas ou num botão com "data-fechar". -->
 
-        <!-- JANELINHA DO NOME: aparece quando alguém marca um item -->
-        <dialog id="janela-nome" class="janela">
-            <form method="dialog">
-                <h3 id="janela-titulo">Quem vai levar?</h3>
-                <label for="campo-nome">Seu nome</label>
-                <input id="campo-nome" maxlength="30" required>
-                <div class="janela-botoes">
-                    <!-- Confirmar vem primeiro: é ele que a tecla Enter aperta (o CSS mostra o Cancelar à esquerda) -->
-                    <button class="botao" value="ok">Confirmar</button>
-                    <button class="botao-contorno cancelar" value="cancelar"
-                        formnovalidate>Cancelar</button>
-                </div>
-            </form>
-        </dialog>
+  <!-- JANELINHA DO NOME: aparece quando alguém marca um item -->
+  <dialog id="janela-nome" class="janela">
+    <form method="dialog">
+      <h3 id="janela-titulo">Quem vai levar?</h3>
+      <label for="campo-nome">Seu nome</label>
+      <input id="campo-nome" maxlength="30" required>
+      <div class="janela-botoes">
+        <!-- Confirmar vem primeiro: é ele que a tecla Enter aperta (o CSS mostra o Cancelar à esquerda) -->
+        <button class="botao" value="ok">Confirmar</button>
+        <button class="botao-contorno cancelar" value="cancelar" formnovalidate>Cancelar</button>
+      </div>
+    </form>
+  </dialog>
 
-        <!-- PAINEL DE EDIÇÃO: um cartão no meio da tela; o JavaScript monta as abas e os itens -->
-        <dialog id="painel" class="painel">
-            <div class="painel-caixa">
-                <div class="painel-topo">
-                    <div>
-                        <h2>Editar itens</h2>
-                        <p class="dica-painel">Escolha um cartão e mude,
-                            remova ou adicione itens.</p>
-                    </div>
-                    <button id="painel-fechar" class="botao-icone"
-                        aria-label="Fechar">✕</button>
-                </div>
-                <div id="painel-abas" class="chips"></div>
-                <div id="painel-categorias" class="painel-corpo"></div>
-                <div class="painel-rodape">
-                    <button id="painel-restaurar"
-                        class="botao-contorno">Restaurar lista
-                        original</button>
-                    <button id="painel-pronto" class="botao">Pronto</button>
-                </div>
-            </div>
-        </dialog>    </body>
+  <!-- JANELA "NÃO PODE LEVAR": abre pelo botão "Não pode levar". Aqui dá para adicionar e remover. -->
+  <dialog id="janela-alergias" class="janela">
+    <div class="janela-miolo">
+      <h3><span aria-hidden="true">⚠️</span> Não pode levar</h3>
+      <p class="dica-painel">Alguém tem alergia? Escreva aqui o que não pode entrar na festa.</p>
+      <form id="form-alergia" class="linha form-alergia">
+        <input id="campo-alergia" placeholder="Ex.: amendoim" maxlength="30"
+          aria-label="Novo item que não pode levar">
+        <button class="botao-icone" aria-label="Adicionar">+</button>
+      </form>
+      <!-- A mesma lista de baixo, mas com o ✕ para remover -->
+      <ul id="janela-alergias-lista" class="lista-proibidos"></ul>
+      <div class="janela-botoes">
+        <button class="botao" data-fechar>Pronto</button>
+      </div>
+    </div>
+  </dialog>
+
+  <!-- PAINEL "EDITAR ITENS": abre pelo botão "Editar itens". O JavaScript preenche as abas e os itens. -->
+  <dialog id="painel" class="painel">
+    <div class="painel-caixa">
+      <!-- Topo: título + botão de fechar -->
+      <div class="painel-topo">
+        <div>
+          <h2>Editar itens</h2>
+          <p class="dica-painel">Escolha um cartão e mude, remova ou adicione itens.</p>
+        </div>
+        <button class="botao-icone" aria-label="Fechar" data-fechar>✕</button>
+      </div>
+
+      <!-- Abas: uma por cartão -->
+      <div id="painel-abas" class="chips"></div>
+
+      <!-- Miolo: os itens do cartão escolhido + o campo de item novo -->
+      <div class="painel-corpo">
+        <div id="painel-itens"></div>
+        <form id="form-item" class="linha form-novo">
+          <input id="campo-item" placeholder="Novo item…" maxlength="40" aria-label="Novo item">
+          <button class="botao">Adicionar</button>
+        </form>
+      </div>
+
+      <!-- Rodapé: restaurar a lista e fechar -->
+      <div class="painel-rodape">
+        <button id="painel-restaurar" class="botao-contorno">Restaurar lista original</button>
+        <button class="botao" data-fechar>Pronto</button>
+      </div>
+    </div>
+  </dialog>
+</body>
 
 </html>

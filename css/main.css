@@ -1,10 +1,27 @@
 /* =====================================================================
-   CORES DOS DOIS TEMAS — para mudar uma cor, mude só aqui
+   ÍNDICE (procure pelo nome em MAIÚSCULAS para achar a parte)
+     1) CORES DOS DOIS TEMAS
+     2) PÁGINA E FUNDO ANIMADO
+     3) TÍTULO
+     4) BOTÃO DO TEMA
+     5) CONTAGEM REGRESSIVA
+     6) O QUE LEVAR (botões "Editar itens" e "Não pode levar", cartões)
+     7) QUEM LEVA O QUÊ (e a caixa "Não pode levar" embaixo)
+     8) RODAPÉ
+     9) BOTÕES E CAIXAS DE TEXTO
+    10) JANELAS (nome, "Não pode levar" e editar itens)
+   ===================================================================== */
+
+
+/* =====================================================================
+   1) CORES DOS DOIS TEMAS — para mudar uma cor, mude só aqui
    ===================================================================== */
 
 :root {
   /* TEMA ESCURO (o padrão) */
   color-scheme: dark;
+
+  /* fundo da página */
   --fundo:
     radial-gradient(ellipse 60% 45% at 50% 40%, rgba(240, 190, 100, 0.2), transparent 70%),
     radial-gradient(circle at 6% 92%, rgba(214, 100, 130, 0.38), transparent 45%),
@@ -13,35 +30,31 @@
   --bolhas: rgba(245, 220, 165, 0.6);
   --faisca: rgba(255, 240, 200, 0.95);
 
+  /* título e números da contagem */
   --degrade: linear-gradient(90deg, #ff8aa5, #ff9f70 35%, #ffc44d 70%, #ffe08f);
-  /* título e números */
-  --lateral: #9c4a3a;
-  /* lateral 3D do título */
-  --sombra-chao: rgba(0, 0, 0, 0.85);
+  --lateral: #9c4a3a;                        /* lateral 3D do título */
+  --sombra-chao: rgba(0, 0, 0, 0.85);        /* sombra do título no chão */
 
+  /* textos */
   --texto: #f5ecdc;
   --texto-suave: #c9bca6;
   --destaque: #ffc44d;
-  --texto-no-destaque: #1a1020;
-  /* texto em cima do --destaque */
-  --cartao: rgba(255, 255, 255, 0.06);
-  --borda: rgba(212, 180, 120, 0.3);
-  --verso: rgba(27, 24, 48, 0.96);
-  /* verso dos cartões e janelas */
-  --campo: #241f38;
-  --cartao-forte: rgba(255, 255, 255, 0.1);
-  /* vidro mais claro: botões com o mouse em cima */
-  --sombra: 0 24px 60px -20px rgba(0, 0, 0, 0.7);
-  --perigo: #ff6b61;
-  /* vermelho das alergias e da lixeira */
-  --visto: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%231a1020' stroke-width='3.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M5 12.5l4.5 4.5L19 7.5'/%3E%3C/svg%3E");
-  /* o "✓" da caixinha marcada */
-  /* fundo das caixas de texto */
+  --texto-no-destaque: #1a1020;              /* texto em cima do --destaque */
 
+  /* caixas, bordas e janelas */
+  --cartao: rgba(255, 255, 255, 0.06);       /* vidro fosco */
+  --cartao-forte: rgba(255, 255, 255, 0.1);  /* vidro mais claro (mouse em cima) */
+  --borda: rgba(212, 180, 120, 0.3);
+  --verso: rgba(27, 24, 48, 0.96);           /* verso dos cartões e janelas */
+  --campo: #241f38;                          /* fundo das caixas de texto */
+  --sombra: 0 24px 60px -20px rgba(0, 0, 0, 0.7);
+  --perigo: #ff6b61;                         /* vermelho das alergias e da lixeira */
+  /* o "✓" da caixinha marcada */
+  --visto: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%231a1020' stroke-width='3.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M5 12.5l4.5 4.5L19 7.5'/%3E%3C/svg%3E");
+
+  /* botão do tema */
   --trilho: linear-gradient(135deg, #0b1020, #1b2540 60%, #2a2f45);
-  /* botão do tema e de editar */
-  --astro:
-    /* a lua: 3 crateras + prata */
+  --astro:                                   /* a lua: 3 crateras + prata */
     radial-gradient(circle at 66% 30%, #d9d3c5 3.5px, transparent 4px),
     radial-gradient(circle at 34% 62%, #ddd7ca 2.5px, transparent 3px),
     radial-gradient(circle at 62% 76%, #d9d3c5 2px, transparent 2.5px),
@@ -49,8 +62,9 @@
 }
 
 html[data-tema="claro"] {
-  /* TEMA CLARO */
+  /* TEMA CLARO (mesmos nomes, outras cores) */
   color-scheme: light;
+
   --fundo:
     radial-gradient(circle at 6% 92%, rgba(235, 150, 160, 0.32), transparent 45%),
     radial-gradient(circle at 94% 8%, rgba(240, 195, 110, 0.32), transparent 42%),
@@ -65,23 +79,23 @@ html[data-tema="claro"] {
   --texto-suave: #6b5442;
   --destaque: #b3264f;
   --texto-no-destaque: #fff;
+
   --cartao: rgba(255, 255, 255, 0.6);
+  --cartao-forte: rgba(255, 255, 255, 0.95);
   --borda: rgba(154, 116, 50, 0.3);
   --verso: rgba(255, 253, 249, 0.97);
   --campo: #fffdf9;
-  --cartao-forte: rgba(255, 255, 255, 0.95);
   --sombra: 0 24px 60px -24px rgba(90, 60, 30, 0.3);
   --perigo: #d9342b;
   --visto: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23fff' stroke-width='3.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M5 12.5l4.5 4.5L19 7.5'/%3E%3C/svg%3E");
 
   --trilho: linear-gradient(135deg, #c9d6e2, #e4dccb 60%, #eadfc8);
-  --astro: radial-gradient(circle at 35% 30%, #fff4d6, #e9c068 55%, #c9952f);
-  /* o sol */
+  --astro: radial-gradient(circle at 35% 30%, #fff4d6, #e9c068 55%, #c9952f);   /* o sol */
 }
 
 
 /* =====================================================================
-   PÁGINA E FUNDO ANIMADO (bolhas subindo + faíscas piscando)
+   2) PÁGINA E FUNDO ANIMADO (bolhas subindo + faíscas piscando)
    ===================================================================== */
 
 body {
@@ -134,9 +148,17 @@ body::after {
 
 main,
 footer {
+  /* o conteúdo fica no meio, com no máximo 1100px de largura */
   max-width: 1100px;
   margin: 0 auto;
+}
+
+main {
   padding: 0 16px;
+}
+
+section {
+  margin-bottom: 90px;
 }
 
 h2 {
@@ -145,10 +167,7 @@ h2 {
   color: var(--destaque);
 }
 
-section {
-  margin-bottom: 90px;
-}
-
+/* textos em cor mais apagada */
 .subtitulo,
 .data-festa,
 .legenda,
@@ -157,15 +176,24 @@ section {
   color: var(--texto-suave);
 }
 
+/* Quem pediu menos movimento no sistema: nada se mexe */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation: none !important;
+    transition: none !important;
+  }
+}
+
 
 /* =====================================================================
-   TÍTULO: degradê + faixa de brilho + lateral 3D + sombra no chão
+   3) TÍTULO: degradê + faixa de brilho + lateral 3D + sombra no chão
    ===================================================================== */
 
 header {
   padding: 110px 16px 72px;
-  overflow-x: clip;
-  /* a sombra inclinada não alarga a página */
+  overflow-x: clip;                          /* a sombra inclinada não alarga a página */
 }
 
 h1 {
@@ -175,8 +203,7 @@ h1 {
   font-size: min(100px, 8.2vw);
   line-height: 1;
   text-transform: uppercase;
-  color: transparent;
-  /* mostra o fundo recortado nas letras */
+  color: transparent;                        /* mostra o fundo recortado nas letras */
   background:
     linear-gradient(105deg, transparent 34%, #fff8 42%, #fff 47% 53%, #fff8 58%, transparent 66%) 150% 0 / 200% 100% no-repeat,
     var(--degrade);
@@ -186,12 +213,10 @@ h1 {
 }
 
 @keyframes brilho {
-
   /* a faixa branca atravessa o nome */
   0% {
     background-position: 150% 0, 0 0;
   }
-
   65%,
   100% {
     background-position: -50% 0, 0 0;
@@ -239,7 +264,7 @@ h1::after {
 
 
 /* =====================================================================
-   BOTÃO DO TEMA: trilho com a lua (direita) ou o sol (esquerda)
+   4) BOTÃO DO TEMA: trilho com a lua (direita) ou o sol (esquerda)
    ===================================================================== */
 
 .botao-tema {
@@ -257,7 +282,7 @@ h1::after {
 }
 
 .astro {
-  /* a bolinha: lua no escuro, sol no claro */
+  /* a bolinha: lua no escuro (direita), sol no claro (esquerda) */
   position: absolute;
   top: 4.5px;
   left: 4.5px;
@@ -267,7 +292,6 @@ h1::after {
   background: var(--astro);
   box-shadow: 0 0 10px 2px rgba(244, 230, 195, 0.4);
   transform: translateX(40px);
-  /* escuro: lua na direita */
   transition: transform 0.6s;
 }
 
@@ -275,10 +299,8 @@ html[data-tema="claro"] .astro {
   transform: none;
 }
 
-/* claro: sol na esquerda */
-
 .ceu {
-  /* estrelinhas (escuro) ou nuvem (claro) */
+  /* estrelinhas (escuro) */
   position: absolute;
   inset: 0;
   border-radius: inherit;
@@ -290,6 +312,7 @@ html[data-tema="claro"] .astro {
 }
 
 html[data-tema="claro"] .ceu {
+  /* nuvem (claro) */
   background:
     radial-gradient(circle at 70% 68%, #fff 6px, transparent 6.5px),
     radial-gradient(circle at 79% 60%, #fff 7px, transparent 7.5px),
@@ -298,7 +321,7 @@ html[data-tema="claro"] .ceu {
 
 
 /* =====================================================================
-   CONTAGEM REGRESSIVA
+   5) CONTAGEM REGRESSIVA
    ===================================================================== */
 
 .data-festa {
@@ -308,12 +331,11 @@ html[data-tema="claro"] .ceu {
 }
 
 .data-festa::first-letter {
-  text-transform: uppercase;
+  text-transform: uppercase;                 /* "sábado" vira "Sábado" */
 }
 
-/* "sábado" vira "Sábado" */
-
 .numeros {
+  /* os 4 blocos lado a lado */
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   gap: clamp(8px, 2vw, 24px);
@@ -339,8 +361,7 @@ html[data-tema="claro"] .ceu {
   font-size: clamp(40px, 11vw, 130px);
   line-height: 1;
   letter-spacing: 0;
-  font-variant-numeric: tabular-nums;
-  /* números da mesma largura: nada "pula" */
+  font-variant-numeric: tabular-nums;        /* números da mesma largura: nada "pula" */
   color: transparent;
   background: var(--degrade);
   -webkit-background-clip: text;
@@ -356,7 +377,7 @@ html[data-tema="claro"] .ceu {
 
 
 /* =====================================================================
-   O QUE LEVAR: botão de editar em cima + cartões que viram + lista "Não pode levar"
+   6) O QUE LEVAR: os botões "Editar itens" e "Não pode levar" em cima + cartões
    ===================================================================== */
 
 .subtitulo {
@@ -364,18 +385,23 @@ html[data-tema="claro"] .ceu {
 }
 
 .area-cartoes {
-  /* o botão em cima, os cartões embaixo */
+  /* os botões em cima, os cartões embaixo */
   display: grid;
   gap: 18px;
 }
 
-.abas {
+/* ---------- Botões "Editar itens" e "Não pode levar" ---------- */
+
+.botoes {
+  /* os dois botões lado a lado, no meio */
   display: flex;
+  flex-wrap: wrap;
   justify-content: center;
+  gap: 12px;
 }
 
 .botao-editar {
-  /* pílula de vidro fosco: ícone + texto */
+  /* pílula de vidro fosco: ícone + texto (os dois botões usam esta classe) */
   display: flex;
   align-items: center;
   gap: 12px;
@@ -391,11 +417,21 @@ html[data-tema="claro"] .ceu {
   transition: transform 0.25s, border-color 0.25s, box-shadow 0.25s, background 0.25s;
 }
 
+.botao-editar:hover {
+  border-color: color-mix(in srgb, var(--destaque) 60%, transparent);
+  background: var(--cartao-forte);
+  box-shadow: 0 12px 30px -10px color-mix(in srgb, var(--destaque) 50%, transparent);
+  transform: translateY(-2px);
+}
+
+.botao-editar:active {
+  transform: scale(0.97);
+}
+
 .icone-editar {
-  /* bolinha colorida com o ícone */
+  /* bolinha colorida com o lápis */
   display: grid;
   place-items: center;
-  flex-shrink: 0;
   width: 38px;
   height: 38px;
   border-radius: 50%;
@@ -409,127 +445,27 @@ html[data-tema="claro"] .ceu {
   height: 18px;
 }
 
-.botao-editar:hover {
-  border-color: color-mix(in srgb, var(--destaque) 60%, transparent);
-  background: var(--cartao-forte);
-  box-shadow: 0 12px 30px -10px color-mix(in srgb, var(--destaque) 50%, transparent);
-  transform: translateY(-2px);
-}
-
 .botao-editar:hover .icone-editar {
-  transform: rotate(-12deg) scale(1.08);
-  /* o lápis "escreve" */
+  transform: rotate(-12deg) scale(1.08);     /* o ícone dá uma "mexidinha" */
 }
 
-.botao-editar:active {
-  transform: scale(0.97);
+/* O botão "Não pode levar" muda só a cor: vermelho */
+.botao-alergias .icone-editar {
+  background: linear-gradient(150deg, color-mix(in srgb, var(--perigo), white 25%), var(--perigo));
+  color: #fff;
 }
 
-
-.quadro {
-  /* os cartões à esquerda e a lista "Não pode levar" à direita */
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) 250px;
-  gap: 18px;
-  align-items: start;
+.botao-alergias:hover {
+  border-color: color-mix(in srgb, var(--perigo) 60%, transparent);
+  box-shadow: 0 12px 30px -10px color-mix(in srgb, var(--perigo) 50%, transparent);
 }
 
-.lembrete {
-  /* lista vermelhinha: o que ninguém pode levar */
-  box-sizing: border-box;
-  padding: 20px;
-  border: 1px solid color-mix(in srgb, var(--perigo) 50%, transparent);
-  border-radius: 28px;
-  background: color-mix(in srgb, var(--perigo) 12%, var(--cartao));
-  backdrop-filter: blur(14px);
-  box-shadow: var(--sombra);
-  text-align: left;
-}
-
-.lembrete h3 {
-  margin: 0;
-  font-size: 18px;
-  color: var(--perigo);
-}
-
-.lembrete p {
-  margin: 6px 0 12px;
-  font-size: 13px;
-  color: var(--texto-suave);
-}
-
-.lembrete ul {
-  margin: 0;
-  padding: 0;
-  list-style: none;
-}
-
-.lembrete li {
-  /* uma linha por alergia: bolinha de "proibido" + nome + ✕ para remover */
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  padding: 6px 0;
-  border-bottom: 1px solid color-mix(in srgb, var(--perigo) 25%, transparent);
-  overflow-wrap: anywhere;
-}
-
-.lembrete li::before {
-  content: "";
-  flex-shrink: 0;
-  width: 14px;
-  height: 14px;
-  border: 2px solid var(--perigo);
-  border-radius: 50%;
-  background: linear-gradient(45deg, transparent 43%, var(--perigo) 43% 57%, transparent 57%);
-}
-
-.lembrete li b {
-  flex: 1;
-  font-weight: 600;
-}
-
-.lembrete li button {
-  flex-shrink: 0;
-  width: 28px;
-  height: 28px;
-  border: 0;
-  border-radius: 50%;
-  background: transparent;
-  color: var(--texto-suave);
-  font-size: 13px;
-  cursor: pointer;
-}
-
-.lembrete li button:hover {
-  background: color-mix(in srgb, var(--perigo) 30%, transparent);
-  color: var(--texto);
-}
-
-.form-alergia {
-  /* campo para adicionar + botão "+" */
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  margin-top: 14px;
-}
-
-.form-alergia .botao-icone {
-  border-color: color-mix(in srgb, var(--perigo) 55%, transparent);
-  color: var(--perigo);
-  font-size: 22px;
-}
-
-.form-alergia .botao-icone:hover {
-  border-color: var(--perigo);
-  background: color-mix(in srgb, var(--perigo) 15%, transparent);
-  color: var(--perigo);
-}
+/* ---------- Cartões ---------- */
 
 .cartoes {
+  /* 4 cartões lado a lado */
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  /* 4 cartões lado a lado */
   gap: 18px;
   text-align: left;
 }
@@ -548,16 +484,17 @@ html[data-tema="claro"] .ceu {
 
 .frente,
 .verso {
-  grid-area: 1 / 1;
+  grid-area: 1 / 1;                          /* os dois lados ocupam o mesmo lugar */
   box-sizing: border-box;
   min-height: 330px;
   border-radius: 28px;
-  backface-visibility: hidden;
-  /* esconde o lado que está de costas */
+  backface-visibility: hidden;               /* esconde o lado que está de costas */
 }
 
+/* ---------- Frente do cartão ---------- */
+
 .frente {
-  /* a foto (se tiver) por cima da cor do cartão; um brilho no canto dá volume */
+  /* a cor do cartão (--cor, vem do js/main.js), com um brilho no canto */
   position: relative;
   display: flex;
   flex-direction: column;
@@ -567,7 +504,6 @@ html[data-tema="claro"] .ceu {
   padding: 24px 16px;
   border: 0;
   background:
-    var(--foto, none) center / cover,
     radial-gradient(circle at 20% 0%, rgba(255, 255, 255, 0.45), transparent 55%),
     linear-gradient(160deg, color-mix(in srgb, var(--cor), white 14%), color-mix(in srgb, var(--cor), black 22%));
   box-shadow:
@@ -632,6 +568,8 @@ html[data-tema="claro"] .ceu {
   color: #17753a;
 }
 
+/* ---------- Verso do cartão ---------- */
+
 .verso {
   display: flex;
   flex-direction: column;
@@ -639,8 +577,7 @@ html[data-tema="claro"] .ceu {
   border: 1px solid var(--borda);
   background: var(--verso);
   box-shadow: var(--sombra);
-  transform: rotateY(180deg);
-  /* começa de costas */
+  transform: rotateY(180deg);                /* começa de costas */
 }
 
 .verso h3 {
@@ -690,7 +627,7 @@ html[data-tema="claro"] .ceu {
   background: var(--destaque) var(--visto) center / 14px no-repeat;
 }
 
-.itens input:checked+span {
+.itens input:checked + span {
   /* item marcado: riscado e apagadinho */
   text-decoration: line-through;
   color: var(--texto-suave);
@@ -713,16 +650,10 @@ html[data-tema="claro"] .ceu {
   align-self: flex-start;
 }
 
-/* Tablet e celular: a lista vai para cima dos cartões, e são 2 cartões por linha */
+/* ---------- Tablet e celular ---------- */
+
 @media (max-width: 860px) {
-  .quadro {
-    grid-template-columns: minmax(0, 1fr);
-  }
-
-  .lembrete {
-    order: -1;
-  }
-
+  /* 2 cartões por linha */
   .cartoes {
     grid-template-columns: repeat(2, 1fr);
     gap: 14px;
@@ -738,10 +669,10 @@ html[data-tema="claro"] .ceu {
   }
 }
 
-/* Celular: o botão ocupa a largura toda */
 @media (max-width: 480px) {
+  /* celular: os botões esticam e, se não couberem lado a lado, um fica embaixo do outro */
   .botao-editar {
-    flex: 1;
+    flex: 1 1 auto;
     padding-right: 14px;
     font-size: 13px;
   }
@@ -749,7 +680,8 @@ html[data-tema="claro"] .ceu {
 
 
 /* =====================================================================
-   QUEM LEVA O QUÊ: barra de progresso + lista
+   7) QUEM LEVA O QUÊ: barra de progresso + uma linha por pessoa
+      + a caixa "Não pode levar" embaixo
    ===================================================================== */
 
 .progresso-texto {
@@ -757,35 +689,46 @@ html[data-tema="claro"] .ceu {
   font-weight: 600;
 }
 
-.barra,
-.lista-final {
-  max-width: 640px;
-  margin: 0 auto;
-}
-
 .barra {
   height: 10px;
+  margin-bottom: 24px;
+  border: 1px solid var(--borda);
   border-radius: 999px;
   background: var(--cartao);
-  border: 1px solid var(--borda);
   overflow: hidden;
 }
 
 .barra span {
+  /* a parte cheia (a largura vem do js/main.js) */
   display: block;
   height: 100%;
   background: var(--degrade);
   transition: width 0.6s;
 }
 
-.lista-final {
-  margin-top: 24px;
+.quem-leva {
+  /* em cima quem leva o quê; embaixo a caixa "Não pode levar" */
+  display: grid;
+  gap: 18px;
+}
+
+.quem-leva .lista-vazia {
+  margin: 12px 0;
+}
+
+.lista-final,
+.lembrete {
+  /* as duas caixas de vidro: "Quem leva o quê" e "Não pode levar" */
   padding: 0 24px;
   border: 1px solid var(--borda);
   border-radius: 20px;
   background: var(--cartao);
-  list-style: none;
   text-align: left;
+}
+
+.lista-final {
+  margin: 0;
+  list-style: none;
 }
 
 .lista-final:empty {
@@ -817,7 +760,7 @@ html[data-tema="claro"] .ceu {
 }
 
 .levados {
-  /* tudo o que a pessoa marcou, lado a lado */
+  /* tudo o que a pessoa marcou, lado a lado, à direita */
   display: flex;
   flex: 1;
   flex-wrap: wrap;
@@ -833,41 +776,94 @@ html[data-tema="claro"] .ceu {
 }
 
 .levado small {
-  /* a categoria do item */
+  /* o cartão de onde o item veio */
   font-size: 12px;
   color: var(--texto-suave);
 }
 
+/* ---------- Caixa "Não pode levar" (embaixo da lista) ---------- */
+
+.lembrete h3 {
+  /* o título é a primeira "linha" da caixa */
+  margin: 0;
+  padding: 14px 0;
+  border-bottom: 1px solid var(--borda);
+  font-size: 16px;
+  color: var(--perigo);
+}
+
+.lembrete p {
+  /* "Nada proibido por enquanto." */
+  margin: 0;
+  padding: 14px 0;
+  font-size: 14px;
+  color: var(--texto-suave);
+}
+
+/* A lista de alergias: a mesma nos dois lugares (caixa e janela) */
+.lista-proibidos {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.lista-proibidos li {
+  /* bolinha de "proibido" + nome (+ ✕ na janela) */
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  overflow-wrap: anywhere;
+}
+
+.lista-proibidos li::before {
+  /* a bolinha de "proibido" */
+  content: "";
+  flex-shrink: 0;
+  width: 14px;
+  height: 14px;
+  border: 2px solid var(--perigo);
+  border-radius: 50%;
+  background: linear-gradient(45deg, transparent 43%, var(--perigo) 43% 57%, transparent 57%);
+}
+
+.lista-proibidos b {
+  flex: 1;
+  font-weight: 600;
+}
+
+/* Na caixa: os itens um ao lado do outro, como pílulas (se não cabem, descem) */
+.lembrete .lista-proibidos {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  padding: 14px 0;
+}
+
+.lembrete .lista-proibidos:empty {
+  display: none;
+}
+
+.lembrete .lista-proibidos li {
+  gap: 6px;
+  padding: 3px 12px 3px 8px;
+  border: 1px solid color-mix(in srgb, var(--perigo) 40%, transparent);
+  border-radius: 999px;
+  font-size: 14px;
+}
+
+.lembrete .lista-proibidos li::before {
+  /* a bolinha um pouco menor dentro da pílula */
+  width: 11px;
+  height: 11px;
+}
+
 
 /* =====================================================================
-   RODAPÉ
+   8) RODAPÉ: mapa do evento + recadinhos
    ===================================================================== */
 
-/* Imagem clicável do mapa */
-.mapa-imagem {
-  display: inline-block;
-  margin: 1rem auto 24px;
-  line-height: 0;
-  /* tira o espacinho embaixo da imagem */
-  transition: transform 0.2s, filter 0.2s;
-}
-
-.mapa-imagem img {
-  display: block;
-  width: clamp(48px, 7vw, 80px);
-  /* mesma fórmula do .emoji dos cartões */
-  max-width: 100%;
-  height: auto;
-  /* mantém a proporção */
-}
-
-.mapa-imagem:hover {
-  transform: translateY(-2px);
-  filter: brightness(1.1);
-}
-
 footer {
-  padding: 32px 16px 48px;
+  padding: 48px 16px;
   border-top: 1px solid var(--borda);
   font-size: 14px;
   font-weight: 600;
@@ -875,20 +871,38 @@ footer {
 }
 
 footer p {
-  margin: 0;
+  margin: 0 0 6px;
+}
+
+.mapa-imagem {
+  /* a imagem clicável do mapa */
+  display: inline-block;
+  margin: 16px auto 40px;
+  transition: transform 0.2s, filter 0.2s;
+}
+
+.mapa-imagem:hover {
+  transform: translateY(-2px);
+  filter: brightness(1.1);
+}
+
+.mapa-imagem img {
+  display: block;
+  width: clamp(48px, 7vw, 80px);
+  height: auto;                              /* mantém a proporção */
 }
 
 .dica-rodape {
-  margin-top: 6px !important;
   font-size: 12px;
   font-weight: 400;
 }
 
 
 /* =====================================================================
-   BOTÕES E CAIXAS DE TEXTO (usados nas janelas e nos cartões)
+   9) BOTÕES E CAIXAS DE TEXTO (usados no site todo)
    ===================================================================== */
 
+/* Botão cheio (Confirmar, Adicionar, Pronto) e botão só com borda (Voltar, Cancelar) */
 .botao,
 .botao-contorno {
   padding: 10px 18px;
@@ -896,7 +910,7 @@ footer p {
   font: 700 14px 'Montserrat', sans-serif;
   white-space: nowrap;
   cursor: pointer;
-  transition: transform 0.2s, filter 0.2s, color 0.2s, border-color 0.2s, background 0.2s;
+  transition: transform 0.2s, filter 0.2s, color 0.2s, border-color 0.2s;
 }
 
 .botao {
@@ -921,8 +935,8 @@ footer p {
   border-color: var(--destaque);
 }
 
+/* Botão redondinho só com um ícone (✕ de fechar, lixeira, +) */
 .botao-icone {
-  /* botão redondinho só com um ícone (fechar, lixeira) */
   display: grid;
   place-items: center;
   flex-shrink: 0;
@@ -949,13 +963,14 @@ footer p {
 }
 
 .botao-icone.perigo:hover {
+  /* a lixeira fica vermelha */
   color: var(--perigo);
   border-color: color-mix(in srgb, var(--perigo) 55%, transparent);
   background: color-mix(in srgb, var(--perigo) 12%, transparent);
 }
 
-dialog input,
-.lembrete input {
+/* Todas as caixas de texto do site (as caixinhas de marcar ficam de fora) */
+input:not([type="checkbox"]) {
   box-sizing: border-box;
   height: 44px;
   padding: 0 14px;
@@ -963,18 +978,30 @@ dialog input,
   border-radius: 14px;
   background: var(--campo);
   color: var(--texto);
-  font: 16px 'Montserrat', sans-serif;
-  /* 16px: o iPhone não dá zoom ao digitar */
+  font: 16px 'Montserrat', sans-serif;       /* 16px: o iPhone não dá zoom ao digitar */
   transition: border-color 0.2s, box-shadow 0.2s;
 }
 
-dialog input:focus,
-.lembrete input:focus {
+input:not([type="checkbox"]):focus {
   outline: 0;
   border-color: var(--destaque);
   box-shadow: 0 0 0 4px color-mix(in srgb, var(--destaque) 22%, transparent);
 }
 
+/* Uma linha com campo + botão: o campo estica, o botão fica do tamanho dele */
+.linha {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+
+.linha input {
+  flex: 1;
+  min-width: 0;
+}
+
+/* Contorno de quem navega pelo teclado (tecla Tab) */
 :focus-visible {
   outline: 3px solid var(--destaque);
   outline-offset: 3px;
@@ -982,13 +1009,12 @@ dialog input:focus,
 
 
 /* =====================================================================
-   JANELAS: abrem como um cartão no meio da tela
-   (a do nome e a de editar itens)
+   10) JANELAS: abrem como um cartão no meio da tela
+       (a do nome, a de "Não pode levar" e o painel de editar itens)
    ===================================================================== */
 
 dialog {
-  margin: auto;
-  /* dialog com margin auto fica centralizado */
+  margin: auto;                              /* margin auto = centralizado na tela */
   padding: 0;
   border: 1px solid var(--borda);
   border-radius: 28px;
@@ -1004,8 +1030,7 @@ dialog[open] {
 }
 
 @keyframes aparecer {
-
-  /* o cartão cresce um pouquinho ao abrir */
+  /* a janela cresce um pouquinho ao abrir */
   from {
     opacity: 0;
     transform: scale(0.94) translateY(14px);
@@ -1013,6 +1038,7 @@ dialog[open] {
 }
 
 dialog::backdrop {
+  /* o fundo escuro e desfocado atrás da janela */
   background: rgba(10, 8, 20, 0.62);
   backdrop-filter: blur(8px);
 }
@@ -1025,12 +1051,15 @@ dialog h3 {
   color: var(--destaque);
 }
 
-/* Janelinha do nome */
+/* ---------- Janelinha do nome ---------- */
+
 .janela {
   width: min(400px, 100% - 32px);
 }
 
-.janela form {
+#janela-nome form,
+.janela-miolo {
+  /* o espaço por dentro das janelinhas */
   padding: 28px;
 }
 
@@ -1053,14 +1082,61 @@ dialog h3 {
 }
 
 .cancelar {
-  /* aparece à esquerda, mesmo vindo depois no HTML */
-  order: -1;
+  order: -1;                                 /* aparece à esquerda, mesmo vindo depois no HTML */
 }
 
-/* Painel de editar itens */
+/* ---------- Janela "Não pode levar" ---------- */
+
+#janela-alergias h3 {
+  margin: 0 0 8px;
+  font-size: 18px;
+  color: var(--perigo);
+}
+
+.form-alergia {
+  margin: 18px 0 10px;
+}
+
+.form-alergia .botao-icone {
+  /* o "+" vermelho */
+  border-color: color-mix(in srgb, var(--perigo) 55%, transparent);
+  color: var(--perigo);
+  font-size: 22px;
+}
+
+.form-alergia .botao-icone:hover {
+  border-color: var(--perigo);
+  background: color-mix(in srgb, var(--perigo) 15%, transparent);
+}
+
+#janela-alergias-lista li {
+  /* na janela: uma linha por item, com um traço embaixo */
+  padding: 6px 0;
+  border-bottom: 1px solid color-mix(in srgb, var(--perigo) 25%, transparent);
+}
+
+#janela-alergias-lista button {
+  /* o ✕ de remover */
+  flex-shrink: 0;
+  width: 28px;
+  height: 28px;
+  border: 0;
+  border-radius: 50%;
+  background: transparent;
+  color: var(--texto-suave);
+  font-size: 13px;
+  cursor: pointer;
+}
+
+#janela-alergias-lista button:hover {
+  background: color-mix(in srgb, var(--perigo) 30%, transparent);
+  color: var(--texto);
+}
+
+/* ---------- Painel de editar itens ---------- */
+
 .painel {
-  width: min(680px, 100% - 24px);
-  /* larga o bastante para as 4 abas caberem numa linha só */
+  width: min(680px, 100% - 24px);            /* larga o bastante para as 4 abas numa linha */
   overflow: hidden;
 }
 
@@ -1094,6 +1170,7 @@ dialog h3 {
 }
 
 .chip {
+  /* uma aba: emoji + nome + número de itens */
   display: flex;
   align-items: center;
   justify-content: center;
@@ -1109,6 +1186,18 @@ dialog h3 {
   transition: background 0.2s, color 0.2s, border-color 0.2s;
 }
 
+.chip:hover {
+  color: var(--texto);
+  border-color: var(--texto-suave);
+}
+
+.chip[aria-pressed="true"] {
+  /* a aba aberta fica com a cor do cartão */
+  border-color: var(--cor);
+  background: var(--cor);
+  color: #fff;
+}
+
 .chip small {
   /* quantos itens o cartão tem */
   min-width: 20px;
@@ -1121,69 +1210,27 @@ dialog h3 {
   text-align: center;
 }
 
-.chip:hover {
-  color: var(--texto);
-  border-color: var(--texto-suave);
-}
-
-.chip[aria-pressed="true"] {
-  border-color: var(--cor);
-  background: var(--cor);
-  color: #fff;
-}
-
 .chip[aria-pressed="true"] small {
   background: rgba(255, 255, 255, 0.25);
 }
 
-/* Celular: 2 abas em cima, 2 embaixo */
-@media (max-width: 640px) {
-  .chips {
-    grid-template-columns: repeat(2, 1fr);
-    padding-inline: 16px;
-  }
-
-  .chip {
-    font-size: 12.5px;
-  }
-}
-
 .painel-corpo {
+  /* a lista de itens (rola se for grande) */
   flex: 1;
-  min-height: 120px;
+  min-height: 250px;                         /* trocar de aba não faz a janela "pular" de tamanho */
   padding: 4px 24px 24px;
   overflow-y: auto;
 }
 
-#painel-categorias {
-  min-height: 250px;
-  /* trocar de aba não faz a janela "pular" de tamanho */
+.painel-corpo .lista-vazia {
+  margin: 8px 0;
 }
 
-.painel-categoria .linha,
-.painel-categoria form {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  margin-bottom: 8px;
-}
-
-.painel-categoria input,
-.form-alergia input {
-  /* o campo estica; o botão fica do tamanho dele */
-  flex: 1;
-  min-width: 0;
-}
-
-.painel-categoria form {
+.form-novo {
   /* "Novo item": separado da lista por uma linha */
   margin: 16px 0 0;
   padding-top: 16px;
   border-top: 1px solid var(--borda);
-}
-
-.painel-categoria .lista-vazia {
-  margin: 8px 0;
 }
 
 .painel-rodape {
@@ -1194,14 +1241,14 @@ dialog h3 {
   border-top: 1px solid var(--borda);
 }
 
+@media (max-width: 640px) {
+  /* celular: 2 abas em cima, 2 embaixo */
+  .chips {
+    grid-template-columns: repeat(2, 1fr);
+    padding-inline: 16px;
+  }
 
-/* Quem pediu menos movimento no sistema: nada se mexe */
-@media (prefers-reduced-motion: reduce) {
-
-  *,
-  *::before,
-  *::after {
-    animation: none !important;
-    transition: none !important;
+  .chip {
+    font-size: 12.5px;
   }
 }

@@ -2,18 +2,20 @@
 // 1) O QUE VOCÊ PODE MUDAR
 // =====================================================================
 
-// Data da festa. Formato: ANO-MÊS-DIATHORA:MINUTO:SEGUNDO-03:00 (-03:00 = horário de Brasília)
+// Data e hora da festa. O "-03:00" no fim é o horário de Brasília.
 const DATA_DA_FESTA = new Date("2026-12-21T19:00:00-03:00");
 
-// A lista inicial de itens de cada cartão.
-// O nome antes dos ":" é o data-categoria do cartão no index.html.
-// (O botão "Editar itens" do site muda essa lista sem precisar mexer aqui.)
-const ITENS_INICIAIS = {
-  comidas: ["Salgadinhos", "Pizza", "Pão de alho"],
-  bebidas: ["Refrigerante", "Suco", "Água"],
-  doces: ["Bolo", "Brigadeiro", "Sorvete"],
-  descartaveis: ["Copos", "Pratos e talheres", "Guardanapos"],
-};
+// Os cartões de "O que levar?". Para criar um cartão novo, copie uma linha e mude.
+//   id    = nome interno do cartão (sem espaço e sem acento)
+//   nome  = o que aparece escrito no cartão
+//   cor   = a cor do cartão
+//   itens = a lista inicial (depois, o botão "Editar itens" muda a lista pelo próprio site)
+const CARTOES = [
+  { id: "comidas",      nome: "Comidas",      emoji: "🍕", cor: "#e8615a", itens: ["Salgadinhos", "Pizza", "Pão de alho"] },
+  { id: "bebidas",      nome: "Bebidas",      emoji: "🥤", cor: "#3b6fd8", itens: ["Refrigerante", "Suco", "Água"] },
+  { id: "doces",        nome: "Doces",        emoji: "🍰", cor: "#c2456b", itens: ["Bolo", "Brigadeiro", "Sorvete"] },
+  { id: "descartaveis", nome: "Descartáveis", emoji: "🍽️", cor: "#6d58c9", itens: ["Copos", "Pratos e talheres", "Guardanapos"] },
+];
 
 
 // =====================================================================
@@ -46,38 +48,42 @@ function trocarTema() {
 
 
 // =====================================================================
-// 4) OS DADOS DA FESTA
-//   itens    = { comidas: ["Pizza", ...], ... }   (o que tem em cada cartão)
-//   escolhas = { "Pizza": "Ana", ... }             (quem leva cada item)
+// 4) OS DADOS DA FESTA (ficam guardados no navegador)
+//   itens    = { comidas: ["Pizza", ...], ... }   o que tem em cada cartão
+//   escolhas = { "Pizza": "Ana", ... }             quem leva cada item
+//   alergias = ["Amendoim", ...]                   o que não pode entrar nos cartões
 // =====================================================================
-let itens = ler("lista", structuredClone(ITENS_INICIAIS));
-let escolhas = ler("quem-leva", {});
-let alergias = ler("alergias", []);            // ["Amendoim", "Camarão", ...]
-let itemEscolhido = null;                      // o item que está esperando o nome na janelinha
 
+// A lista original de itens, montada a partir dos CARTOES lá de cima
+const listaOriginal = () => Object.fromEntries(CARTOES.map((cartao) => [cartao.id, [...cartao.itens]]));
+
+let itens = ler("lista", listaOriginal());
+let escolhas = ler("quem-leva", {});
+let alergias = ler("alergias", []);
+
+// Todos os itens de todos os cartões numa lista só
 const todosOsItens = () => Object.values(itens).flat();
 
-// "Pão de Açúcar" vira "pao de acucar": assim "camarao" e "Camarão" contam como iguais
-const semAcento = (texto) => texto.normalize("NFD").replace(/[̀-ͯ]/g, "").toLowerCase();
+// "Camarão" vira "camarao": assim acentos e maiúsculas não fazem diferença
+const semAcento = (texto) => texto.normalize("NFD").replace(/\p{Diacritic}/gu, "").toLowerCase().trim();
 
-// Diz a qual alergia o item pertence (ou undefined se estiver liberado).
-// Procura a alergia no começo de uma palavra: "ovo" bloqueia "Ovos" e "Bolo de ovo", mas não "Novo".
+// Diz qual alergia bloqueia o item (ou undefined se o item estiver liberado).
+// A alergia precisa estar no começo de uma palavra:
+// "ovo" bloqueia "Ovos" e "Bolo de ovo", mas não bloqueia "Novo".
 function alergiaDoItem(item) {
-  const nome = semAcento(item);
-  return alergias.find((alergia) => {
-    const palavra = semAcento(alergia).replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
-    return new RegExp("\\b" + palavra).test(nome);
-  });
+  const nome = " " + semAcento(item);
+  return alergias.find((alergia) => nome.includes(" " + semAcento(alergia)));
 }
 
 
 // =====================================================================
-// 5) QUANDO A PÁGINA CARREGA: liga os botões e desenha tudo
+// 5) QUANDO A PÁGINA CARREGA: monta os cartões, liga os botões e desenha tudo
 // =====================================================================
 document.addEventListener("DOMContentLoaded", () => {
-  const $ = (seletor) => document.querySelector(seletor);   // atalho para achar um elemento
+  // Atalho para achar um elemento da página: $("#lista-final")
+  const $ = (seletor) => document.querySelector(seletor);
 
-  // Atalho para criar um elemento já com o HTML de dentro (e a classe, se tiver)
+  // Atalho para criar um elemento já com o HTML de dentro (e uma classe, se quiser)
   function criar(tag, html, classe = "") {
     const elemento = document.createElement(tag);
     elemento.className = classe;
@@ -87,12 +93,25 @@ document.addEventListener("DOMContentLoaded", () => {
 
   $("#botao-tema").onclick = trocarTema;
 
-  // ---------- Contagem regressiva ----------
-  $("#data-festa").textContent =
-    DATA_DA_FESTA.toLocaleDateString("pt-BR", { weekday: "long", day: "numeric", month: "long", timeZone: "America/Sao_Paulo" }) +
-    " às " + DATA_DA_FESTA.toLocaleTimeString("pt-BR", { hour: "2-digit", minute: "2-digit", timeZone: "America/Sao_Paulo" });
+  // As janelas: qualquer botão com data-fechar fecha a janela dele,
+  // e clicar fora da janela (na parte escura) também fecha.
+  document.querySelectorAll("[data-fechar]").forEach((botao) => {
+    botao.onclick = () => botao.closest("dialog").close();
+  });
+  document.querySelectorAll("dialog").forEach((janela) => {
+    janela.addEventListener("click", (evento) => {
+      if (evento.target === janela) janela.close();
+    });
+  });
 
-  const doisDigitos = (n) => String(n).padStart(2, "0");    // 7 vira "07"
+
+  // ---------- CONTAGEM REGRESSIVA ----------
+  const fuso = { timeZone: "America/Sao_Paulo" };
+  $("#data-festa").textContent =
+    DATA_DA_FESTA.toLocaleDateString("pt-BR", { ...fuso, weekday: "long", day: "numeric", month: "long" }) +
+    " às " + DATA_DA_FESTA.toLocaleTimeString("pt-BR", { ...fuso, hour: "2-digit", minute: "2-digit" });
+
+  const doisDigitos = (numero) => String(numero).padStart(2, "0");   // 7 vira "07"
 
   function contar() {
     const segundos = Math.floor((DATA_DA_FESTA - Date.now()) / 1000);
@@ -106,45 +125,69 @@ document.addEventListener("DOMContentLoaded", () => {
     $("#minutos").textContent = doisDigitos(Math.floor(segundos / 60) % 60);
     $("#segundos").textContent = doisDigitos(segundos % 60);
   }
-  const relogio = setInterval(contar, 1000);
+  const relogio = setInterval(contar, 1000);   // roda o contar() a cada 1 segundo
   contar();
 
-  // ---------- Virar os cartões ----------
-  document.querySelectorAll(".cartao").forEach((cartao) => {
+
+  // ---------- MONTAR OS CARTÕES (um para cada linha de CARTOES) ----------
+  // Frente: emoji + nome. Verso: a lista de itens com as caixinhas.
+  CARTOES.forEach((info) => {
+    const cartao = criar("article", `
+      <button class="frente">
+        <span class="selo"></span>
+        <span class="emoji">${info.emoji}</span>
+        <span class="nome">${info.nome}</span>
+        <span class="dica">Toque para escolher</span>
+      </button>
+      <div class="verso" inert>
+        <h3>${info.nome}</h3>
+        <ul class="itens"></ul>
+        <button class="voltar botao-contorno">↩ Voltar</button>
+      </div>`, "cartao");
+    cartao.style.setProperty("--cor", info.cor);
+    info.elemento = cartao;                      // guarda o cartão para o desenhar() achar depois
+
+    // Virar o cartão. "inert" = o lado escondido não recebe clique nem Tab.
     const frente = cartao.querySelector(".frente");
     const verso = cartao.querySelector(".verso");
-    verso.inert = true;                        // inert: o lado escondido não recebe clique nem Tab
-
     function virar(mostrarVerso) {
       cartao.classList.toggle("virado", mostrarVerso);
       frente.inert = mostrarVerso;
       verso.inert = !mostrarVerso;
-      (mostrarVerso ? cartao.querySelector(".voltar") : frente).focus();
+      (mostrarVerso ? verso.querySelector(".voltar") : frente).focus();
     }
-
     frente.onclick = () => virar(true);
-    cartao.querySelector(".voltar").onclick = () => virar(false);
+    verso.querySelector(".voltar").onclick = () => virar(false);
+
+    $("#cartoes").append(cartao);
   });
 
-  // ---------- Desenhar: cartões, selos, lista do fim e barra de progresso ----------
-  // Sempre que algo muda, esta função guarda os dados e desenha tudo de novo.
+
+  // ---------- DESENHAR TUDO ----------
+  // Sempre que algo muda, chame desenhar(): ele guarda os dados e redesenha a página.
   function desenhar() {
+    // Quem escolheu um item que não existe mais (removido ou renomeado) sai da lista
+    for (const item in escolhas) {
+      if (!todosOsItens().includes(item)) delete escolhas[item];
+    }
     guardar("lista", itens);
     guardar("quem-leva", escolhas);
-    $("#lista-final").innerHTML = "";
-    const linhasPorPessoa = {};                // uma linha por pessoa na lista "Quem leva o quê"
 
-    document.querySelectorAll(".cartao").forEach((cartao) => {
-      const lista = itens[cartao.dataset.categoria] ??= [];
-      const categoria = cartao.querySelector("h3").textContent;
-      const ul = cartao.querySelector(".itens");
+    desenharCartoes();
+    desenharQuemLeva();
+    desenharProgresso();
+  }
+
+  // O verso de cada cartão (caixinha + item + quem leva) e o selo "1/3" da frente
+  function desenharCartoes() {
+    CARTOES.forEach((info) => {
+      const lista = (itens[info.id] ??= []);     // cartão novo ainda sem itens guardados: começa vazio
+      const ul = info.elemento.querySelector(".itens");
       ul.innerHTML = "";
 
       lista.forEach((item) => {
         const pessoa = escolhas[item];
-
-        // O item no verso do cartão: caixinha + nome do item + quem leva
-        // (textContent em vez de innerHTML: se alguém digitar código, ele aparece como texto e não roda)
+        // textContent (e não innerHTML) para o que as pessoas digitam: se alguém digitar código, ele não roda
         const li = criar("li", "<label><input type='checkbox'> <span></span></label><small></small>");
         li.querySelector("span").textContent = item;
         li.querySelector("small").textContent = pessoa ? "— " + pessoa : "";
@@ -152,33 +195,47 @@ document.addEventListener("DOMContentLoaded", () => {
         caixa.checked = Boolean(pessoa);
         caixa.onchange = () => marcar(item, caixa);
         ul.append(li);
-
-        // A lista "Quem leva o quê": cada pessoa tem UMA linha, com tudo o que ela marcou.
-        // ("ana", "Ana" e "ANA" contam como a mesma pessoa.)
-        if (pessoa) {
-          const chave = semAcento(pessoa.trim());
-          let linha = linhasPorPessoa[chave];
-          if (!linha) {
-            linha = linhasPorPessoa[chave] = criar("li", "<span class='etiqueta'></span><div class='levados'></div>");
-            linha.querySelector(".etiqueta").textContent = pessoa;
-            $("#lista-final").append(linha);
-          }
-          const levado = criar("span", "<b></b> <small></small>", "levado");
-          levado.querySelector("b").textContent = item;
-          levado.querySelector("small").textContent = categoria;
-          linha.querySelector(".levados").append(levado);
-        }
       });
 
-      // Selo da frente: "1/3", ou "Completo ✓"
+      // Selo da frente: "1/3", ou "Completo ✓" quando todos os itens têm dono
       const comDono = lista.filter((item) => escolhas[item]).length;
       const completo = lista.length > 0 && comDono === lista.length;
-      const selo = cartao.querySelector(".selo");
+      const selo = info.elemento.querySelector(".selo");
       selo.textContent = completo ? "Completo ✓" : `${comDono}/${lista.length}`;
       selo.classList.toggle("completo", completo);
     });
+  }
 
-    // Barra de progresso
+  // A lista "Quem leva o quê": UMA linha por pessoa, com tudo o que ela marcou.
+  // ("ana", "Ana" e "ANA" contam como a mesma pessoa.)
+  function desenharQuemLeva() {
+    const ul = $("#lista-final");
+    ul.innerHTML = "";
+    const linhaDaPessoa = {};
+
+    CARTOES.forEach((info) => {
+      itens[info.id].forEach((item) => {
+        const pessoa = escolhas[item];
+        if (!pessoa) return;                     // ninguém leva este item: pula
+
+        const chave = semAcento(pessoa);
+        if (!linhaDaPessoa[chave]) {             // primeira vez que aparece: cria a linha dela
+          linhaDaPessoa[chave] = criar("li", "<span class='etiqueta'></span><div class='levados'></div>");
+          linhaDaPessoa[chave].querySelector(".etiqueta").textContent = pessoa;
+          ul.append(linhaDaPessoa[chave]);
+        }
+        const levado = criar("span", "<b></b> <small></small>", "levado");
+        levado.querySelector("b").textContent = item;
+        levado.querySelector("small").textContent = info.nome;
+        linhaDaPessoa[chave].querySelector(".levados").append(levado);
+      });
+    });
+
+    $("#lista-vazia").hidden = ul.children.length > 0;
+  }
+
+  // A barra de progresso e o texto em cima dela
+  function desenharProgresso() {
     const todos = todosOsItens();
     const total = todos.length;
     const comDono = todos.filter((item) => escolhas[item]).length;
@@ -186,209 +243,215 @@ document.addEventListener("DOMContentLoaded", () => {
       ? "Tudo certo: todos os itens já têm alguém para levar! 🎉"
       : `${comDono} de ${total} itens já têm alguém para levar`;
     $("#barra-cheia").style.width = total ? (comDono / total) * 100 + "%" : "0";
-    $("#lista-vazia").hidden = comDono > 0;
   }
 
-  // ---------- Marcar e desmarcar um item ----------
+
+  // ---------- MARCAR / DESMARCAR UM ITEM ----------
+  let itemEsperandoNome = null;                  // o item que está esperando o nome na janelinha
+
   function marcar(item, caixa) {
     if (caixa.checked) {
-      caixa.checked = false;                   // só fica marcado depois que a pessoa confirmar o nome
-      itemEscolhido = item;
+      // Marcou: abre a janelinha do nome. A caixinha só fica marcada depois de confirmar.
+      caixa.checked = false;
+      itemEsperandoNome = item;
       $("#janela-titulo").textContent = `Quem vai levar ${item.toLowerCase()}?`;
       $("#campo-nome").value = ler("meu-nome", "");   // lembra o último nome usado
       $("#janela-nome").returnValue = "";
       $("#janela-nome").showModal();
     } else if (confirm(`Tirar "${item}" de ${escolhas[item]}?`)) {
+      // Desmarcou e confirmou
       delete escolhas[item];
       desenhar();
     } else {
+      // Desmarcou mas desistiu
       caixa.checked = true;
     }
   }
 
-  // A janelinha fechou (Confirmar, Cancelar ou Esc)
+  // A janelinha do nome fechou (Confirmar, Cancelar ou Esc)
   $("#janela-nome").onclose = () => {
     const nome = $("#campo-nome").value.trim();
-    if ($("#janela-nome").returnValue === "ok" && nome && itemEscolhido) {
-      escolhas[itemEscolhido] = nome;
+    if ($("#janela-nome").returnValue === "ok" && nome && itemEsperandoNome) {
+      escolhas[itemEsperandoNome] = nome;
       guardar("meu-nome", nome);
       desenhar();
     }
-    itemEscolhido = null;                      // pronto: nenhum item esperando nome
+    itemEsperandoNome = null;
   };
 
-  // ---------- Painel "Editar itens" ----------
-  // O painel mostra um cartão por vez; as abas em cima trocam de cartão.
-  let categoriaAberta = document.querySelector(".cartao").dataset.categoria;
 
-  const ICONE_LIXEIRA = "<svg viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' " +
-    "stroke-linecap='round' stroke-linejoin='round' aria-hidden='true'>" +
-    "<path d='M3 6h18'/><path d='M8 6V4h8v2'/><path d='M19 6l-1 14H6L5 6'/><path d='M10 11v5'/><path d='M14 11v5'/></svg>";
+  // ---------- PAINEL "EDITAR ITENS" ----------
+  // Mostra um cartão por vez; as abas em cima trocam de cartão.
+  let cartaoAberto = CARTOES[0].id;
+
+  const ICONE_LIXEIRA = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+    stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+    <path d="M3 6h18"/><path d="M8 6V4h8v2"/><path d="M19 6l-1 14H6L5 6"/><path d="M10 11v5"/><path d="M14 11v5"/></svg>`;
 
   function desenharPainel() {
+    // As abas: emoji + nome + quantos itens o cartão tem
     $("#painel-abas").innerHTML = "";
-    $("#painel-categorias").innerHTML = "";
-
-    document.querySelectorAll(".cartao").forEach((cartao) => {
-      const categoria = cartao.dataset.categoria;
-      const nomeDaCategoria = cartao.querySelector("h3").textContent;
-      const aberta = categoria === categoriaAberta;
-
-      // A aba: emoji + nome + quantos itens o cartão tem
-      const aba = criar("button", "<span></span> <b></b> <small></small>", "chip");
-      aba.setAttribute("aria-pressed", aberta);
-      aba.style.setProperty("--cor", cartao.style.getPropertyValue("--cor"));
-      aba.querySelector("span").textContent = cartao.querySelector(".emoji").textContent;
-      aba.querySelector("b").textContent = nomeDaCategoria;
-      aba.querySelector("small").textContent = itens[categoria].length;
+    CARTOES.forEach((info) => {
+      const aba = criar("button", `<span>${info.emoji}</span> <b>${info.nome}</b> <small>${itens[info.id].length}</small>`, "chip");
+      aba.setAttribute("aria-pressed", info.id === cartaoAberto);
+      aba.style.setProperty("--cor", info.cor);
       aba.onclick = () => {
-        categoriaAberta = categoria;
+        cartaoAberto = info.id;
         desenharPainel();
       };
       $("#painel-abas").append(aba);
-
-      const bloco = criar("div", "<div class='linhas'></div><p class='lista-vazia'>Este cartão está vazio.</p>" +
-        "<form><input placeholder='Novo item…' maxlength='40' aria-label='Novo item'> <button class='botao'>Adicionar</button></form>",
-        "painel-categoria");
-      bloco.hidden = !aberta;
-      bloco.querySelector(".lista-vazia").hidden = itens[categoria].length > 0;
-
-      // Uma linha por item: o nome (dá para editar) e o botão de remover
-      itens[categoria].forEach((item, posicao) => {
-        const linha = criar("div", "<input maxlength='40' aria-label='Nome do item'> " +
-          "<button class='botao-icone perigo' aria-label='Remover'>" + ICONE_LIXEIRA + "</button>", "linha");
-        const campo = linha.querySelector("input");
-        campo.value = item;
-        campo.onchange = () => renomear(categoria, posicao, campo.value.trim());
-        linha.querySelector("button").onclick = () => remover(categoria, posicao);
-        bloco.querySelector(".linhas").append(linha);
-      });
-
-      // Adicionar um item novo
-      const form = bloco.querySelector("form");
-      form.onsubmit = (evento) => {
-        evento.preventDefault();               // não recarrega a página
-        adicionar(categoria, form.querySelector("input").value.trim());
-      };
-
-      $("#painel-categorias").append(bloco);
     });
-  }
 
-  // Aviso de item bloqueado por alergia
-  const avisarAlergia = (nome, alergia) =>
-    alert(`"${nome}" não pode entrar: alguém tem alergia a ${alergia.toLowerCase()}.`);
-
-  function adicionar(categoria, nome) {
-    if (!nome) return;
-    if (todosOsItens().includes(nome)) return alert(`"${nome}" já está na lista.`);
-    const alergia = alergiaDoItem(nome);
-    if (alergia) return avisarAlergia(nome, alergia);
-    itens[categoria].push(nome);
-    desenhar();
-    desenharPainel();
-  }
-
-  function renomear(categoria, posicao, novoNome) {
-    const antigo = itens[categoria][posicao];
-    const repetido = novoNome !== antigo && todosOsItens().includes(novoNome);
-    const alergia = novoNome && !repetido && alergiaDoItem(novoNome);
-    if (alergia) avisarAlergia(novoNome, alergia);
-    if (!novoNome || repetido || alergia) return desenharPainel();   // volta ao nome antigo
-    itens[categoria][posicao] = novoNome;
-    if (novoNome !== antigo && escolhas[antigo]) {   // quem ia levar continua levando, com o nome novo
-      escolhas[novoNome] = escolhas[antigo];
-      delete escolhas[antigo];
+    // Os itens do cartão aberto: uma linha com o nome (dá para editar) e a lixeira
+    const lista = itens[cartaoAberto];
+    $("#painel-itens").innerHTML = "";
+    lista.forEach((item, posicao) => {
+      const linha = criar("div", "<input maxlength='40' aria-label='Nome do item'> " +
+        `<button class="botao-icone perigo" aria-label="Remover">${ICONE_LIXEIRA}</button>`, "linha");
+      const campo = linha.querySelector("input");
+      campo.value = item;
+      campo.onchange = () => renomear(posicao, campo.value.trim());
+      linha.querySelector("button").onclick = () => remover(posicao);
+      $("#painel-itens").append(linha);
+    });
+    if (lista.length === 0) {
+      $("#painel-itens").append(criar("p", "Este cartão está vazio.", "lista-vazia"));
     }
+  }
+
+  // Confere se um nome de item pode ser usado: não pode ser vazio, repetido ou ter alergia.
+  // Se não puder, avisa a pessoa e devolve false.
+  function nomePermitido(nome) {
+    if (!nome) return false;
+    if (todosOsItens().includes(nome)) {
+      alert(`"${nome}" já está na lista.`);
+      return false;
+    }
+    const alergia = alergiaDoItem(nome);
+    if (alergia) {
+      alert(`"${nome}" não pode entrar: alguém tem alergia a ${alergia.toLowerCase()}.`);
+      return false;
+    }
+    return true;
+  }
+
+  // Adicionar um item novo no cartão aberto
+  $("#form-item").onsubmit = (evento) => {
+    evento.preventDefault();                     // não recarrega a página
+    const campo = $("#campo-item");
+    const nome = campo.value.trim();
+    if (!nomePermitido(nome)) return;
+    itens[cartaoAberto].push(nome);
+    campo.value = "";
+    desenhar();
+    desenharPainel();
+  };
+
+  // Mudar o nome de um item (quem ia levar continua levando, com o nome novo)
+  function renomear(posicao, novoNome) {
+    const antigo = itens[cartaoAberto][posicao];
+    if (novoNome === antigo) return;
+    if (!nomePermitido(novoNome)) return desenharPainel();   // não pode: volta ao nome antigo
+    itens[cartaoAberto][posicao] = novoNome;
+    if (escolhas[antigo]) escolhas[novoNome] = escolhas[antigo];
     desenhar();
   }
 
-  function remover(categoria, posicao) {
-    const item = itens[categoria][posicao];
-    const pergunta = escolhas[item]
-      ? `"${item}" já está com ${escolhas[item]}. Remover mesmo assim?`
-      : `Remover "${item}"?`;
+  // Remover um item (pergunta antes)
+  function remover(posicao) {
+    const item = itens[cartaoAberto][posicao];
+    const pessoa = escolhas[item];
+    const pergunta = pessoa ? `"${item}" já está com ${pessoa}. Remover mesmo assim?` : `Remover "${item}"?`;
     if (!confirm(pergunta)) return;
-    itens[categoria].splice(posicao, 1);
-    delete escolhas[item];
+    itens[cartaoAberto].splice(posicao, 1);
     desenhar();
     desenharPainel();
   }
 
+  // Abrir o painel
   $("#botao-editar").onclick = () => {
     desenharPainel();
     $("#painel").showModal();
   };
 
-  // Fechar o painel: no ✕, no "Pronto" ou clicando fora dele (na parte escura)
-  $("#painel-fechar").onclick = $("#painel-pronto").onclick = () => $("#painel").close();
-  $("#painel").onclick = (evento) => {
-    if (evento.target === $("#painel")) $("#painel").close();
-  };
-
+  // Voltar para a lista original (sem os itens que têm alergia)
   $("#painel-restaurar").onclick = () => {
     if (!confirm("Voltar para a lista original? Os itens que você adicionou serão apagados.")) return;
-    itens = structuredClone(ITENS_INICIAIS);
-    tirarItensComAlergia();                    // a lista original também respeita as alergias
-    // quem tinha escolhido um item que não existe mais sai da lista
-    for (const item in escolhas) {
-      if (!todosOsItens().includes(item)) delete escolhas[item];
-    }
+    itens = listaOriginal();
+    tirarItensComAlergia();
     desenhar();
     desenharPainel();
   };
 
-  // ---------- Alergias ----------
-  // Tira dos cartões (e de quem ia levar) todo item bloqueado por alguma alergia
+
+  // ---------- "NÃO PODE LEVAR" (alergias) ----------
+  // Tira dos cartões todo item bloqueado por alguma alergia
   function tirarItensComAlergia() {
-    for (const categoria in itens) {
-      itens[categoria] = itens[categoria].filter((item) => {
-        if (!alergiaDoItem(item)) return true;
-        delete escolhas[item];
-        return false;
-      });
+    for (const id in itens) {
+      itens[id] = itens[id].filter((item) => !alergiaDoItem(item));
     }
   }
 
+  // Desenha a lista vermelha nos dois lugares:
+  //   - embaixo de "Quem leva o quê": só o nome
+  //   - dentro da janela "Não pode levar": o nome + o ✕ para remover
   function desenharAlergias() {
     guardar("alergias", alergias);
-    const ul = $("#lista-alergias");
-    ul.innerHTML = "";
+    $("#lista-alergias").innerHTML = "";
+    $("#janela-alergias-lista").innerHTML = "";
+
     alergias.forEach((alergia, posicao) => {
-      const li = criar("li", "<b></b> <button aria-label='Remover da lista'>✕</button>");
+      const li = criar("li", "<b></b>");
       li.querySelector("b").textContent = alergia;
-      li.querySelector("button").onclick = () => {
+      $("#lista-alergias").append(li);
+
+      // A cópia da janela ganha o ✕, que pergunta antes de remover
+      const liJanela = li.cloneNode(true);
+      const remover = criar("button", "✕");
+      remover.setAttribute("aria-label", "Remover da lista");
+      remover.onclick = () => {
+        const certeza = confirm(`Tem certeza que quer remover "${alergia}"?\n\n` +
+          "Alguém colocou isso na lista por um motivo (pode ser uma alergia).");
+        if (!certeza) return;
         alergias.splice(posicao, 1);
         desenharAlergias();
       };
-      ul.append(li);
+      liJanela.append(" ", remover);
+      $("#janela-alergias-lista").append(liJanela);
     });
+
     $("#alergias-vazia").hidden = alergias.length > 0;
   }
 
+  $("#botao-alergias").onclick = () => $("#janela-alergias").showModal();
+
+  // Adicionar uma alergia. Se algum item dos cartões tiver ela, pergunta se pode tirar.
   $("#form-alergia").onsubmit = (evento) => {
     evento.preventDefault();
     const campo = $("#campo-alergia");
     const nome = campo.value.trim();
     if (!nome) return;
-    if (alergias.some((a) => semAcento(a) === semAcento(nome))) return alert(`"${nome}" já está na lista.`);
+    if (alergias.some((alergia) => semAcento(alergia) === semAcento(nome))) {
+      return alert(`"${nome}" já está na lista.`);
+    }
 
     alergias.push(nome);
-    // Itens que já estão nos cartões e batem com a nova alergia
-    const bloqueados = todosOsItens().filter((item) => alergiaDoItem(item) === nome);
-    if (bloqueados.length) {
-      if (confirm(`Estes itens têm ${nome.toLowerCase()}: ${bloqueados.join(", ")}.\nTirar dos cartões?`)) {
-        tirarItensComAlergia();
-        desenhar();
-      } else {
-        alergias.pop();                        // desistiu: a alergia não é adicionada
+    const bloqueados = todosOsItens().filter((item) => alergiaDoItem(item));
+    if (bloqueados.length > 0) {
+      const tirar = confirm(`Estes itens têm ${nome.toLowerCase()}: ${bloqueados.join(", ")}.\nTirar dos cartões?`);
+      if (!tirar) {
+        alergias.pop();                          // desistiu: a alergia não entra
         return;
       }
+      tirarItensComAlergia();
+      desenhar();
     }
     campo.value = "";
     desenharAlergias();
   };
 
+
+  // ---------- PRIMEIRO DESENHO DA PÁGINA ----------
   desenharAlergias();
   desenhar();
 });
