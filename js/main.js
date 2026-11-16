@@ -77,6 +77,14 @@ function alergiaDoItem(item) {
 document.addEventListener("DOMContentLoaded", () => {
   const $ = (seletor) => document.querySelector(seletor);   // atalho para achar um elemento
 
+  // Atalho para criar um elemento já com o HTML de dentro (e a classe, se tiver)
+  function criar(tag, html, classe = "") {
+    const elemento = document.createElement(tag);
+    elemento.className = classe;
+    elemento.innerHTML = html;
+    return elemento;
+  }
+
   $("#botao-tema").onclick = trocarTema;
 
   // ---------- Contagem regressiva ----------
@@ -137,8 +145,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
         // O item no verso do cartão: caixinha + nome do item + quem leva
         // (textContent em vez de innerHTML: se alguém digitar código, ele aparece como texto e não roda)
-        const li = document.createElement("li");
-        li.innerHTML = "<label><input type='checkbox'> <span></span></label><small></small>";
+        const li = criar("li", "<label><input type='checkbox'> <span></span></label><small></small>");
         li.querySelector("span").textContent = item;
         li.querySelector("small").textContent = pessoa ? "— " + pessoa : "";
         const caixa = li.querySelector("input");
@@ -152,14 +159,11 @@ document.addEventListener("DOMContentLoaded", () => {
           const chave = semAcento(pessoa.trim());
           let linha = linhasPorPessoa[chave];
           if (!linha) {
-            linha = linhasPorPessoa[chave] = document.createElement("li");
-            linha.innerHTML = "<span class='etiqueta'></span><div class='levados'></div>";
+            linha = linhasPorPessoa[chave] = criar("li", "<span class='etiqueta'></span><div class='levados'></div>");
             linha.querySelector(".etiqueta").textContent = pessoa;
             $("#lista-final").append(linha);
           }
-          const levado = document.createElement("span");
-          levado.className = "levado";
-          levado.innerHTML = "<b></b> <small></small>";
+          const levado = criar("span", "<b></b> <small></small>", "levado");
           levado.querySelector("b").textContent = item;
           levado.querySelector("small").textContent = categoria;
           linha.querySelector(".levados").append(levado);
@@ -175,8 +179,9 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
     // Barra de progresso
-    const total = todosOsItens().length;
-    const comDono = todosOsItens().filter((item) => escolhas[item]).length;
+    const todos = todosOsItens();
+    const total = todos.length;
+    const comDono = todos.filter((item) => escolhas[item]).length;
     $("#progresso-texto").textContent = total > 0 && comDono === total
       ? "Tudo certo: todos os itens já têm alguém para levar! 🎉"
       : `${comDono} de ${total} itens já têm alguém para levar`;
@@ -230,11 +235,9 @@ document.addEventListener("DOMContentLoaded", () => {
       const aberta = categoria === categoriaAberta;
 
       // A aba: emoji + nome + quantos itens o cartão tem
-      const aba = document.createElement("button");
-      aba.className = "chip";
+      const aba = criar("button", "<span></span> <b></b> <small></small>", "chip");
       aba.setAttribute("aria-pressed", aberta);
       aba.style.setProperty("--cor", cartao.style.getPropertyValue("--cor"));
-      aba.innerHTML = "<span></span> <b></b> <small></small>";
       aba.querySelector("span").textContent = cartao.querySelector(".emoji").textContent;
       aba.querySelector("b").textContent = nomeDaCategoria;
       aba.querySelector("small").textContent = itens[categoria].length;
@@ -244,19 +247,16 @@ document.addEventListener("DOMContentLoaded", () => {
       };
       $("#painel-abas").append(aba);
 
-      const bloco = document.createElement("section");
-      bloco.className = "painel-categoria";
+      const bloco = criar("div", "<div class='linhas'></div><p class='lista-vazia'>Este cartão está vazio.</p>" +
+        "<form><input placeholder='Novo item…' maxlength='40' aria-label='Novo item'> <button class='botao'>Adicionar</button></form>",
+        "painel-categoria");
       bloco.hidden = !aberta;
-      bloco.innerHTML = "<div class='linhas'></div><p class='lista-vazia'>Este cartão está vazio.</p>" +
-        "<form><input placeholder='Novo item…' maxlength='40' aria-label='Novo item'> <button class='botao'>Adicionar</button></form>";
       bloco.querySelector(".lista-vazia").hidden = itens[categoria].length > 0;
 
       // Uma linha por item: o nome (dá para editar) e o botão de remover
       itens[categoria].forEach((item, posicao) => {
-        const linha = document.createElement("div");
-        linha.className = "linha";
-        linha.innerHTML = "<input maxlength='40' aria-label='Nome do item'> " +
-          "<button class='botao-icone perigo' aria-label='Remover'>" + ICONE_LIXEIRA + "</button>";
+        const linha = criar("div", "<input maxlength='40' aria-label='Nome do item'> " +
+          "<button class='botao-icone perigo' aria-label='Remover'>" + ICONE_LIXEIRA + "</button>", "linha");
         const campo = linha.querySelector("input");
         campo.value = item;
         campo.onchange = () => renomear(categoria, posicao, campo.value.trim());
@@ -291,16 +291,10 @@ document.addEventListener("DOMContentLoaded", () => {
 
   function renomear(categoria, posicao, novoNome) {
     const antigo = itens[categoria][posicao];
-    if (!novoNome || (novoNome !== antigo && todosOsItens().includes(novoNome))) {
-      desenharPainel();                        // nome vazio ou repetido: volta ao nome antigo
-      return;
-    }
-    const alergia = alergiaDoItem(novoNome);
-    if (alergia) {
-      avisarAlergia(novoNome, alergia);
-      desenharPainel();                        // volta ao nome antigo
-      return;
-    }
+    const repetido = novoNome !== antigo && todosOsItens().includes(novoNome);
+    const alergia = novoNome && !repetido && alergiaDoItem(novoNome);
+    if (alergia) avisarAlergia(novoNome, alergia);
+    if (!novoNome || repetido || alergia) return desenharPainel();   // volta ao nome antigo
     itens[categoria][posicao] = novoNome;
     if (novoNome !== antigo && escolhas[antigo]) {   // quem ia levar continua levando, com o nome novo
       escolhas[novoNome] = escolhas[antigo];
@@ -326,15 +320,11 @@ document.addEventListener("DOMContentLoaded", () => {
     $("#painel").showModal();
   };
 
-  $("#painel-fechar").onclick = () => $("#painel").close();
-  $("#painel-pronto").onclick = () => $("#painel").close();
-
-  // Clicar fora do cartão (na parte escura) também fecha os painéis
-  document.querySelectorAll("dialog.painel").forEach((painel) => {
-    painel.onclick = (evento) => {
-      if (evento.target === painel) painel.close();
-    };
-  });
+  // Fechar o painel: no ✕, no "Pronto" ou clicando fora dele (na parte escura)
+  $("#painel-fechar").onclick = $("#painel-pronto").onclick = () => $("#painel").close();
+  $("#painel").onclick = (evento) => {
+    if (evento.target === $("#painel")) $("#painel").close();
+  };
 
   $("#painel-restaurar").onclick = () => {
     if (!confirm("Voltar para a lista original? Os itens que você adicionou serão apagados.")) return;
@@ -365,8 +355,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const ul = $("#lista-alergias");
     ul.innerHTML = "";
     alergias.forEach((alergia, posicao) => {
-      const li = document.createElement("li");
-      li.innerHTML = "<b></b> <button aria-label='Remover da lista'>✕</button>";
+      const li = criar("li", "<b></b> <button aria-label='Remover da lista'>✕</button>");
       li.querySelector("b").textContent = alergia;
       li.querySelector("button").onclick = () => {
         alergias.splice(posicao, 1);

@@ -355,7 +355,6 @@ html[data-tema="claro"] .ceu {
 }
 
 
-
 /* =====================================================================
    O QUE LEVAR: botão de editar em cima + cartões que viram + lista "Não pode levar"
    ===================================================================== */
@@ -365,22 +364,18 @@ html[data-tema="claro"] .ceu {
 }
 
 .area-cartoes {
-  /* os botões em cima, os cartões embaixo */
+  /* o botão em cima, os cartões embaixo */
   display: grid;
   gap: 18px;
 }
 
 .abas {
-  /* os botões lado a lado, em cima dos cartões */
   display: flex;
-  flex-wrap: wrap;
   justify-content: center;
-  gap: 12px;
 }
 
 .botao-editar {
   /* pílula de vidro fosco: ícone + texto */
-  position: relative;
   display: flex;
   align-items: center;
   gap: 12px;
@@ -430,10 +425,6 @@ html[data-tema="claro"] .ceu {
   transform: scale(0.97);
 }
 
-
-[hidden] {
-  display: none !important;
-}
 
 .quadro {
   /* os cartões à esquerda e a lista "Não pode levar" à direita */
@@ -523,11 +514,6 @@ html[data-tema="claro"] .ceu {
   margin-top: 14px;
 }
 
-.form-alergia input {
-  flex: 1;
-  min-width: 0;
-}
-
 .form-alergia .botao-icone {
   border-color: color-mix(in srgb, var(--perigo) 55%, transparent);
   color: var(--perigo);
@@ -538,17 +524,6 @@ html[data-tema="claro"] .ceu {
   border-color: var(--perigo);
   background: color-mix(in srgb, var(--perigo) 15%, transparent);
   color: var(--perigo);
-}
-
-/* Tablet e celular: a lista vai para cima dos cartões */
-@media (max-width: 860px) {
-  .quadro {
-    grid-template-columns: minmax(0, 1fr);
-  }
-
-  .lembrete {
-    order: -1;
-  }
 }
 
 .cartoes {
@@ -738,8 +713,16 @@ html[data-tema="claro"] .ceu {
   align-self: flex-start;
 }
 
-/* Tablet e celular: 2 cartões por linha */
+/* Tablet e celular: a lista vai para cima dos cartões, e são 2 cartões por linha */
 @media (max-width: 860px) {
+  .quadro {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .lembrete {
+    order: -1;
+  }
+
   .cartoes {
     grid-template-columns: repeat(2, 1fr);
     gap: 14px;
@@ -755,7 +738,7 @@ html[data-tema="claro"] .ceu {
   }
 }
 
-/* Celular: os dois botões dividem a largura */
+/* Celular: o botão ocupa a largura toda */
 @media (max-width: 480px) {
   .botao-editar {
     flex: 1;
@@ -821,10 +804,6 @@ html[data-tema="claro"] .ceu {
   border-bottom: 0;
 }
 
-.lista-final small {
-  color: var(--texto-suave);
-}
-
 .etiqueta {
   /* o nome da pessoa, à esquerda */
   flex-shrink: 0;
@@ -854,7 +833,9 @@ html[data-tema="claro"] .ceu {
 }
 
 .levado small {
+  /* a categoria do item */
   font-size: 12px;
+  color: var(--texto-suave);
 }
 
 
@@ -883,23 +864,6 @@ html[data-tema="claro"] .ceu {
 .mapa-imagem:hover {
   transform: translateY(-2px);
   filter: brightness(1.1);
-}
-
-/* Crédito do Flaticon */
-.creditos {
-  margin-top: 12px !important;
-  font-size: 11px;
-  font-weight: 400;
-}
-
-.creditos a {
-  color: inherit;
-  opacity: 0.7;
-}
-
-.creditos a:hover {
-  opacity: 1;
-  color: var(--destaque);
 }
 
 footer {
@@ -1018,8 +982,8 @@ dialog input:focus,
 
 
 /* =====================================================================
-   JANELAS: todas abrem como um cartão no meio da tela
-   (a do nome, a de editar itens e a de alergias)
+   JANELAS: abrem como um cartão no meio da tela
+   (a do nome e a de editar itens)
    ===================================================================== */
 
 dialog {
@@ -1089,12 +1053,11 @@ dialog h3 {
 }
 
 .cancelar {
+  /* aparece à esquerda, mesmo vindo depois no HTML */
   order: -1;
 }
 
-/* aparece à esquerda, mesmo vindo depois no HTML */
-
-/* Painéis de editar e de alergias */
+/* Painel de editar itens */
 .painel {
   width: min(680px, 100% - 24px);
   /* larga o bastante para as 4 abas caberem numa linha só */
@@ -1128,18 +1091,6 @@ dialog h3 {
   grid-template-columns: repeat(4, 1fr);
   gap: 8px;
   padding: 2px 24px 16px;
-}
-
-@media (max-width: 640px) {
-  .chips {
-    /* celular: 2 em cima, 2 embaixo */
-    grid-template-columns: repeat(2, 1fr);
-    padding-inline: 16px;
-  }
-
-  .chip {
-    font-size: 12.5px !important;
-  }
 }
 
 .chip {
@@ -1185,6 +1136,18 @@ dialog h3 {
   background: rgba(255, 255, 255, 0.25);
 }
 
+/* Celular: 2 abas em cima, 2 embaixo */
+@media (max-width: 640px) {
+  .chips {
+    grid-template-columns: repeat(2, 1fr);
+    padding-inline: 16px;
+  }
+
+  .chip {
+    font-size: 12.5px;
+  }
+}
+
 .painel-corpo {
   flex: 1;
   min-height: 120px;
@@ -1197,10 +1160,6 @@ dialog h3 {
   /* trocar de aba não faz a janela "pular" de tamanho */
 }
 
-.painel-categoria {
-  margin: 0;
-}
-
 .painel-categoria .linha,
 .painel-categoria form {
   display: flex;
@@ -1209,7 +1168,9 @@ dialog h3 {
   margin-bottom: 8px;
 }
 
-.painel-categoria input {
+.painel-categoria input,
+.form-alergia input {
+  /* o campo estica; o botão fica do tamanho dele */
   flex: 1;
   min-width: 0;
 }
