@@ -1,199 +1,178 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Confraternizando</title>
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="css/main.css">
-    <script src="js/main.js"></script>
-</head>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Confraternizando</title>
+        <link
+            href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap"
+            rel="stylesheet">
+        <link rel="stylesheet" href="css/main.css">
+        <script src="js/main.js"></script>
+    </head>
 
-<body>
-    <header>
-        <!-- Botão do tema: o sol (claro) e a lua (escuro), desenhados no CSS -->
-        <button id="botao-tema" class="botao-tema" aria-label="Trocar entre modo claro e escuro">
-            <span class="ceu"></span>
-            <span class="astro"></span>
-        </button>
+    <body>
+        <header>
+            <!-- Botão do tema: o sol (claro) e a lua (escuro), desenhados no CSS -->
+            <button id="botao-tema" class="botao-tema"
+                aria-label="Trocar entre modo claro e escuro">
+                <span class="ceu"></span>
+                <span class="astro"></span>
+            </button>
 
-        <!-- O data-text precisa ser IGUAL ao título: é ele que desenha o 3D e a sombra -->
-        <h1 data-text="Confraternizando">Confraternizando</h1>
-        <p class="legenda">Confraternização de fim de ano · 2026</p>
-    </header>
+            <!-- O data-text precisa ser IGUAL ao título: é ele que desenha o 3D e a sombra -->
+            <h1 data-text="Confraternizando">Confraternizando</h1>
+            <p class="legenda">Confraternização de fim de ano · 2026</p>
+        </header>
 
-    <main>
-        <!-- CONTAGEM REGRESSIVA (a data fica no começo do js/main.js) -->
-        <section class="contagem">
-            <h2>Falta pouco!</h2>
-            <p id="data-festa" class="data-festa"></p>
-            <div id="contagem" class="numeros">
-                <div><strong id="dias">--</strong>dias</div>
-                <div><strong id="horas">--</strong>horas</div>
-                <div><strong id="minutos">--</strong>minutos</div>
-                <div><strong id="segundos">--</strong>segundos</div>
-            </div>
-        </section>
+        <main>
+            <!-- CONTAGEM REGRESSIVA (a data fica no começo do js/main.js) -->
+            <section class="contagem">
+                <h2>Falta pouco!</h2>
+                <p id="data-festa" class="data-festa"></p>
+                <div id="contagem" class="numeros">
+                    <div><strong id="dias">--</strong>dias</div>
+                    <div><strong id="horas">--</strong>horas</div>
+                    <div><strong id="minutos">--</strong>minutos</div>
+                    <div><strong id="segundos">--</strong>segundos</div>
+                </div>
+            </section>
 
-        <!-- O QUE LEVAR: cartões que viram. Frente: emoji/foto. Verso: a lista de itens.
+            <!-- O QUE LEVAR: cartões que viram. Frente: emoji/foto. Verso: a lista de itens.
              Os ITENS de cada cartão ficam no começo do js/main.js.
-             Para pôr uma foto, crie a pasta img e adicione ao style do cartão: --foto: url('img/comidas.jpg') -->
-        <section class="levar">
-            <h2>O que levar?</h2>
-            <p class="subtitulo">Toque num cartão, marque o que você vai levar e escreva seu nome.</p>
+             Para pôr uma foto, crie a pasta img e troque o --foto do cartão. -->
+            <section class="levar">
+                <h2>O que levar?</h2>
+                <p class="subtitulo">Toque num cartão, marque o que você vai
+                    levar e escreva seu nome.</p>
 
-            <div class="area-cartoes">
-                <div class="abas">
-                <button id="botao-editar" class="botao-editar">
-                    <!-- ícone de lápis -->
-                    <span class="icone-editar" aria-hidden="true">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"
-                            stroke-linecap="round" stroke-linejoin="round">
-                            <path d="M12 20h9" />
-                            <path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4Z" />
-                        </svg>
-                    </span>
-                    <span class="texto-editar">Editar itens</span>
-                </button>
+                <div class="area-cartoes">
+                    <button id="botao-editar" class="botao-editar">☰ Editar
+                        itens</button>
 
-                <!-- ALERGIAS: abre o painel; o que estiver lá não pode entrar nos cartões -->
-                <button id="botao-alergias" class="botao-editar botao-alergias">
-                    <!-- ícone de alerta -->
-                    <span class="icone-editar" aria-hidden="true">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"
-                            stroke-linecap="round" stroke-linejoin="round">
-                            <path d="M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0Z" />
-                            <path d="M12 9v4" />
-                            <path d="M12 17h.01" />
-                        </svg>
-                    </span>
-                    <span class="texto-editar">Alergias</span>
-                    <span id="contador-alergias" class="contador" hidden></span>
-                </button>
+                    <div class="cartoes">
+                        <!-- data-categoria liga o cartão à lista de itens do js/main.js -->
+                        <article class="cartao" data-categoria="comidas"
+                            style="--cor: #e8615a; --foto: url('img/comidas.jpg')">
+                            <button class="frente">
+                                <span class="selo"></span>
+                                <span class="emoji">🍕</span>
+                                <span class="nome">Comidas</span>
+                                <span class="dica">Toque para escolher</span>
+                            </button>
+                            <div class="verso">
+                                <h3>Comidas</h3>
+                                <ul class="itens"></ul>
+                                <button class="voltar botao-contorno">↩
+                                    Voltar</button>
+                            </div>
+                        </article>
+
+                        <article class="cartao" data-categoria="bebidas"
+                            style="--cor: #3b6fd8; --foto: url('img/bebidas.jpg')">
+                            <button class="frente">
+                                <span class="selo"></span>
+                                <span class="emoji">🥤</span>
+                                <span class="nome">Bebidas</span>
+                                <span class="dica">Toque para escolher</span>
+                            </button>
+                            <div class="verso">
+                                <h3>Bebidas</h3>
+                                <ul class="itens"></ul>
+                                <button class="voltar botao-contorno">↩
+                                    Voltar</button>
+                            </div>
+                        </article>
+
+                        <article class="cartao" data-categoria="doces"
+                            style="--cor: #c2456b; --foto: url('img/doces.jpg')">
+                            <button class="frente">
+                                <span class="selo"></span>
+                                <span class="emoji">🍰</span>
+                                <span class="nome">Doces</span>
+                                <span class="dica">Toque para escolher</span>
+                            </button>
+                            <div class="verso">
+                                <h3>Doces</h3>
+                                <ul class="itens"></ul>
+                                <button class="voltar botao-contorno">↩
+                                    Voltar</button>
+                            </div>
+                        </article>
+
+                        <article class="cartao" data-categoria="descartaveis"
+                            style="--cor: #6d58c9; --foto: url('img/descartaveis.jpg')">
+                            <button class="frente">
+                                <span class="selo"></span>
+                                <span class="emoji">🍽️</span>
+                                <span class="nome">Descartáveis</span>
+                                <span class="dica">Toque para escolher</span>
+                            </button>
+                            <div class="verso">
+                                <h3>Descartáveis</h3>
+                                <ul class="itens"></ul>
+                                <button class="voltar botao-contorno">↩
+                                    Voltar</button>
+                            </div>
+                        </article>
+                    </div>
                 </div>
+            </section>
 
-                <div class="cartoes">
-                    <!-- data-categoria liga o cartão à lista de itens do js/main.js -->
-                    <article class="cartao" data-categoria="comidas"
-                        style="--cor: #e8615a">
-                        <button class="frente">
-                            <span class="selo"></span>
-                            <span class="emoji">🍕</span>
-                            <span class="nome">Comidas</span>
-                            <span class="dica">Toque para escolher</span>
-                        </button>
-                        <div class="verso">
-                            <h3>Comidas</h3>
-                            <ul class="itens"></ul>
-                            <button class="voltar botao-contorno">↩ Voltar</button>
-                        </div>
-                    </article>
+            <!-- QUEM LEVA O QUÊ: o JavaScript preenche tudo aqui -->
+            <section class="quem-leva">
+                <h2>Quem leva o quê</h2>
+                <p id="progresso-texto" class="progresso-texto"></p>
+                <div class="barra"><span id="barra-cheia"></span></div>
+                <p id="lista-vazia" class="lista-vazia">Ninguém marcou nada
+                    ainda. Seja o primeiro!</p>
+                <ul id="lista-final" class="lista-final"></ul>
+            </section>
+        </main>
 
-                    <article class="cartao" data-categoria="bebidas"
-                        style="--cor: #3b6fd8">
-                        <button class="frente">
-                            <span class="selo"></span>
-                            <span class="emoji">🥤</span>
-                            <span class="nome">Bebidas</span>
-                            <span class="dica">Toque para escolher</span>
-                        </button>
-                        <div class="verso">
-                            <h3>Bebidas</h3>
-                            <ul class="itens"></ul>
-                            <button class="voltar botao-contorno">↩ Voltar</button>
-                        </div>
-                    </article>
+        <footer>
+            <!-- MAPA DO EVENTO: Imagem clicável que encaminha para o GoogleMaps-->
+            <br><h2>Mapa do evento</h2>
+            <a class="mapa-imagem"
+                href="https://maps.app.goo.gl/zQ4FVjorxSt2LLyK7"
+                target="_blank" rel="noopener"
+                aria-label="Abrir o mapa do evento no Google Maps">
+                <img src="images/mapa.png" alt="Mapa do evento">
+            </a>
+            <br><br><p>Feito com carinho para a nossa confraternização ✨</p>
+            <p class="dica-rodape">Mudou de ideia? É só abrir o cartão e
+                desmarcar o item.</p>
+        </footer>
 
-                    <article class="cartao" data-categoria="doces" style="--cor: #c2456b">
-                        <button class="frente">
-                            <span class="selo"></span>
-                            <span class="emoji">🍰</span>
-                            <span class="nome">Doces</span>
-                            <span class="dica">Toque para escolher</span>
-                        </button>
-                        <div class="verso">
-                            <h3>Doces</h3>
-                            <ul class="itens"></ul>
-                            <button class="voltar botao-contorno">↩ Voltar</button>
-                        </div>
-                    </article>
-
-                    <article class="cartao" data-categoria="descartaveis"
-                        style="--cor: #6d58c9">
-                        <button class="frente">
-                            <span class="selo"></span>
-                            <span class="emoji">🍽️</span>
-                            <span class="nome">Descartáveis</span>
-                            <span class="dica">Toque para escolher</span>
-                        </button>
-                        <div class="verso">
-                            <h3>Descartáveis</h3>
-                            <ul class="itens"></ul>
-                            <button class="voltar botao-contorno">↩ Voltar</button>
-                        </div>
-                    </article>
+        <!-- JANELINHA DO NOME: aparece quando alguém marca um item -->
+        <dialog id="janela-nome" class="janela">
+            <form method="dialog">
+                <h3 id="janela-titulo">Quem vai levar?</h3>
+                <label for="campo-nome">Seu nome</label>
+                <input id="campo-nome" maxlength="30" required>
+                <div class="janela-botoes">
+                    <!-- Confirmar vem primeiro: é ele que a tecla Enter aperta (o CSS mostra o Cancelar à esquerda) -->
+                    <button class="botao" value="ok">Confirmar</button>
+                    <button class="botao-contorno cancelar" value="cancelar"
+                        formnovalidate>Cancelar</button>
                 </div>
+            </form>
+        </dialog>
+
+        <!-- PAINEL DE EDIÇÃO: abre pela esquerda; o JavaScript monta as categorias -->
+        <dialog id="painel" class="painel">
+            <div class="painel-topo">
+                <h2>Editar itens</h2>
+                <button id="painel-fechar" class="botao-contorno"
+                    aria-label="Fechar">✕</button>
             </div>
-        </section>
-
-        <!-- QUEM LEVA O QUÊ: o JavaScript preenche tudo aqui -->
-        <section class="quem-leva">
-            <h2>Quem leva o quê</h2>
-            <p id="progresso-texto" class="progresso-texto"></p>
-            <div class="barra"><span id="barra-cheia"></span></div>
-            <p id="lista-vazia" class="lista-vazia">Ninguém marcou nada ainda. Seja o primeiro!</p>
-            <ul id="lista-final" class="lista-final"></ul>
-        </section>
-    </main>
-
-    <footer>
-        <a class="botao botao-mapa" href="https://maps.app.goo.gl/zQ4FVjorxSt2LLyK7" target="_blank" rel="noopener">📍
-            <span>MAPA DO EVENTO</span></a>
-        <p>Feito com carinho para a nossa confraternização ✨</p>
-        <p class="dica-rodape">Mudou de ideia? É só abrir o cartão e desmarcar o item.</p>
-    </footer>
-
-    <!-- JANELINHA DO NOME: aparece quando alguém marca um item -->
-    <dialog id="janela-nome" class="janela">
-        <form method="dialog">
-            <h3 id="janela-titulo">Quem vai levar?</h3>
-            <label for="campo-nome">Seu nome</label>
-            <input id="campo-nome" maxlength="30" required>
-            <div class="janela-botoes">
-                <!-- Confirmar vem primeiro: é ele que a tecla Enter aperta (o CSS mostra o Cancelar à esquerda) -->
-                <button class="botao" value="ok">Confirmar</button>
-                <button class="botao-contorno cancelar" value="cancelar" formnovalidate>Cancelar</button>
-            </div>
-        </form>
-    </dialog>
-
-    <!-- PAINEL DE EDIÇÃO: abre num balão no meio da tela; o JavaScript monta as categorias -->
-    <dialog id="painel" class="painel">
-        <div class="painel-topo">
-            <h2>Editar itens</h2>
-            <button id="painel-fechar" class="botao-contorno" aria-label="Fechar">✕</button>
-        </div>
-        <p class="dica-painel">Mude o nome, remova ou adicione itens. Os cartões mudam na hora.</p>
-        <div id="painel-categorias"></div>
-        <button id="painel-restaurar" class="botao-contorno largo">Restaurar lista original</button>
-    </dialog>
-
-    <!-- PAINEL DE ALERGIAS: balão no meio da tela, igual ao de editar -->
-    <dialog id="painel-alergias" class="painel">
-        <div class="painel-topo">
-            <h2>Alergias</h2>
-            <button id="alergias-fechar" class="botao-contorno" aria-label="Fechar">✕</button>
-        </div>
-        <p class="dica-painel">Alguém tem alergia? Coloque aqui. Itens com esse ingrediente não poderão entrar nos
-            cartões.</p>
-        <form id="form-alergia" class="form-alergia">
-            <input id="campo-alergia" placeholder="Ex.: amendoim, camarão…" maxlength="30" aria-label="Nova alergia">
-            <button class="botao">Adicionar</button>
-        </form>
-        <p id="alergias-vazia" class="dica-painel">Nenhuma alergia informada.</p>
-        <ul id="lista-alergias" class="lista-alergias"></ul>
-    </dialog>
-</body>
+            <p class="dica-painel">Mude o nome, remova ou adicione itens. Os
+                cartões mudam na hora.</p>
+            <div id="painel-categorias"></div>
+            <button id="painel-restaurar" class="botao-contorno largo">Restaurar
+                lista original</button>
+        </dialog>
+    </body>
 
 </html>
