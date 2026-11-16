@@ -52,9 +52,23 @@ function trocarTema() {
 // =====================================================================
 let itens = ler("lista", structuredClone(ITENS_INICIAIS));
 let escolhas = ler("quem-leva", {});
+let alergias = ler("alergias", []);            // ["Amendoim", "Camarão", ...]
 let itemEscolhido = null;                      // o item que está esperando o nome na janelinha
 
 const todosOsItens = () => Object.values(itens).flat();
+
+// "Pão de Açúcar" vira "pao de acucar": assim "camarao" e "Camarão" contam como iguais
+const semAcento = (texto) => texto.normalize("NFD").replace(/[̀-ͯ]/g, "").toLowerCase();
+
+// Diz a qual alergia o item pertence (ou undefined se estiver liberado).
+// Procura a alergia no começo de uma palavra: "ovo" bloqueia "Ovos" e "Bolo de ovo", mas não "Novo".
+function alergiaDoItem(item) {
+  const nome = semAcento(item);
+  return alergias.find((alergia) => {
+    const palavra = semAcento(alergia).replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+    return new RegExp("\\b" + palavra).test(nome);
+  });
+}
 
 
 // =====================================================================
@@ -223,9 +237,15 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
+  // Aviso de item bloqueado por alergia
+  const avisarAlergia = (nome, alergia) =>
+    alert(`"${nome}" não pode entrar: alguém tem alergia a ${alergia.toLowerCase()}.`);
+
   function adicionar(categoria, nome) {
     if (!nome) return;
     if (todosOsItens().includes(nome)) return alert(`"${nome}" já está na lista.`);
+    const alergia = alergiaDoItem(nome);
+    if (alergia) return avisarAlergia(nome, alergia);
     itens[categoria].push(nome);
     desenhar();
     desenharPainel();
@@ -235,6 +255,12 @@ document.addEventListener("DOMContentLoaded", () => {
     const antigo = itens[categoria][posicao];
     if (!novoNome || (novoNome !== antigo && todosOsItens().includes(novoNome))) {
       desenharPainel();                        // nome vazio ou repetido: volta ao nome antigo
+      return;
+    }
+    const alergia = alergiaDoItem(novoNome);
+    if (alergia) {
+      avisarAlergia(novoNome, alergia);
+      desenharPainel();                        // volta ao nome antigo
       return;
     }
     itens[categoria][posicao] = novoNome;
@@ -267,6 +293,7 @@ document.addEventListener("DOMContentLoaded", () => {
   $("#painel-restaurar").onclick = () => {
     if (!confirm("Voltar para a lista original? Os itens que você adicionou serão apagados.")) return;
     itens = structuredClone(ITENS_INICIAIS);
+    tirarItensComAlergia();                    // a lista original também respeita as alergias
     // quem tinha escolhido um item que não existe mais sai da lista
     for (const item in escolhas) {
       if (!todosOsItens().includes(item)) delete escolhas[item];
@@ -275,5 +302,64 @@ document.addEventListener("DOMContentLoaded", () => {
     desenharPainel();
   };
 
+  // ---------- Alergias ----------
+  // Tira dos cartões (e de quem ia levar) todo item bloqueado por alguma alergia
+  function tirarItensComAlergia() {
+    for (const categoria in itens) {
+      itens[categoria] = itens[categoria].filter((item) => {
+        if (!alergiaDoItem(item)) return true;
+        delete escolhas[item];
+        return false;
+      });
+    }
+  }
+
+  function desenharAlergias() {
+    guardar("alergias", alergias);
+    const ul = $("#lista-alergias");
+    ul.innerHTML = "";
+    alergias.forEach((alergia, posicao) => {
+      const li = document.createElement("li");
+      li.innerHTML = "<span>⚠️</span> <b></b> <button aria-label='Remover alergia'>✕</button>";
+      li.querySelector("b").textContent = alergia;
+      li.querySelector("button").onclick = () => {
+        alergias.splice(posicao, 1);
+        desenharAlergias();
+      };
+      ul.append(li);
+    });
+    $("#alergias-vazia").hidden = alergias.length > 0;
+    // bolinha no botão com quantas alergias existem
+    $("#contador-alergias").textContent = alergias.length;
+    $("#contador-alergias").hidden = alergias.length === 0;
+  }
+
+  $("#botao-alergias").onclick = () => $("#painel-alergias").showModal();
+  $("#alergias-fechar").onclick = () => $("#painel-alergias").close();
+
+  $("#form-alergia").onsubmit = (evento) => {
+    evento.preventDefault();
+    const campo = $("#campo-alergia");
+    const nome = campo.value.trim();
+    if (!nome) return;
+    if (alergias.some((a) => semAcento(a) === semAcento(nome))) return alert(`"${nome}" já está na lista.`);
+
+    alergias.push(nome);
+    // Itens que já estão nos cartões e batem com a nova alergia
+    const bloqueados = todosOsItens().filter((item) => alergiaDoItem(item) === nome);
+    if (bloqueados.length) {
+      if (confirm(`Estes itens têm ${nome.toLowerCase()}: ${bloqueados.join(", ")}.\nTirar dos cartões?`)) {
+        tirarItensComAlergia();
+        desenhar();
+      } else {
+        alergias.pop();                        // desistiu: a alergia não é adicionada
+        return;
+      }
+    }
+    campo.value = "";
+    desenharAlergias();
+  };
+
+  desenharAlergias();
   desenhar();
 });
