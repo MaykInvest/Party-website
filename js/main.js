@@ -124,6 +124,7 @@ document.addEventListener("DOMContentLoaded", () => {
     guardar("lista", itens);
     guardar("quem-leva", escolhas);
     $("#lista-final").innerHTML = "";
+    const linhasPorPessoa = {};                // uma linha por pessoa na lista "Quem leva o quê"
 
     document.querySelectorAll(".cartao").forEach((cartao) => {
       const lista = itens[cartao.dataset.categoria] ??= [];
@@ -145,14 +146,23 @@ document.addEventListener("DOMContentLoaded", () => {
         caixa.onchange = () => marcar(item, caixa);
         ul.append(li);
 
-        // A linha na lista "Quem leva o quê"
+        // A lista "Quem leva o quê": cada pessoa tem UMA linha, com tudo o que ela marcou.
+        // ("ana", "Ana" e "ANA" contam como a mesma pessoa.)
         if (pessoa) {
-          const linha = document.createElement("li");
-          linha.innerHTML = "<b></b> <small></small> <span class='etiqueta'></span>";
-          linha.querySelector("b").textContent = item;
-          linha.querySelector("small").textContent = categoria;
-          linha.querySelector(".etiqueta").textContent = pessoa;
-          $("#lista-final").append(linha);
+          const chave = semAcento(pessoa.trim());
+          let linha = linhasPorPessoa[chave];
+          if (!linha) {
+            linha = linhasPorPessoa[chave] = document.createElement("li");
+            linha.innerHTML = "<span class='etiqueta'></span><div class='levados'></div>";
+            linha.querySelector(".etiqueta").textContent = pessoa;
+            $("#lista-final").append(linha);
+          }
+          const levado = document.createElement("span");
+          levado.className = "levado";
+          levado.innerHTML = "<b></b> <small></small>";
+          levado.querySelector("b").textContent = item;
+          levado.querySelector("small").textContent = categoria;
+          linha.querySelector(".levados").append(levado);
         }
       });
 
@@ -166,7 +176,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // Barra de progresso
     const total = todosOsItens().length;
-    const comDono = $("#lista-final").children.length;
+    const comDono = todosOsItens().filter((item) => escolhas[item]).length;
     $("#progresso-texto").textContent = total > 0 && comDono === total
       ? "Tudo certo: todos os itens já têm alguém para levar! 🎉"
       : `${comDono} de ${total} itens já têm alguém para levar`;
@@ -203,22 +213,50 @@ document.addEventListener("DOMContentLoaded", () => {
   };
 
   // ---------- Painel "Editar itens" ----------
+  // O painel mostra um cartão por vez; as abas em cima trocam de cartão.
+  let categoriaAberta = document.querySelector(".cartao").dataset.categoria;
+
+  const ICONE_LIXEIRA = "<svg viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' " +
+    "stroke-linecap='round' stroke-linejoin='round' aria-hidden='true'>" +
+    "<path d='M3 6h18'/><path d='M8 6V4h8v2'/><path d='M19 6l-1 14H6L5 6'/><path d='M10 11v5'/><path d='M14 11v5'/></svg>";
+
   function desenharPainel() {
+    $("#painel-abas").innerHTML = "";
     $("#painel-categorias").innerHTML = "";
 
     document.querySelectorAll(".cartao").forEach((cartao) => {
       const categoria = cartao.dataset.categoria;
+      const nomeDaCategoria = cartao.querySelector("h3").textContent;
+      const aberta = categoria === categoriaAberta;
+
+      // A aba: emoji + nome + quantos itens o cartão tem
+      const aba = document.createElement("button");
+      aba.className = "chip";
+      aba.setAttribute("aria-pressed", aberta);
+      aba.style.setProperty("--cor", cartao.style.getPropertyValue("--cor"));
+      aba.innerHTML = "<span></span> <b></b> <small></small>";
+      aba.querySelector("span").textContent = cartao.querySelector(".emoji").textContent;
+      aba.querySelector("b").textContent = nomeDaCategoria;
+      aba.querySelector("small").textContent = itens[categoria].length;
+      aba.onclick = () => {
+        categoriaAberta = categoria;
+        desenharPainel();
+      };
+      $("#painel-abas").append(aba);
+
       const bloco = document.createElement("section");
       bloco.className = "painel-categoria";
-      bloco.innerHTML = "<h3></h3><div class='linhas'></div>" +
-        "<form><input placeholder='Novo item…' maxlength='40'> <button class='botao'>Adicionar</button></form>";
-      bloco.querySelector("h3").textContent = cartao.querySelector("h3").textContent;
+      bloco.hidden = !aberta;
+      bloco.innerHTML = "<div class='linhas'></div><p class='lista-vazia'>Este cartão está vazio.</p>" +
+        "<form><input placeholder='Novo item…' maxlength='40' aria-label='Novo item'> <button class='botao'>Adicionar</button></form>";
+      bloco.querySelector(".lista-vazia").hidden = itens[categoria].length > 0;
 
       // Uma linha por item: o nome (dá para editar) e o botão de remover
       itens[categoria].forEach((item, posicao) => {
         const linha = document.createElement("div");
         linha.className = "linha";
-        linha.innerHTML = "<input maxlength='40'> <button class='botao-contorno' aria-label='Remover'>🗑</button>";
+        linha.innerHTML = "<input maxlength='40' aria-label='Nome do item'> " +
+          "<button class='botao-icone perigo' aria-label='Remover'>" + ICONE_LIXEIRA + "</button>";
         const campo = linha.querySelector("input");
         campo.value = item;
         campo.onchange = () => renomear(categoria, posicao, campo.value.trim());
@@ -264,7 +302,7 @@ document.addEventListener("DOMContentLoaded", () => {
       return;
     }
     itens[categoria][posicao] = novoNome;
-    if (escolhas[antigo]) {                    // quem ia levar continua levando, com o nome novo
+    if (novoNome !== antigo && escolhas[antigo]) {   // quem ia levar continua levando, com o nome novo
       escolhas[novoNome] = escolhas[antigo];
       delete escolhas[antigo];
     }
@@ -289,6 +327,14 @@ document.addEventListener("DOMContentLoaded", () => {
   };
 
   $("#painel-fechar").onclick = () => $("#painel").close();
+  $("#painel-pronto").onclick = () => $("#painel").close();
+
+  // Clicar fora do cartão (na parte escura) também fecha os painéis
+  document.querySelectorAll("dialog.painel").forEach((painel) => {
+    painel.onclick = (evento) => {
+      if (evento.target === painel) painel.close();
+    };
+  });
 
   $("#painel-restaurar").onclick = () => {
     if (!confirm("Voltar para a lista original? Os itens que você adicionou serão apagados.")) return;
@@ -320,7 +366,7 @@ document.addEventListener("DOMContentLoaded", () => {
     ul.innerHTML = "";
     alergias.forEach((alergia, posicao) => {
       const li = document.createElement("li");
-      li.innerHTML = "<span>⚠️</span> <b></b> <button aria-label='Remover alergia'>✕</button>";
+      li.innerHTML = "<b></b> <button aria-label='Remover da lista'>✕</button>";
       li.querySelector("b").textContent = alergia;
       li.querySelector("button").onclick = () => {
         alergias.splice(posicao, 1);
@@ -329,13 +375,7 @@ document.addEventListener("DOMContentLoaded", () => {
       ul.append(li);
     });
     $("#alergias-vazia").hidden = alergias.length > 0;
-    // bolinha no botão com quantas alergias existem
-    $("#contador-alergias").textContent = alergias.length;
-    $("#contador-alergias").hidden = alergias.length === 0;
   }
-
-  $("#botao-alergias").onclick = () => $("#painel-alergias").showModal();
-  $("#alergias-fechar").onclick = () => $("#painel-alergias").close();
 
   $("#form-alergia").onsubmit = (evento) => {
     evento.preventDefault();

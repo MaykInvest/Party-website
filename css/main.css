@@ -29,6 +29,13 @@
   --verso: rgba(27, 24, 48, 0.96);
   /* verso dos cartões e janelas */
   --campo: #241f38;
+  --cartao-forte: rgba(255, 255, 255, 0.1);
+  /* vidro mais claro: botões com o mouse em cima */
+  --sombra: 0 24px 60px -20px rgba(0, 0, 0, 0.7);
+  --perigo: #ff6b61;
+  /* vermelho das alergias e da lixeira */
+  --visto: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%231a1020' stroke-width='3.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M5 12.5l4.5 4.5L19 7.5'/%3E%3C/svg%3E");
+  /* o "✓" da caixinha marcada */
   /* fundo das caixas de texto */
 
   --trilho: linear-gradient(135deg, #0b1020, #1b2540 60%, #2a2f45);
@@ -62,6 +69,10 @@ html[data-tema="claro"] {
   --borda: rgba(154, 116, 50, 0.3);
   --verso: rgba(255, 253, 249, 0.97);
   --campo: #fffdf9;
+  --cartao-forte: rgba(255, 255, 255, 0.95);
+  --sombra: 0 24px 60px -24px rgba(90, 60, 30, 0.3);
+  --perigo: #d9342b;
+  --visto: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23fff' stroke-width='3.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M5 12.5l4.5 4.5L19 7.5'/%3E%3C/svg%3E");
 
   --trilho: linear-gradient(135deg, #c9d6e2, #e4dccb 60%, #eadfc8);
   --astro: radial-gradient(circle at 35% 30%, #fff4d6, #e9c068 55%, #c9952f);
@@ -344,60 +355,9 @@ html[data-tema="claro"] .ceu {
 }
 
 
-/* =====================================================================
-   PAINEL DE ALERGIAS: campo para adicionar + etiquetas com o que não pode
-   ===================================================================== */
-
-.form-alergia {
-  display: flex;
-  gap: 8px;
-  margin: 20px 0 16px;
-}
-
-.form-alergia input {
-  flex: 1;
-  min-width: 0;
-}
-
-.lista-alergias {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 10px;
-  margin: 0;
-  padding: 0;
-  list-style: none;
-}
-
-.lista-alergias li {
-  /* etiqueta vermelhinha: "⚠️ Amendoim ✕" */
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  padding: 6px 6px 6px 14px;
-  border: 1px solid color-mix(in srgb, #e8615a 55%, transparent);
-  border-radius: 999px;
-  background: color-mix(in srgb, #e8615a 16%, transparent);
-  font-weight: 600;
-}
-
-.lista-alergias button {
-  width: 26px;
-  height: 26px;
-  border: 0;
-  border-radius: 50%;
-  background: transparent;
-  color: inherit;
-  font-size: 13px;
-  cursor: pointer;
-}
-
-.lista-alergias button:hover {
-  background: color-mix(in srgb, #e8615a 35%, transparent);
-}
-
 
 /* =====================================================================
-   O QUE LEVAR: botão de editar + cartões que viram
+   O QUE LEVAR: botão de editar em cima + cartões que viram + lista "Não pode levar"
    ===================================================================== */
 
 .subtitulo {
@@ -407,14 +367,15 @@ html[data-tema="claro"] .ceu {
 .area-cartoes {
   /* os botões em cima, os cartões embaixo */
   display: grid;
-  gap: 16px;
+  gap: 18px;
 }
 
 .abas {
-  /* os botões lado a lado, encostados na esquerda */
+  /* os botões lado a lado, em cima dos cartões */
   display: flex;
   flex-wrap: wrap;
-  gap: 10px;
+  justify-content: center;
+  gap: 12px;
 }
 
 .botao-editar {
@@ -422,49 +383,46 @@ html[data-tema="claro"] .ceu {
   position: relative;
   display: flex;
   align-items: center;
-  gap: 10px;
-  height: 48px;
-  padding: 0 20px 0 6px;
+  gap: 12px;
+  height: 52px;
+  padding: 0 22px 0 7px;
   border: 1px solid var(--borda);
   border-radius: 999px;
   background: var(--cartao);
-  backdrop-filter: blur(10px);
+  backdrop-filter: blur(14px);
   color: var(--texto);
-  font: 700 12px 'Montserrat', sans-serif;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
+  font: 700 14px 'Montserrat', sans-serif;
   cursor: pointer;
-  transition: transform 0.25s, border-color 0.25s, box-shadow 0.25s, color 0.25s;
+  transition: transform 0.25s, border-color 0.25s, box-shadow 0.25s, background 0.25s;
 }
 
 .icone-editar {
-  /* bolinha colorida com o lápis */
+  /* bolinha colorida com o ícone */
   display: grid;
   place-items: center;
   flex-shrink: 0;
-  width: 36px;
-  height: 36px;
+  width: 38px;
+  height: 38px;
   border-radius: 50%;
   background: var(--degrade);
   color: var(--texto-no-destaque);
-  box-shadow: 0 4px 12px color-mix(in srgb, var(--destaque) 35%, transparent);
   transition: transform 0.3s;
 }
 
 .icone-editar svg {
-  width: 17px;
-  height: 17px;
+  width: 18px;
+  height: 18px;
 }
 
 .botao-editar:hover {
-  border-color: var(--destaque);
-  color: var(--destaque);
-  box-shadow: 0 10px 28px color-mix(in srgb, var(--destaque) 22%, transparent);
-  transform: translateY(-3px);
+  border-color: color-mix(in srgb, var(--destaque) 60%, transparent);
+  background: var(--cartao-forte);
+  box-shadow: 0 12px 30px -10px color-mix(in srgb, var(--destaque) 50%, transparent);
+  transform: translateY(-2px);
 }
 
 .botao-editar:hover .icone-editar {
-  transform: rotate(-15deg) scale(1.1);
+  transform: rotate(-12deg) scale(1.08);
   /* o lápis "escreve" */
 }
 
@@ -472,97 +430,212 @@ html[data-tema="claro"] .ceu {
   transform: scale(0.97);
 }
 
-/* Botão de alergias: mesmo formato, ícone vermelho */
-.botao-alergias .icone-editar {
-  background: linear-gradient(150deg, #ff8f80, #d9443a);
-  color: #fff;
-  box-shadow: 0 4px 12px rgba(217, 68, 58, 0.35);
+
+[hidden] {
+  display: none !important;
 }
 
-.botao-alergias:hover {
-  border-color: #e8615a;
-  color: #e8615a;
-  box-shadow: 0 10px 28px rgba(217, 68, 58, 0.22);
-}
-
-.contador {
-  /* bolinha com o número de alergias, no canto do botão */
-  position: absolute;
-  top: -7px;
-  right: -7px;
+.quadro {
+  /* os cartões à esquerda e a lista "Não pode levar" à direita */
   display: grid;
-  place-items: center;
-  min-width: 22px;
-  height: 22px;
-  padding: 0 5px;
-  box-sizing: border-box;
-  border-radius: 999px;
-  background: #d9443a;
-  color: #fff;
-  font-size: 11px;
-  letter-spacing: 0;
+  grid-template-columns: minmax(0, 1fr) 250px;
+  gap: 18px;
+  align-items: start;
 }
 
-.contador[hidden] {
-  display: none;
+.lembrete {
+  /* lista vermelhinha: o que ninguém pode levar */
+  box-sizing: border-box;
+  padding: 20px;
+  border: 1px solid color-mix(in srgb, var(--perigo) 50%, transparent);
+  border-radius: 28px;
+  background: color-mix(in srgb, var(--perigo) 12%, var(--cartao));
+  backdrop-filter: blur(14px);
+  box-shadow: var(--sombra);
+  text-align: left;
+}
+
+.lembrete h3 {
+  margin: 0;
+  font-size: 18px;
+  color: var(--perigo);
+}
+
+.lembrete p {
+  margin: 6px 0 12px;
+  font-size: 13px;
+  color: var(--texto-suave);
+}
+
+.lembrete ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.lembrete li {
+  /* uma linha por alergia: bolinha de "proibido" + nome + ✕ para remover */
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 6px 0;
+  border-bottom: 1px solid color-mix(in srgb, var(--perigo) 25%, transparent);
+  overflow-wrap: anywhere;
+}
+
+.lembrete li::before {
+  content: "";
+  flex-shrink: 0;
+  width: 14px;
+  height: 14px;
+  border: 2px solid var(--perigo);
+  border-radius: 50%;
+  background: linear-gradient(45deg, transparent 43%, var(--perigo) 43% 57%, transparent 57%);
+}
+
+.lembrete li b {
+  flex: 1;
+  font-weight: 600;
+}
+
+.lembrete li button {
+  flex-shrink: 0;
+  width: 28px;
+  height: 28px;
+  border: 0;
+  border-radius: 50%;
+  background: transparent;
+  color: var(--texto-suave);
+  font-size: 13px;
+  cursor: pointer;
+}
+
+.lembrete li button:hover {
+  background: color-mix(in srgb, var(--perigo) 30%, transparent);
+  color: var(--texto);
+}
+
+.form-alergia {
+  /* campo para adicionar + botão "+" */
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 14px;
+}
+
+.form-alergia input {
+  flex: 1;
+  min-width: 0;
+}
+
+.form-alergia .botao-icone {
+  border-color: color-mix(in srgb, var(--perigo) 55%, transparent);
+  color: var(--perigo);
+  font-size: 22px;
+}
+
+.form-alergia .botao-icone:hover {
+  border-color: var(--perigo);
+  background: color-mix(in srgb, var(--perigo) 15%, transparent);
+  color: var(--perigo);
+}
+
+/* Tablet e celular: a lista vai para cima dos cartões */
+@media (max-width: 860px) {
+  .quadro {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .lembrete {
+    order: -1;
+  }
 }
 
 .cartoes {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   /* 4 cartões lado a lado */
-  gap: 16px;
+  gap: 18px;
   text-align: left;
 }
 
 .cartao {
   /* frente e verso no mesmo lugar; o cartão gira */
   display: grid;
-  transform: perspective(1200px) rotateY(0);
+  transform: perspective(1400px) rotateY(0);
   transform-style: preserve-3d;
-  transition: transform 0.7s;
+  transition: transform 0.7s cubic-bezier(0.4, 0.1, 0.2, 1);
 }
 
 .cartao.virado {
-  transform: perspective(1200px) rotateY(180deg);
+  transform: perspective(1400px) rotateY(180deg);
 }
 
 .frente,
 .verso {
   grid-area: 1 / 1;
-  min-height: 300px;
-  border: 1px solid var(--borda);
-  border-radius: 20px;
+  box-sizing: border-box;
+  min-height: 330px;
+  border-radius: 28px;
   backface-visibility: hidden;
   /* esconde o lado que está de costas */
 }
 
 .frente {
-  /* a foto (se tiver) por cima da cor do cartão */
+  /* a foto (se tiver) por cima da cor do cartão; um brilho no canto dá volume */
   position: relative;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 6px;
-  background: var(--foto, none) center / cover, linear-gradient(150deg, color-mix(in srgb, var(--cor), white 30%), var(--cor));
+  gap: 4px;
+  padding: 24px 16px;
+  border: 0;
+  background:
+    var(--foto, none) center / cover,
+    radial-gradient(circle at 20% 0%, rgba(255, 255, 255, 0.45), transparent 55%),
+    linear-gradient(160deg, color-mix(in srgb, var(--cor), white 14%), color-mix(in srgb, var(--cor), black 22%));
+  box-shadow:
+    inset 0 0 0 1px rgba(255, 255, 255, 0.22),
+    0 22px 44px -22px var(--cor);
   color: #fff;
   font-family: inherit;
   cursor: pointer;
+  transition: translate 0.3s, box-shadow 0.3s;
+}
+
+.frente:hover {
+  translate: 0 -8px;
+  box-shadow:
+    inset 0 0 0 1px rgba(255, 255, 255, 0.35),
+    0 34px 54px -22px var(--cor);
 }
 
 .emoji {
-  font-size: clamp(48px, 7vw, 80px);
-  margin-bottom: 16px;
+  /* o emoji dentro de uma bolha de vidro */
+  display: grid;
+  place-items: center;
+  width: clamp(84px, 9.5vw, 116px);
+  aspect-ratio: 1;
+  margin-bottom: 18px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.2);
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.3);
+  font-size: clamp(42px, 5vw, 60px);
+  transition: scale 0.3s;
+}
+
+.frente:hover .emoji {
+  scale: 1.08;
 }
 
 .nome {
-  font-size: clamp(16px, 2vw, 24px);
+  font-size: clamp(17px, 1.9vw, 22px);
   font-weight: 700;
 }
 
 .dica {
-  font-size: 12px;
+  font-size: 12.5px;
   opacity: 0.85;
 }
 
@@ -571,53 +644,75 @@ html[data-tema="claro"] .ceu {
   position: absolute;
   top: 14px;
   right: 14px;
-  padding: 5px 10px;
+  padding: 5px 11px;
   border-radius: 999px;
-  background: rgba(0, 0, 0, 0.25);
+  background: rgba(0, 0, 0, 0.26);
+  backdrop-filter: blur(6px);
   font-size: 12px;
-  font-weight: 600;
+  font-weight: 700;
 }
 
 .selo.completo {
   background: #fff;
-  color: #1f6b3a;
+  color: #17753a;
 }
 
 .verso {
   display: flex;
   flex-direction: column;
-  padding: 20px;
+  padding: 22px;
+  border: 1px solid var(--borda);
   background: var(--verso);
+  box-shadow: var(--sombra);
   transform: rotateY(180deg);
   /* começa de costas */
 }
 
 .verso h3 {
-  margin: 0 0 12px;
+  margin: 0 0 10px;
+  font-size: 18px;
   color: var(--destaque);
 }
 
 .itens {
   flex: 1;
-  margin: 0;
+  margin: 0 0 14px;
   padding: 0;
   list-style: none;
 }
 
 .itens li {
-  padding: 6px 0;
+  padding: 9px 0;
+  border-bottom: 1px solid var(--borda);
+}
+
+.itens li:last-child {
+  border-bottom: 0;
 }
 
 .itens label {
+  display: flex;
+  align-items: center;
+  gap: 10px;
   cursor: pointer;
 }
 
 .itens input {
-  width: 20px;
-  height: 20px;
-  vertical-align: middle;
-  accent-color: var(--destaque);
-  /* a caixinha na cor do tema */
+  /* caixinha arredondada, desenhada por nós */
+  appearance: none;
+  flex-shrink: 0;
+  width: 22px;
+  height: 22px;
+  margin: 0;
+  border: 2px solid color-mix(in srgb, var(--texto-suave) 60%, transparent);
+  border-radius: 7px;
+  cursor: pointer;
+  transition: background 0.2s, border-color 0.2s;
+}
+
+.itens input:checked {
+  border-color: var(--destaque);
+  background: var(--destaque) var(--visto) center / 14px no-repeat;
 }
 
 .itens input:checked+span {
@@ -629,9 +724,14 @@ html[data-tema="claro"] .ceu {
 .itens small {
   /* o nome de quem leva, embaixo do item */
   display: block;
-  margin-left: 28px;
+  margin-left: 32px;
+  font-size: 13px;
   font-weight: 600;
   color: var(--destaque);
+}
+
+.itens small:empty {
+  display: none;
 }
 
 .voltar {
@@ -639,14 +739,28 @@ html[data-tema="claro"] .ceu {
 }
 
 /* Tablet e celular: 2 cartões por linha */
-@media (max-width: 760px) {
+@media (max-width: 860px) {
   .cartoes {
     grid-template-columns: repeat(2, 1fr);
+    gap: 14px;
   }
 
   .frente,
   .verso {
-    min-height: 240px;
+    min-height: 260px;
+  }
+
+  .verso {
+    padding: 18px 16px;
+  }
+}
+
+/* Celular: os dois botões dividem a largura */
+@media (max-width: 480px) {
+  .botao-editar {
+    flex: 1;
+    padding-right: 14px;
+    font-size: 13px;
   }
 }
 
@@ -712,13 +826,35 @@ html[data-tema="claro"] .ceu {
 }
 
 .etiqueta {
-  /* o nome da pessoa, à direita */
-  margin-left: auto;
+  /* o nome da pessoa, à esquerda */
+  flex-shrink: 0;
+  max-width: 45%;
   padding: 3px 12px;
   border-radius: 999px;
   background: color-mix(in srgb, var(--destaque) 15%, transparent);
   color: var(--destaque);
   font-weight: 600;
+  overflow-wrap: anywhere;
+}
+
+.levados {
+  /* tudo o que a pessoa marcou, lado a lado */
+  display: flex;
+  flex: 1;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: 6px 8px;
+}
+
+.levado {
+  padding: 3px 12px;
+  border: 1px solid var(--borda);
+  border-radius: 999px;
+  font-size: 14px;
+}
+
+.levado small {
+  font-size: 12px;
 }
 
 
@@ -791,16 +927,23 @@ footer p {
 
 .botao,
 .botao-contorno {
-  padding: 9px 16px;
+  padding: 10px 18px;
   border-radius: 999px;
-  font: 600 14px 'Montserrat', sans-serif;
+  font: 700 14px 'Montserrat', sans-serif;
+  white-space: nowrap;
   cursor: pointer;
+  transition: transform 0.2s, filter 0.2s, color 0.2s, border-color 0.2s, background 0.2s;
 }
 
 .botao {
   border: 0;
   background: var(--destaque);
   color: var(--texto-no-destaque);
+}
+
+.botao:hover {
+  filter: brightness(1.08);
+  transform: translateY(-1px);
 }
 
 .botao-contorno {
@@ -814,16 +957,58 @@ footer p {
   border-color: var(--destaque);
 }
 
-dialog input,
-.form-alergia input {
-  box-sizing: border-box;
-  padding: 10px 12px;
+.botao-icone {
+  /* botão redondinho só com um ícone (fechar, lixeira) */
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+  width: 42px;
+  height: 42px;
+  padding: 0;
   border: 1px solid var(--borda);
-  border-radius: 10px;
+  border-radius: 50%;
+  background: transparent;
+  color: var(--texto-suave);
+  font: 600 15px 'Montserrat', sans-serif;
+  cursor: pointer;
+  transition: color 0.2s, border-color 0.2s, background 0.2s;
+}
+
+.botao-icone svg {
+  width: 18px;
+  height: 18px;
+}
+
+.botao-icone:hover {
+  color: var(--destaque);
+  border-color: var(--destaque);
+}
+
+.botao-icone.perigo:hover {
+  color: var(--perigo);
+  border-color: color-mix(in srgb, var(--perigo) 55%, transparent);
+  background: color-mix(in srgb, var(--perigo) 12%, transparent);
+}
+
+dialog input,
+.lembrete input {
+  box-sizing: border-box;
+  height: 44px;
+  padding: 0 14px;
+  border: 1px solid var(--borda);
+  border-radius: 14px;
   background: var(--campo);
   color: var(--texto);
   font: 16px 'Montserrat', sans-serif;
   /* 16px: o iPhone não dá zoom ao digitar */
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+dialog input:focus,
+.lembrete input:focus {
+  outline: 0;
+  border-color: var(--destaque);
+  box-shadow: 0 0 0 4px color-mix(in srgb, var(--destaque) 22%, transparent);
 }
 
 :focus-visible {
@@ -833,38 +1018,61 @@ dialog input,
 
 
 /* =====================================================================
-   JANELAS: a do nome (no meio) e os painéis de editar e de alergias (também no meio)
+   JANELAS: todas abrem como um cartão no meio da tela
+   (a do nome, a de editar itens e a de alergias)
    ===================================================================== */
 
 dialog {
+  margin: auto;
+  /* dialog com margin auto fica centralizado */
+  padding: 0;
   border: 1px solid var(--borda);
+  border-radius: 28px;
   background: var(--verso);
+  box-shadow: 0 40px 100px -20px rgba(0, 0, 0, 0.6);
   color: var(--texto);
   font-family: 'Montserrat', sans-serif;
   text-align: left;
 }
 
+dialog[open] {
+  animation: aparecer 0.3s cubic-bezier(0.2, 0.9, 0.3, 1.2);
+}
+
+@keyframes aparecer {
+
+  /* o cartão cresce um pouquinho ao abrir */
+  from {
+    opacity: 0;
+    transform: scale(0.94) translateY(14px);
+  }
+}
+
 dialog::backdrop {
-  background: rgba(10, 8, 20, 0.6);
-  backdrop-filter: blur(3px);
+  background: rgba(10, 8, 20, 0.62);
+  backdrop-filter: blur(8px);
 }
 
 dialog h2,
 dialog h3 {
   margin: 0;
+  font-size: 22px;
+  line-height: 1.2;
   color: var(--destaque);
 }
 
 /* Janelinha do nome */
 .janela {
   width: min(400px, 100% - 32px);
+}
+
+.janela form {
   padding: 28px;
-  border-radius: 20px;
 }
 
 .janela label {
   display: block;
-  margin: 20px 0 6px;
+  margin: 20px 0 8px;
   font-size: 14px;
   color: var(--texto-suave);
 }
@@ -886,58 +1094,117 @@ dialog h3 {
 
 /* aparece à esquerda, mesmo vindo depois no HTML */
 
-/* Painéis de editar e de alergias: um balão no meio da tela */
+/* Painéis de editar e de alergias */
 .painel {
-  box-sizing: border-box;
-  width: min(460px, 100% - 32px);
-  max-height: min(85vh, 720px);
-  /* dialog com margin auto fica centralizado */
-  margin: auto;
-  padding: 24px;
-  border-radius: 24px;
-  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.45);
-  overflow-y: auto;
+  width: min(680px, 100% - 24px);
+  /* larga o bastante para as 4 abas caberem numa linha só */
+  overflow: hidden;
 }
 
-.painel[open] {
-  animation: aparecer 0.25s ease-out;
-}
-
-@keyframes aparecer {
-  /* o balão cresce um pouquinho ao abrir */
-  from {
-    opacity: 0;
-    transform: scale(0.92) translateY(10px);
-  }
+.painel-caixa {
+  /* topo e rodapé fixos; só o miolo rola */
+  display: flex;
+  flex-direction: column;
+  max-height: min(86vh, 720px);
 }
 
 .painel-topo {
   display: flex;
   justify-content: space-between;
-  align-items: center;
+  align-items: flex-start;
+  gap: 16px;
+  padding: 24px 24px 16px;
 }
 
 .dica-painel {
+  margin: 6px 0 0;
   color: var(--texto-suave);
   font-size: 14px;
 }
 
-.painel-categoria {
-  margin-bottom: 16px;
-  padding: 16px;
-  border: 1px solid var(--borda);
-  border-radius: 16px;
-  background: var(--cartao);
+.chips {
+  /* as abas dos cartões: as 4 sempre à vista, do mesmo tamanho */
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 8px;
+  padding: 2px 24px 16px;
 }
 
-.painel-categoria h3 {
-  margin-bottom: 12px;
-  font-size: 16px;
+@media (max-width: 640px) {
+  .chips {
+    /* celular: 2 em cima, 2 embaixo */
+    grid-template-columns: repeat(2, 1fr);
+    padding-inline: 16px;
+  }
+
+  .chip {
+    font-size: 12.5px !important;
+  }
+}
+
+.chip {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  min-width: 0;
+  padding: 10px 6px;
+  border: 1px solid var(--borda);
+  border-radius: 999px;
+  background: transparent;
+  color: var(--texto-suave);
+  font: 600 13.5px 'Montserrat', sans-serif;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s, border-color 0.2s;
+}
+
+.chip small {
+  /* quantos itens o cartão tem */
+  min-width: 20px;
+  padding: 1px 5px;
+  box-sizing: border-box;
+  border-radius: 999px;
+  background: var(--cartao-forte);
+  font-size: 11.5px;
+  font-weight: 700;
+  text-align: center;
+}
+
+.chip:hover {
+  color: var(--texto);
+  border-color: var(--texto-suave);
+}
+
+.chip[aria-pressed="true"] {
+  border-color: var(--cor);
+  background: var(--cor);
+  color: #fff;
+}
+
+.chip[aria-pressed="true"] small {
+  background: rgba(255, 255, 255, 0.25);
+}
+
+.painel-corpo {
+  flex: 1;
+  min-height: 120px;
+  padding: 4px 24px 24px;
+  overflow-y: auto;
+}
+
+#painel-categorias {
+  min-height: 250px;
+  /* trocar de aba não faz a janela "pular" de tamanho */
+}
+
+.painel-categoria {
+  margin: 0;
 }
 
 .painel-categoria .linha,
 .painel-categoria form {
   display: flex;
+  align-items: center;
   gap: 8px;
   margin-bottom: 8px;
 }
@@ -947,9 +1214,23 @@ dialog h3 {
   min-width: 0;
 }
 
-.largo {
-  width: 100%;
-  padding: 12px;
+.painel-categoria form {
+  /* "Novo item": separado da lista por uma linha */
+  margin: 16px 0 0;
+  padding-top: 16px;
+  border-top: 1px solid var(--borda);
+}
+
+.painel-categoria .lista-vazia {
+  margin: 8px 0;
+}
+
+.painel-rodape {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 16px 24px;
+  border-top: 1px solid var(--borda);
 }
 
 

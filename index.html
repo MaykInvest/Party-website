@@ -48,9 +48,25 @@
                     levar e escreva seu nome.</p>
 
                 <div class="area-cartoes">
-                    <button id="botao-editar" class="botao-editar">☰ Editar
-                        itens</button>
+                    <!-- O botão de editar fica em cima dos cartões -->
+                    <div class="abas">
+                        <button id="botao-editar" class="botao-editar">
+                            <span class="icone-editar">
+                                <svg viewBox="0 0 24 24" fill="none"
+                                    stroke="currentColor" stroke-width="2.2"
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round" aria-hidden="true">
+                                    <path d="M12 20h9" />
+                                    <path
+                                        d="M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4Z" />
+                                </svg>
+                            </span>
+                            Editar itens
+                        </button>
+                    </div>
 
+                    <!-- Cartões à esquerda; a lista "Não pode levar" à direita -->
+                    <div class="quadro">
                     <div class="cartoes">
                         <!-- data-categoria liga o cartão à lista de itens do js/main.js -->
                         <article class="cartao" data-categoria="comidas"
@@ -117,6 +133,24 @@
                             </div>
                         </article>
                     </div>
+
+                    <!-- NÃO PODE LEVAR: a lista das alergias; dá para adicionar e remover aqui mesmo -->
+                    <aside class="lembrete">
+                        <h3><span aria-hidden="true">⚠️</span> Não pode levar</h3>
+                        <p>Alguém tem alergia? Escreva aqui o que não pode
+                            entrar na festa.</p>
+                        <ul id="lista-alergias"></ul>
+                        <p id="alergias-vazia" class="lista-vazia">Nada
+                            proibido por enquanto.</p>
+                        <form id="form-alergia" class="form-alergia">
+                            <input id="campo-alergia"
+                                placeholder="Ex.: amendoim" maxlength="30"
+                                aria-label="Novo item que não pode levar">
+                            <button class="botao-icone"
+                                aria-label="Adicionar">+</button>
+                        </form>
+                    </aside>
+                    </div>
                 </div>
             </section>
 
@@ -160,19 +194,27 @@
             </form>
         </dialog>
 
-        <!-- PAINEL DE EDIÇÃO: abre pela esquerda; o JavaScript monta as categorias -->
+        <!-- PAINEL DE EDIÇÃO: um cartão no meio da tela; o JavaScript monta as abas e os itens -->
         <dialog id="painel" class="painel">
-            <div class="painel-topo">
-                <h2>Editar itens</h2>
-                <button id="painel-fechar" class="botao-contorno"
-                    aria-label="Fechar">✕</button>
+            <div class="painel-caixa">
+                <div class="painel-topo">
+                    <div>
+                        <h2>Editar itens</h2>
+                        <p class="dica-painel">Escolha um cartão e mude,
+                            remova ou adicione itens.</p>
+                    </div>
+                    <button id="painel-fechar" class="botao-icone"
+                        aria-label="Fechar">✕</button>
+                </div>
+                <div id="painel-abas" class="chips"></div>
+                <div id="painel-categorias" class="painel-corpo"></div>
+                <div class="painel-rodape">
+                    <button id="painel-restaurar"
+                        class="botao-contorno">Restaurar lista
+                        original</button>
+                    <button id="painel-pronto" class="botao">Pronto</button>
+                </div>
             </div>
-            <p class="dica-painel">Mude o nome, remova ou adicione itens. Os
-                cartões mudam na hora.</p>
-            <div id="painel-categorias"></div>
-            <button id="painel-restaurar" class="botao-contorno largo">Restaurar
-                lista original</button>
-        </dialog>
-    </body>
+        </dialog>    </body>
 
 </html>
