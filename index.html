@@ -7,7 +7,11 @@
   <title>Confraternizando</title>
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/main.css">
+
+  <!-- Database supabase -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script> 
   <!-- O JavaScript fica aqui em cima para o tema (claro/escuro) aparecer certo desde o início -->
+   
   <script src="js/main.js"></script>
 </head>
 
@@ -52,8 +56,8 @@
           <!-- "Editar itens": abre o painel de editar -->
           <button id="botao-editar" class="botao-editar">
             <span class="icone-editar">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"
-                stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"
+                stroke-linejoin="round" aria-hidden="true">
                 <path d="M12 20h9" />
                 <path d="M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4Z" />
               </svg>
@@ -64,8 +68,8 @@
           <!-- "Não pode levar": abre a janela das alergias (ícone vermelho de alerta) -->
           <button id="botao-alergias" class="botao-editar botao-alergias">
             <span class="icone-editar">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"
-                stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"
+                stroke-linejoin="round" aria-hidden="true">
                 <path d="M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0Z" />
                 <path d="M12 9v4" />
                 <path d="M12 17h.01" />
@@ -140,8 +144,7 @@
       <h3><span aria-hidden="true">⚠️</span> Não pode levar</h3>
       <p class="dica-painel">Alguém tem alergia? Escreva aqui o que não pode entrar na festa.</p>
       <form id="form-alergia" class="linha form-alergia">
-        <input id="campo-alergia" placeholder="Ex.: amendoim" maxlength="30"
-          aria-label="Novo item que não pode levar">
+        <input id="campo-alergia" placeholder="Ex.: amendoim" maxlength="30" aria-label="Novo item que não pode levar">
         <button class="botao-icone" aria-label="Adicionar">+</button>
       </form>
       <!-- A mesma lista de baixo, mas com o ✕ para remover -->
