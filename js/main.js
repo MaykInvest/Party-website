@@ -218,7 +218,7 @@ document.addEventListener("DOMContentLoaded", async () => {
   const fuso = { timeZone: "America/Sao_Paulo" };
   const doisDigitos = (numero) => String(numero).padStart(2, "0");   // 7 vira "07"
   const MOLDE_CONTAGEM = $("#contagem").innerHTML;   // guarda os 4 quadradinhos para poder voltar com eles
-  let dataDaFesta = DATA_DA_FESTA;
+  let dataDaFesta = null;   // ainda não sabemos: esperando o banco
 
   // Escreve "sábado, 21 de dezembro às 19:00" embaixo do título
   function mostrarData() {
@@ -228,6 +228,7 @@ document.addEventListener("DOMContentLoaded", async () => {
   }
 
   function contar() {
+    if (!dataDaFesta) return;   // o banco ainda não respondeu: deixa os "--"
     const segundos = Math.floor((dataDaFesta - Date.now()) / 1000);
     if (segundos <= 0) {
       if (!$(".festa-comecou")) $("#contagem").innerHTML = '<p class="festa-comecou">A festa começou! 🎉</p>';
@@ -245,7 +246,8 @@ document.addEventListener("DOMContentLoaded", async () => {
   async function carregarData() {
     const { data, error } = await banco.from("config").select("valor").eq("chave", "data_festa").maybeSingle();
     if (error) console.error(error);
-    else if (data) dataDaFesta = new Date(data.valor);
+    else dataDaFesta = data ? new Date(data.valor) : DATA_DA_FESTA;   // banco sem data: usa a do código
+    dataDaFesta ??= DATA_DA_FESTA;   // deu erro logo na primeira vez: usa a do código
     mostrarData();
     contar();
   }
@@ -271,8 +273,6 @@ document.addEventListener("DOMContentLoaded", async () => {
     await carregarData();
   };
 
-  mostrarData();
-  contar();
   carregarData();
 
   // ---------- MONTAR OS CARTÕES (um para cada linha de CARTOES) ----------
