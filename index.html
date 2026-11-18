@@ -41,6 +41,8 @@
         <div><strong id="minutos">--</strong>minutos</div>
         <div><strong id="segundos">--</strong>segundos</div>
       </div>
+
+      <button id="botao-data" class="botao-contorno botao-data">📅 Mudar data</button>
     </section>
 
     <!-- ======================= O QUE LEVAR? =======================
@@ -123,6 +125,19 @@
   <!-- ======================== JANELAS ========================
        As três janelas abaixo aparecem no meio da tela.
        Fecham no Esc, clicando fora delas ou num botão com "data-fechar". -->
+
+  <!-- JANELINHA DA DATA: aparece no botão "Mudar data" da contagem -->
+  <dialog id="janela-data" class="janela">
+    <form method="dialog">
+      <h3>Quando é a festa?</h3>
+      <label for="campo-data">Dia e hora (horário de Brasília)</label>
+      <input id="campo-data" type="datetime-local" required>
+      <div class="janela-botoes">
+        <button class="botao" value="ok">Salvar</button>
+        <button class="botao-contorno cancelar" value="cancelar" formnovalidate>Cancelar</button>
+      </div>
+    </form>
+  </dialog>
 
   <!-- JANELINHA DO NOME: aparece quando alguém marca um item -->
   <dialog id="janela-nome" class="janela">

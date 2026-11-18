@@ -40,9 +40,9 @@ const DATA_DA_FESTA = new Date("2026-12-21T19:00:00-03:00");
 //           no botão "Voltar à lista original". Depois disso, a lista
 //           de verdade é a que está no banco.
 const CARTOES = [
-  { id: "comidas",      nome: "Comidas",      emoji: "🍕", cor: "#e8615a", itens: ["Salgadinhos", "Pizza", "Pão de alho"] },
-  { id: "bebidas",      nome: "Bebidas",      emoji: "🥤", cor: "#3b6fd8", itens: ["Refrigerante", "Suco", "Água"] },
-  { id: "doces",        nome: "Doces",        emoji: "🍰", cor: "#c2456b", itens: ["Bolo", "Brigadeiro", "Sorvete"] },
+  { id: "comidas", nome: "Comidas", emoji: "🍕", cor: "#e8615a", itens: ["Salgadinhos", "Pizza", "Pão de alho"] },
+  { id: "bebidas", nome: "Bebidas", emoji: "🥤", cor: "#3b6fd8", itens: ["Refrigerante", "Suco", "Água"] },
+  { id: "doces", nome: "Doces", emoji: "🍰", cor: "#c2456b", itens: ["Bolo", "Brigadeiro", "Sorvete"] },
   { id: "descartaveis", nome: "Descartáveis", emoji: "🍽️", cor: "#6d58c9", itens: ["Copos", "Pratos e talheres", "Guardanapos"] },
 ];
 
@@ -200,8 +200,10 @@ document.addEventListener("DOMContentLoaded", async () => {
   // Carrega os dados do banco e redesenha a tela inteira
   async function atualizar() {
     await carregar();
+    await carregarData();   // ← add this line
     desenhar();
     desenharAlergias();
+
 
     // Se o painel "Editar itens" está aberto, redesenha também, MAS não enquanto
     // a pessoa digita num campo de nome (senão o texto dela sumiria).
@@ -211,28 +213,67 @@ document.addEventListener("DOMContentLoaded", async () => {
 
 
   // ---------- CONTAGEM REGRESSIVA ----------
+  // A data começa com a DATA_DA_FESTA do código. Se alguém mudar pelo
+  // botão "Mudar data", ela vai para o banco (tabela "config") e vale para todo mundo.
   const fuso = { timeZone: "America/Sao_Paulo" };
-  $("#data-festa").textContent =
-    DATA_DA_FESTA.toLocaleDateString("pt-BR", { ...fuso, weekday: "long", day: "numeric", month: "long" }) +
-    " às " + DATA_DA_FESTA.toLocaleTimeString("pt-BR", { ...fuso, hour: "2-digit", minute: "2-digit" });
-
   const doisDigitos = (numero) => String(numero).padStart(2, "0");   // 7 vira "07"
+  const MOLDE_CONTAGEM = $("#contagem").innerHTML;   // guarda os 4 quadradinhos para poder voltar com eles
+  let dataDaFesta = DATA_DA_FESTA;
+
+  // Escreve "sábado, 21 de dezembro às 19:00" embaixo do título
+  function mostrarData() {
+    $("#data-festa").textContent =
+      dataDaFesta.toLocaleDateString("pt-BR", { ...fuso, weekday: "long", day: "numeric", month: "long" }) +
+      " às " + dataDaFesta.toLocaleTimeString("pt-BR", { ...fuso, hour: "2-digit", minute: "2-digit" });
+  }
 
   function contar() {
-    const segundos = Math.floor((DATA_DA_FESTA - Date.now()) / 1000);
+    const segundos = Math.floor((dataDaFesta - Date.now()) / 1000);
     if (segundos <= 0) {
-      $("#contagem").innerHTML = '<p class="festa-comecou">A festa começou! 🎉</p>';
-      clearInterval(relogio);
+      if (!$(".festa-comecou")) $("#contagem").innerHTML = '<p class="festa-comecou">A festa começou! 🎉</p>';
       return;
     }
+    if (!$("#dias")) $("#contagem").innerHTML = MOLDE_CONTAGEM;   // a data mudou para o futuro: volta os números
     $("#dias").textContent = Math.floor(segundos / 86400);
     $("#horas").textContent = doisDigitos(Math.floor(segundos / 3600) % 24);
     $("#minutos").textContent = doisDigitos(Math.floor(segundos / 60) % 60);
     $("#segundos").textContent = doisDigitos(segundos % 60);
   }
-  const relogio = setInterval(contar, 1000);   // roda o contar() a cada 1 segundo
-  contar();
+  setInterval(contar, 1000);   // roda o contar() a cada 1 segundo
 
+  // Lê a data do banco. Se ainda não tem nenhuma lá, fica a do código.
+  async function carregarData() {
+    const { data, error } = await banco.from("config").select("valor").eq("chave", "data_festa").maybeSingle();
+    if (error) console.error(error);
+    else if (data) dataDaFesta = new Date(data.valor);
+    mostrarData();
+    contar();
+  }
+
+  // Botão "Mudar data": abre a janelinha já com a data atual preenchida
+  $("#botao-data").onclick = () => {
+    // "sv-SE" escreve a data como 2026-12-21 19:00:00, que é quase o formato do campo
+    $("#campo-data").value = dataDaFesta.toLocaleString("sv-SE", fuso).replace(" ", "T").slice(0, 16);
+    $("#janela-data").returnValue = "";
+    $("#janela-data").showModal();
+  };
+
+  // Quando a janelinha fecha com "Salvar", grava a nova data no banco
+  $("#janela-data").onclose = async () => {
+    const valor = $("#campo-data").value;   // ex.: "2026-12-21T19:00"
+    if ($("#janela-data").returnValue !== "ok" || !valor) return;
+    try {
+      await executar(banco.from("config").upsert({ chave: "data_festa", valor: valor + ":00-03:00" }));
+    } catch (erro) {
+      console.error(erro);
+      alert("Não consegui salvar a data. Tente de novo.");
+    }
+    await carregarData();
+  };
+
+  mostrarData();
+  contar();
+  carregarData();
 
   // ---------- MONTAR OS CARTÕES (um para cada linha de CARTOES) ----------
   // Frente: emoji + nome. Verso: a lista de itens com as caixinhas.
@@ -547,7 +588,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     alergias.pop();
 
     if (bloqueados.length > 0 &&
-        !confirm(`Estes itens têm ${nome.toLowerCase()}: ${bloqueados.join(", ")}.\nTirar dos cartões?`)) {
+      !confirm(`Estes itens têm ${nome.toLowerCase()}: ${bloqueados.join(", ")}.\nTirar dos cartões?`)) {
       return;                                    // desistiu: a alergia não entra
     }
 

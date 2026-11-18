@@ -212,6 +212,12 @@ h1 {
   animation: brilho 3s ease-in-out infinite;
 }
 
+/* Botão "Mudar data" embaixo da contagem */
+.botao-data {
+  display: block;
+  margin: 20px auto 0;
+}
+
 @keyframes brilho {
   /* a faixa branca atravessa o nome */
   0% {
@@ -1058,6 +1064,7 @@ dialog h3 {
 }
 
 #janela-nome form,
+#janela-data form,
 .janela-miolo {
   /* o espaço por dentro das janelinhas */
   padding: 28px;
